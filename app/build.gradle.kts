@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "dam.moviles.cocinetica"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "dam.moviles.cocinetica"
