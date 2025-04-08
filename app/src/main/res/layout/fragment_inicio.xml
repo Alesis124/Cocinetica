@@ -7,7 +7,6 @@
     android:orientation="vertical"
     android:background="#FAF9F6">
 
-    <!-- Encabezado con botón de cambiar vista -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +22,7 @@
             android:padding="8dp" />
 
         <ImageButton
-            android:id="@+id/btnToggleView"
+            android:id="@+id/btnAyuda"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -32,7 +31,6 @@
             android:src="@android:drawable/ic_dialog_dialer"/>
     </RelativeLayout>
 
-    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewRecetas"
         android:layout_width="match_parent"
@@ -53,7 +51,6 @@
         app:backgroundTint="#70B657"
         app:tint="@android:color/white" />
 
-    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
