@@ -93,10 +93,18 @@
         <action
             android:id="@+id/action_creaRecetaFragment_to_completadoFragment"
             app:destination="@id/completadoFragment" />
+        <action
+            android:id="@+id/action_creaRecetaFragment_to_errorFragment"
+            app:destination="@id/errorFragment" />
     </fragment>
     <fragment
         android:id="@+id/completadoFragment"
         android:name="dam.moviles.cocinetica.vista.CompletadoFragment"
         android:label="fragment_completado"
         tools:layout="@layout/fragment_completado" />
+    <fragment
+        android:id="@+id/errorFragment"
+        android:name="dam.moviles.cocinetica.vista.ErrorFragment"
+        android:label="fragment_error"
+        tools:layout="@layout/fragment_error" />
 </navigation>
