@@ -11,8 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp"
-        android:background="@color/offwhite">
+        android:padding="12dp">
 
         <TextView
             android:id="@+id/homeTitle"
@@ -21,7 +20,6 @@
             android:text="Home"
             android:layout_centerInParent="true"
             android:textStyle="italic"
-            android:background="@drawable/bg_tab"
             android:padding="8dp" />
 
         <ImageButton
@@ -59,11 +57,10 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:layout_gravity="bottom"
-        app:itemIconTint="@color/nav_selector"
-        app:itemTextColor="@color/nav_selector"
-        app:menu="@menu/bottom_nav_menu" />
+        app:itemTextColor="#D1DB5E"
+        app:menu="@menu/menu_bajo" />
 
 </LinearLayout>
 
