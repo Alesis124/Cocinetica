@@ -2,4 +2,10 @@
     <string name="app_name">Cocinetica</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="unidadMedida">
+        <item>g</item>
+        <item>kg</item>
+        <item>ml</item>
+        <item>L</item>
+    </string-array>
 </resources>
