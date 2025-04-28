@@ -1,25 +1,25 @@
 <?php
-class UM
-{
+class UM {
     private $tabla = "UM";
     public $id_um;
     public $medida;
-    public $connection;
+    private $conn;
 
-    public function __construct($db){
-
-        $this->connection = $db;
+    public function __construct($db) {
+        $this->conn = $db;
     }
-    function leer(){
-        if($this->id_um >= 0){
-            $stmt = $this->connection->prepare("SELECT * FROM $this->tabla WHERE id_um = ?");
-            $stmt->bind_param("i", $this->id_um);
-        }else{
-            $stmt = $this->connection->prepare("SELECT * FROM $this->tabla");
-        }
+
+    function leerTodos() {
+        $stmt = $this->conn->prepare("SELECT * FROM " . $this->tabla);
         $stmt->execute();
-        $result = $stmt->fetch();
-        return $result;
+        return $stmt->get_result();
+    }
+
+    function leerUno() {
+        $stmt = $this->conn->prepare("SELECT * FROM " . $this->tabla . " WHERE id_um = ?");
+        $stmt->bind_param("i", $this->id_um);
+        $stmt->execute();
+        return $stmt->get_result();
     }
 }
 ?>

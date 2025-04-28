@@ -1,6 +1,5 @@
 <?php
-class Recetas
-{
+class Recetas {
     private $tabla = "Recetas";
     public $id_receta;
     public $nombre;
@@ -8,54 +7,47 @@ class Recetas
     public $valoracion;
     public $imagen;
     public $id_usuario;
-    public $conn;
+    private $conn;
 
-    public function __construct($db)
-    {
+    public function __construct($db) {
         $this->conn = $db;
     }
 
-    function leer()
-    {
-        if (isset($this->id_receta)) {
-            $stmt = $this->conn->prepare("SELECT * FROM " . $this->tabla . " WHERE id_receta = ?");
-            $stmt->bind_param("i", $this->id_receta);
-        } else {
-            $stmt = $this->conn->prepare("SELECT * FROM " . $this->tabla);
-        }
+    function leerTodos() {
+        $stmt = $this->conn->prepare("SELECT * FROM " . $this->tabla);
         $stmt->execute();
-        $result = $stmt->get_result();
-        return $result;
+        return $stmt->get_result();
     }
 
-    function insertar()
-    {
-        $stmt = $this->conn->prepare("INSERT INTO " . $this->tabla . "(`nombre`, `duracion`, `valoracion`, `imagen`, `id_usuario`) VALUES(?, ?, ?, ?, ?)");
+    function leerUno() {
+        $stmt = $this->conn->prepare("SELECT * FROM " . $this->tabla . " WHERE id_receta = ?");
+        $stmt->bind_param("i", $this->id_receta);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
+    function insertar() {
         $this->nombre = strip_tags($this->nombre);
         $this->duracion = strip_tags($this->duracion);
         $this->valoracion = strip_tags($this->valoracion);
         $this->imagen = strip_tags($this->imagen);
-        $this->id_usuario = strip_tags($this->id_usuario);
+        $stmt = $this->conn->prepare("INSERT INTO " . $this->tabla . " (nombre, duracion, valoracion, imagen, id_usuario) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sidsi", $this->nombre, $this->duracion, $this->valoracion, $this->imagen, $this->id_usuario);
         return $stmt->execute();
     }
 
-    function actualizar()
-    {
-        $stmt = $this->conn->prepare("UPDATE " . $this->tabla . " SET nombre = ?, duracion = ?, valoracion = ?, imagen = ? WHERE id_receta = ?");
+    function actualizar() {
         $this->nombre = strip_tags($this->nombre);
         $this->duracion = strip_tags($this->duracion);
         $this->valoracion = strip_tags($this->valoracion);
         $this->imagen = strip_tags($this->imagen);
-        $this->id_receta = strip_tags($this->id_receta);
+        $stmt = $this->conn->prepare("UPDATE " . $this->tabla . " SET nombre = ?, duracion = ?, valoracion = ?, imagen = ? WHERE id_receta = ?");
         $stmt->bind_param("sidii", $this->nombre, $this->duracion, $this->valoracion, $this->imagen, $this->id_receta);
         return $stmt->execute();
     }
 
-    function borrar()
-    {
+    function borrar() {
         $stmt = $this->conn->prepare("DELETE FROM " . $this->tabla . " WHERE id_receta = ?");
-        $this->id_receta = strip_tags($this->id_receta);
         $stmt->bind_param("i", $this->id_receta);
         return $stmt->execute();
     }

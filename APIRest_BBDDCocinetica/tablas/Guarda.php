@@ -3,13 +3,13 @@ class Guarda {
     private $tabla = "Guarda";
     public $id_usuario;
     public $id_receta;
-    public $conn;
+    private $conn;
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
-    function leer() {
+    function leerTodos() {
         $stmt = $this->conn->prepare("SELECT * FROM " . $this->tabla);
         $stmt->execute();
         return $stmt->get_result();
