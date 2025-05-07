@@ -4,95 +4,91 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".vista.LoginFragment">
+    tools:context=".vista.ContraseniaFragment">
+
 
     <TextView
-        android:id="@+id/cocineticaTexto"
+        android:id="@+id/textoCorreo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:text="Cocinetica"
-        android:textSize="34sp"
+        android:layout_marginTop="130dp"
+        android:text="Correo:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/logoLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cocineticaTexto"
-        tools:src="@tools:sample/avatars" />
-
     <EditText
-        android:id="@+id/txtCorreo"
+        android:id="@+id/correoCambiar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Correo"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/textoCorreo" />
 
-    <EditText
-        android:id="@+id/txtContrasenia"
+    <TextView
+        android:id="@+id/txtNuevaContraseña"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:text="Nueva contraseña"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/correoCambiar" />
+
+    <EditText
+        android:id="@+id/NuevaContraseña"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Contraseña"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCorreo" />
-
-    <CheckBox
-        android:id="@+id/chkRecordar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Recordar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NoRecuerdo" />
-
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Iniciar sesión"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnRegistrar"
-        app:layout_constraintTop_toBottomOf="@+id/chkRecordar" />
-
-    <Button
-        android:id="@+id/btnRegistrar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Registrarse"
-        app:layout_constraintEnd_toStartOf="@+id/btnLogin"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chkRecordar" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNuevaContraseña" />
 
     <TextView
-        android:id="@+id/NoRecuerdo"
+        android:id="@+id/txtRepiteContraseña"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="No me acuerdo de mi contraseña"
-        android:textColor="#0E3608"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+        android:text="Repite la nueva contraseña"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtContrasenia" />
+        app:layout_constraintTop_toBottomOf="@+id/NuevaContraseña" />
+
+    <EditText
+        android:id="@+id/NuevaContraseña2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtRepiteContraseña" />
+
+    <Button
+        android:id="@+id/btnCancelarCambiar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="Cancelar"
+        app:layout_constraintEnd_toStartOf="@+id/btnAceptarCambiar"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NuevaContraseña2" />
+
+    <Button
+        android:id="@+id/btnAceptarCambiar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="Aceptar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnCancelarCambiar"
+        app:layout_constraintTop_toBottomOf="@+id/NuevaContraseña2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
