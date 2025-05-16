@@ -6,15 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import dam.moviles.cocinetica.R
+import dam.moviles.cocinetica.databinding.FragmentContraseniaBinding
 
 
 class ContraseniaFragment : Fragment() {
+
+    lateinit var binding: FragmentContraseniaBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contrasenia, container, false)
+        inicializarBinding()
+        return binding.root
     }
+
+    fun inicializarBinding(){
+        binding= FragmentContraseniaBinding.inflate(layoutInflater)
+    }
+
 }

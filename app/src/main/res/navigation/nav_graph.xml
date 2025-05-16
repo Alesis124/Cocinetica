@@ -172,7 +172,25 @@
         android:label="fragment_confirmacion"
         tools:layout="@layout/fragment_confirmacion" >
         <action
+            android:id="@+id/action_confirmacionFragment_to_respuesta_registerFragment"
+            app:destination="@id/respuesta_registerFragment" />
+        <action
             android:id="@+id/action_confirmacionFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/respuesta_registerFragment"
+        android:name="dam.moviles.cocinetica.vista.Respuesta_registerFragment"
+        android:label="fragment_respuesta_register"
+        tools:layout="@layout/fragment_respuesta_register" >
+        <action
+            android:id="@+id/action_respuesta_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <argument
+            android:name="mensajeError"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_respuesta_registerFragment_to_contraseniaFragment"
+            app:destination="@id/contraseniaFragment" />
     </fragment>
 </navigation>
