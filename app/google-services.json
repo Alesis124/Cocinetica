@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "480536910348",
+    "project_id": "cocinetica",
+    "storage_bucket": "cocinetica.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480536910348:android:c40c86fe533b06c9f3ac29",
+        "android_client_info": {
+          "package_name": "dam.moviles.cocinetica"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "480536910348-c6kbcl7d35b8kptgpkdjpsvdr304ltnj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxZMP6mEoY9QQR7WD1HR_0Nokin-MS8II"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "480536910348-c6kbcl7d35b8kptgpkdjpsvdr304ltnj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
