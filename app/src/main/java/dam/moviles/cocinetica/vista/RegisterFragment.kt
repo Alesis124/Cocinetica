@@ -99,7 +99,7 @@ class RegisterFragment : Fragment() {
 
     private fun inicializarTextoIniciarSesion() {
         binding.volverInicioSesion.setOnClickListener {
-            findNavController().navigate(R.id.action_respuesta_registerFragment_to_contraseniaFragment)
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
     }
 

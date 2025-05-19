@@ -17,9 +17,6 @@
             android:id="@+id/action_loginFragment_to_cargaFragment"
             app:destination="@id/cargaFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_contraseniaFragment"
-            app:destination="@id/contraseniaFragment" />
-        <action
             android:id="@+id/action_loginFragment_to_noRecuerdoFragment"
             app:destination="@id/noRecuerdoFragment" />
     </fragment>
@@ -31,6 +28,9 @@
         <action
             android:id="@+id/action_registerFragment_to_cargaFragment"
             app:destination="@id/cargaFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/inicioFragment"
@@ -80,8 +80,8 @@
             android:id="@+id/action_ajustesCuentaFragment_to_cuentaFragment"
             app:destination="@id/cuentaFragment" />
         <action
-            android:id="@+id/action_ajustesCuentaFragment_to_contraseniaFragment"
-            app:destination="@id/contraseniaFragment" />
+            android:id="@+id/action_ajustesCuentaFragment_to_noRecuerdoFragment"
+            app:destination="@id/noRecuerdoFragment" />
     </fragment>
     <fragment
         android:id="@+id/cargaFragment"
@@ -159,42 +159,6 @@
         <action
             android:id="@+id/action_errorFragment_to_inicioFragment"
             app:destination="@id/inicioFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/contraseniaFragment"
-        android:name="dam.moviles.cocinetica.vista.ContraseniaFragment"
-        android:label="fragment_contrasenia"
-        tools:layout="@layout/fragment_contrasenia" >
-        <action
-            android:id="@+id/action_contraseniaFragment_to_confirmacionFragment"
-            app:destination="@id/confirmacionFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/confirmacionFragment"
-        android:name="dam.moviles.cocinetica.vista.ConfirmacionFragment"
-        android:label="fragment_confirmacion"
-        tools:layout="@layout/fragment_confirmacion" >
-        <action
-            android:id="@+id/action_confirmacionFragment_to_respuesta_registerFragment"
-            app:destination="@id/respuesta_registerFragment" />
-        <action
-            android:id="@+id/action_confirmacionFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/respuesta_registerFragment"
-        android:name="dam.moviles.cocinetica.vista.Respuesta_registerFragment"
-        android:label="fragment_respuesta_register"
-        tools:layout="@layout/fragment_respuesta_register" >
-        <action
-            android:id="@+id/action_respuesta_registerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-        <argument
-            android:name="mensajeError"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_respuesta_registerFragment_to_contraseniaFragment"
-            app:destination="@id/contraseniaFragment" />
     </fragment>
     <fragment
         android:id="@+id/noRecuerdoFragment"
