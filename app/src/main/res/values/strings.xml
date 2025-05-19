@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Cocinetica</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="default_web_client_id">ntHTfyH3NNggM7xrewPuWBbXmws1.apps.googleusercontent.com</string>
     <string name="atras">Atrás</string>
