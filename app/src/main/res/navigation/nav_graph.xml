@@ -70,6 +70,9 @@
         <action
             android:id="@+id/action_cuentaFragment_to_inicioFragment"
             app:destination="@id/inicioFragment" />
+        <action
+            android:id="@+id/action_cuentaFragment_to_creaRecetaFragment"
+            app:destination="@id/creaRecetaFragment" />
     </fragment>
     <fragment
         android:id="@+id/ajustesCuentaFragment"
@@ -106,6 +109,9 @@
         <action
             android:id="@+id/action_busquedaFragment_to_inicioFragment"
             app:destination="@id/inicioFragment" />
+        <action
+            android:id="@+id/action_busquedaFragment_to_creaRecetaFragment"
+            app:destination="@id/creaRecetaFragment" />
     </fragment>
     <fragment
         android:id="@+id/guardadosFragment"
@@ -121,6 +127,9 @@
         <action
             android:id="@+id/action_guardadosFragment_to_inicioFragment"
             app:destination="@id/inicioFragment" />
+        <action
+            android:id="@+id/action_guardadosFragment_to_creaRecetaFragment"
+            app:destination="@id/creaRecetaFragment" />
     </fragment>
     <fragment
         android:id="@+id/verRecetaFragment"
