@@ -51,6 +51,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCorreo" />
 
+    <TextView
+        android:id="@+id/NoRecuerdo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="No me acuerdo de mi contraseña"
+        android:textColor="#0E3608"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtClave" />
+
     <CheckBox
         android:id="@+id/chkRecordar"
         android:layout_width="wrap_content"
@@ -83,16 +96,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chkRecordar" />
 
-    <TextView
-        android:id="@+id/NoRecuerdo"
-        android:layout_width="wrap_content"
+    <!-- Botón Google Sign-In -->
+    <Button
+        android:id="@+id/googleSignInButton"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="No me acuerdo de mi contraseña"
-        android:textColor="#0E3608"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#DD4B39"
+        android:padding="12dp"
+        android:text="Iniciar sesión con Google"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtClave" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
