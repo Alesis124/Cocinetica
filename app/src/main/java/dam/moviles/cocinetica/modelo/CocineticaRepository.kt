@@ -38,4 +38,22 @@ class CocineticaRepository {
     suspend fun insertarUsuario(usuario: UsuarioInsertar): Response<Unit> {
         return cocineticaApi.insertarUsuario(usuario)
     }
+
+    suspend fun actualizarUsuario(usuario: Usuario): Response<MensajeRespuesta> {
+        val request = UsuarioActualizarRequest(
+            id_usuario = usuario.id_usuario,
+            correo = usuario.correo,
+            usuario = usuario.usuario,
+            descripcion = usuario.descripcion,
+            imagen = usuario.imagen ?: ""
+        )
+        return cocineticaApi.actualizarUsuario(request)
+    }
+
+    suspend fun eliminarUsuario(idUsuario: Int): Response<MensajeRespuesta> {
+        val request = UsuarioBorrarRequest(id_usuario = idUsuario)
+        return cocineticaApi.eliminarUsuario(request)
+    }
+
+
 }

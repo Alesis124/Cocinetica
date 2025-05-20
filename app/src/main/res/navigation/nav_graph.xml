@@ -85,6 +85,9 @@
         <action
             android:id="@+id/action_ajustesCuentaFragment_to_noRecuerdoFragment"
             app:destination="@id/noRecuerdoFragment" />
+        <action
+            android:id="@+id/action_ajustesCuentaFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/cargaFragment"

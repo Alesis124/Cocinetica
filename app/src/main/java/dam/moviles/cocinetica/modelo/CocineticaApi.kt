@@ -19,4 +19,12 @@ interface CocineticaApi {
     @POST("insertar.php")
     suspend fun insertarUsuario(@Body usuario: UsuarioInsertar): Response<Unit>
 
+    @POST("actualizar.php")
+    suspend fun actualizarUsuario(@Body usuario: UsuarioActualizarRequest): Response<MensajeRespuesta>
+
+    @POST("borrar.php")
+    suspend fun eliminarUsuario(@Body request: UsuarioBorrarRequest): Response<MensajeRespuesta>
+
+
+
 }
