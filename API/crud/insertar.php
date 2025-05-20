@@ -66,8 +66,7 @@ switch ($datos->tabla) {
     case 'Usuarios':
         $obj = new Usuarios($conex);
         $obj->correo = $datos->correo;
-        $obj->contraseña = $datos->contraseña;
-        $obj->nombre = $datos->nombre;
+        $obj->usuario = $datos->usuario;
         $obj->descripcion = $datos->descripcion;
         $obj->imagen = $datos->imagen;
         break;

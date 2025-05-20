@@ -71,8 +71,7 @@ switch ($datos->tabla) {
         $obj = new Usuarios($conex);
         $obj->id_usuario = $datos->id_usuario;
         $obj->correo = $datos->correo;
-        $obj->contraseña = $datos->contraseña;
-        $obj->nombre = $datos->nombre;
+        $obj->usuario = $datos->usuario;
         $obj->descripcion = $datos->descripcion;
         $obj->imagen = $datos->imagen;
         break;

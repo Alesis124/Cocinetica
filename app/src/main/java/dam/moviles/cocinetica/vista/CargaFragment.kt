@@ -41,24 +41,30 @@ class CargaFragment : Fragment() {
 
         if (user == null) {
             Toast.makeText(context, "No hay usuario logueado", Toast.LENGTH_SHORT).show()
-            // Si quieres, navega a login
-            findNavController().navigate(dam.moviles.cocinetica.R.id.loginFragment)
+            findNavController().navigate(R.id.action_cargaFragment_to_loginFragment)
             return
         }
 
         user.reload().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                if (user.isEmailVerified) {
+                // Tras reload, si user sigue siendo null o no existe
+                val refreshedUser = auth.currentUser
+                if (refreshedUser == null) {
+                    Toast.makeText(context, "Usuario no encontrado, redirigiendo a login", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_cargaFragment_to_loginFragment)
+                    return@addOnCompleteListener
+                }
+
+                if (refreshedUser.isEmailVerified) {
                     Toast.makeText(context, "Email verificado, bienvenido!", Toast.LENGTH_SHORT).show()
-                    // Navega a la pantalla principal (ajusta el id de destino)
-                    findNavController().navigate(dam.moviles.cocinetica.R.id.action_cargaFragment_to_inicioFragment)
+                    findNavController().navigate(R.id.action_cargaFragment_to_inicioFragment)
                 } else {
-                    // No está verificado, espera y vuelve a chequear
                     Toast.makeText(context, "Aún no has verificado tu correo, esperando...", Toast.LENGTH_SHORT).show()
                     handler.postDelayed({ comprobarVerificacionEmail() }, checkDelay)
                 }
             } else {
-                Toast.makeText(context, "Error comprobando usuario: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Error comprobando usuario: ${task.exception?.message}. Volviendo a login.", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_cargaFragment_to_loginFragment)
             }
         }
     }

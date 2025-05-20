@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -17,6 +18,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import dam.moviles.cocinetica.R
 import dam.moviles.cocinetica.databinding.FragmentLoginBinding
+import dam.moviles.cocinetica.modelo.CocineticaRepository
+import dam.moviles.cocinetica.modelo.UsuarioInsertar
+import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
 
@@ -127,18 +131,53 @@ class LoginFragment : Fragment() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    // Guardar recordar para sesión con Google también
+                    val firebaseUser = auth.currentUser
+
+                    val correo = firebaseUser?.email ?: ""
+                    val usuario = firebaseUser?.displayName ?: ""
+                    val descripcion = "Hola soy un usuario nuevo"
+                    val imagen = firebaseUser?.photoUrl?.toString() ?: ""
+
+                    val nuevoUsuario = UsuarioInsertar(
+                        tabla = "Usuarios",
+                        correo = correo,
+                        usuario = usuario,
+                        descripcion = descripcion,
+                        imagen = imagen
+                    )
+
                     val prefs = requireActivity().getSharedPreferences(PREFS_NAME, 0)
                     val editor = prefs.edit()
                     editor.putBoolean(KEY_RECORDAR, true)
                     editor.apply()
 
-                    Toast.makeText(context, "Autenticación con Google exitosa", Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_loginFragment_to_cargaFragment)
+                    lifecycleScope.launch {
+                        try {
+                            val repo = CocineticaRepository()
+                            val usuarios = repo.consultaTodosUsuarios()
+                            val existe = usuarios.any { it.correo.equals(correo, ignoreCase = true) }
+
+                            if (!existe) {
+                                val response = repo.insertarUsuario(nuevoUsuario)
+                                if (response.isSuccessful) {
+                                    Toast.makeText(context, "Usuario creado en la base de datos", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(context, "Error al crear usuario en backend", Toast.LENGTH_LONG).show()
+                                }
+                            }
+
+                            findNavController().navigate(R.id.action_loginFragment_to_cargaFragment)
+                        } catch (e: Exception) {
+                            Toast.makeText(context, "Error accediendo al backend: ${e.message}", Toast.LENGTH_LONG).show()
+                        }
+                    }
+
                 } else {
                     Toast.makeText(context, "Error autenticando con Google: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                 }
             }
     }
+
+
 
 }

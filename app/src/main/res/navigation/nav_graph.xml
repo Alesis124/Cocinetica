@@ -91,10 +91,16 @@
         android:name="dam.moviles.cocinetica.vista.CargaFragment"
         android:label="fragment_carga"
         tools:layout="@layout/fragment_carga" >
+
         <action
             android:id="@+id/action_cargaFragment_to_inicioFragment"
             app:destination="@id/inicioFragment" />
+
+        <action
+            android:id="@+id/action_cargaFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/busquedaFragment"
         android:name="dam.moviles.cocinetica.vista.BusquedaFragment"

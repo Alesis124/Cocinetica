@@ -1,7 +1,10 @@
+import org.jetbrains.kotlin.gradle.model.Kapt
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    id("org.jetbrains.kotlin.kapt")
     id("androidx.navigation.safeargs.kotlin")
 }
 
@@ -47,6 +50,18 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.moshi:moshi:1.15.1")
+    implementation("com.squareup.moshi:moshi-kotlin-codegen:1.15.1")
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.15.1")
+    implementation("io.coil-kt.coil3:coil:3.0.4")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.4")
+
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.5")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -57,6 +72,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
