@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="¿Ya tienes una cuenta? inicia sesión"
+        android:text="¿Ya tienes una cuenta? Inicia sesión"
         android:textColor="#0E3608"
         android:textSize="18sp"
         android:textStyle="bold"
