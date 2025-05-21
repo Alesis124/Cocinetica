@@ -4,8 +4,7 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FAF9F6">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,19 +15,20 @@
             android:id="@+id/homeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Home"
             android:layout_centerInParent="true"
-            android:textStyle="italic"
-            android:padding="8dp" />
+            android:padding="8dp"
+            android:text="Home"
+            android:textStyle="italic" />
 
         <ImageButton
             android:id="@+id/btnGrid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="38dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Cambiar vista"
-            android:src="@android:drawable/ic_dialog_dialer"/>
+            android:src="@android:drawable/ic_dialog_dialer" />
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -36,8 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="8dp"
         android:clipToPadding="false"
+        android:padding="8dp"
         android:scrollbars="vertical" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
