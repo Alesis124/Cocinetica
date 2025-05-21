@@ -25,6 +25,10 @@ interface CocineticaApi {
     @POST("borrar.php")
     suspend fun eliminarUsuario(@Body request: UsuarioBorrarRequest): Response<MensajeRespuesta>
 
+    @GET("leer.php")
+    suspend fun consultaTodasRecetas(@Query("tabla") tabla: String = "Recetas"): List<Receta>
+
+
 
 
 }

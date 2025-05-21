@@ -56,4 +56,9 @@ class CocineticaRepository {
     }
 
 
+    suspend fun consultaTodasRecetas(): List<Receta> = cocineticaApi.consultaTodasRecetas()
+
+
+
+
 }

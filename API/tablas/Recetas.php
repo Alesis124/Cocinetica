@@ -14,17 +14,27 @@ class Recetas {
     }
 
     function leerTodos() {
-        $stmt = $this->conn->prepare("SELECT * FROM " . $this->tabla);
+        $stmt = $this->conn->prepare(
+            "SELECT r.*, u.usuario 
+            FROM " . $this->tabla . " r
+            JOIN Usuarios u ON r.id_usuario = u.id_usuario"
+        );
         $stmt->execute();
         return $stmt->get_result();
     }
 
     function leerUno() {
-        $stmt = $this->conn->prepare("SELECT * FROM " . $this->tabla . " WHERE id_receta = ?");
+        $stmt = $this->conn->prepare(
+            "SELECT r.*, u.usuario 
+            FROM " . $this->tabla . " r
+            JOIN Usuarios u ON r.id_usuario = u.id_usuario
+            WHERE r.id_receta = ?"
+        );
         $stmt->bind_param("i", $this->id_receta);
         $stmt->execute();
         return $stmt->get_result();
     }
+
 
     function insertar() {
         $this->nombre = strip_tags($this->nombre);
