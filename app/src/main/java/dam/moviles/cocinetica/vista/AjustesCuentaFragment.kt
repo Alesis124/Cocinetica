@@ -41,17 +41,11 @@ class AjustesCuentaFragment : Fragment() {
 
         lifecycleScope.launch {
             try {
-                val usuarios = repository.consultaTodosUsuarios()
-                val usuario = usuarios.find { it.correo.equals(email, ignoreCase = true) }
-
-                if (usuario != null) {
-                    binding.nombreEdit.setText(usuario.usuario)
-                    binding.descripcionEdit.setText(usuario.descripcion)
-                } else {
-                    Log.e("CuentaFragment", "No se encontró el usuario con el correo $email")
-                }
+                val usuario = repository.consultaUsuarioPorCorreo(email)
+                binding.nombreEdit.setText(usuario.usuario)
+                binding.descripcionEdit.setText(usuario.descripcion)
             } catch (e: Exception) {
-                Log.e("CuentaFragment", "Error al cargar datos del usuario: ${e.localizedMessage}")
+                Log.e("AjustesCuenta", "Error al cargar datos: ${e.localizedMessage}")
             }
         }
     }

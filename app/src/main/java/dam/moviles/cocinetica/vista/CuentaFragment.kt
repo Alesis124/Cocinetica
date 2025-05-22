@@ -45,15 +45,9 @@ class CuentaFragment : Fragment() {
 
         lifecycleScope.launch {
             try {
-                val usuarios = repository.consultaTodosUsuarios()
-                val usuario = usuarios.find { it.correo.equals(email, ignoreCase = true) }
-
-                if (usuario != null) {
-                    binding.txtNombre.text = usuario.usuario
-                    binding.txtDescripciN.text = usuario.descripcion
-                } else {
-                    Log.e("CuentaFragment", "No se encontró el usuario con el correo $email")
-                }
+                val usuario = repository.consultaUsuarioPorCorreo(email)
+                binding.txtNombre.text = usuario.usuario
+                binding.txtDescripciN.text = usuario.descripcion
             } catch (e: Exception) {
                 Log.e("CuentaFragment", "Error al cargar datos del usuario: ${e.localizedMessage}")
             }

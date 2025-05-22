@@ -3,7 +3,9 @@ package dam.moviles.cocinetica.modelo
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CocineticaApi {
@@ -27,6 +29,27 @@ interface CocineticaApi {
 
     @GET("leer.php")
     suspend fun consultaTodasRecetas(@Query("tabla") tabla: String = "Recetas"): List<Receta>
+
+    @GET("leer.php")
+    suspend fun consultaUsuarioPorCorreo(
+        @Query("tabla") tabla: String = "Usuarios",
+        @Query("correo") correo: String
+    ): Usuario
+
+    @POST("insertar.php")
+    suspend fun insertarGuarda(
+        @Body guardaRequest: GuardaRequest
+    ): Response<GenericResponse>
+
+    @POST("borrar.php")
+    suspend fun eliminarGuarda(@Body guardaRequest: GuardaRequest): Response<GenericResponse>
+
+    @GET("leer.php")
+    suspend fun obtenerRecetasGuardadas(
+        @Query("tabla") tabla: String = "Guarda",
+        @Query("id_usuario") idUsuario: Int
+    ): List<Receta>
+
 
 
 

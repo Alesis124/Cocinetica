@@ -48,8 +48,8 @@
         android:layout_marginTop="4dp">
 
         <Button
-            android:id="@+id/txtGuardar"
-            android:text="Guardar"
+            android:id="@+id/btnGuardar"
+            android:text="Quitar"
             android:textColor="#70B657"
             android:background="?attr/selectableItemBackground"
             android:minHeight="0dp"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/txtVer"
+            android:id="@+id/btnVer"
             android:text="Ver"
             android:textColor="#70B657"
             android:background="?attr/selectableItemBackground"
