@@ -158,6 +158,14 @@ class CocineticaRepository {
         return cocineticaApi.consultaTodosUsuarios()
     }
 
+    suspend fun insertarComentario(comentarioRequest: ComentarioRequest): Response<GenericResponse> {
+        return cocineticaApi.insertarComentario(comentarioRequest)
+    }
+
+
+
+
+
 
 
 

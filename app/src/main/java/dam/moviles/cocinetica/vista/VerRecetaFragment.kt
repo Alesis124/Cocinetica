@@ -2,11 +2,13 @@ package dam.moviles.cocinetica.vista
 
 import ComentariosAdapter
 import IngredienteAdapter
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -21,7 +23,9 @@ import dam.moviles.cocinetica.modelo.Ingrediente
 import dam.moviles.cocinetica.modelo.UM
 import dam.moviles.cocinetica.modelo.Paso
 import dam.moviles.cocinetica.modelo.Comentario
+import dam.moviles.cocinetica.modelo.ComentarioRequest
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class VerRecetaFragment : Fragment() {
 
@@ -101,22 +105,46 @@ class VerRecetaFragment : Fragment() {
         }
     }
 
-    fun combinarIngredientes(
-        contiene: List<Contiene>,
-        ingredientes: List<Ingrediente>,
-        unidades: List<UM>
-    ): List<String> {
-        val mapaIngredientes = ingredientes.associateBy { it.id_ingrediente }
-        val mapaUM = unidades.associateBy { it.id_um }
+    private fun mostrarDialogoComentario() {
+        val editText = EditText(requireContext())
+        AlertDialog.Builder(requireContext())
+            .setTitle("Nuevo comentario")
+            .setView(editText)
+            .setPositiveButton("Enviar") { _, _ ->
+                val texto = editText.text.toString()
+                enviarComentario(texto)
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
 
-        return contiene.mapNotNull { c ->
-            val nombreIng = mapaIngredientes[c.id_ingrediente]?.nombre
-            val unidad = mapaUM[c.id_um]?.medida
-            if (nombreIng != null && unidad != null) {
-                "${c.cantidad} $unidad de $nombreIng"
-            } else null
+    private fun enviarComentario(texto: String) {
+        val idUsuario = idUsuarioActual ?: return
+        val idReceta = args.idReceta
+
+        val comentarioRequest = ComentarioRequest(
+            texto = texto,
+            id_usuario = idUsuario,
+            id_receta = idReceta
+        )
+
+        lifecycleScope.launch {
+            try {
+                val response = repository.insertarComentario(comentarioRequest)
+                if (response.isSuccessful && response.body()?.error == null) {
+                    Toast.makeText(requireContext(), "Comentario agregado", Toast.LENGTH_SHORT).show()
+                    cargarDatos(idReceta)
+                } else {
+                    Toast.makeText(requireContext(), "Error al comentar: ${response.body()?.error ?: response.message()}", Toast.LENGTH_LONG).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Error de red: ${e.message}", Toast.LENGTH_LONG).show()
+                e.printStackTrace()
+            }
         }
     }
+
+
 
     private fun actualizarTextoBoton() {
         binding.btnGuardar.text = if (recetaGuardada) "Quitar de guardados" else "Guardar"
@@ -144,6 +172,10 @@ class VerRecetaFragment : Fragment() {
                 }
             }
         }
+        binding.btnEnviarComentario.setOnClickListener {
+            mostrarDialogoComentario()
+        }
+
     }
 
 }
