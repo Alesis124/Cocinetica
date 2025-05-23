@@ -136,13 +136,27 @@ class CocineticaRepository {
         return cocineticaApi.getPasosPorReceta(idReceta = idReceta)
     }
 
+    suspend fun leerValoraciones(): List<Valoracion> {
+        return cocineticaApi.leerValoraciones()
+    }
+
+    suspend fun obtenerComentariosPorReceta(idReceta: Int): List<Comentario> {
+        return cocineticaApi.leerComentarios(idReceta)
+    }
 
 
+    suspend fun obtenerValoracionesComentarios(idReceta: Int): Map<Int, Valoracion?> {
+        // Obtenemos todas las valoraciones y las filtramos por receta
+        val valoraciones = cocineticaApi.leerValoraciones()
+            .filter { it.id_receta == idReceta }
 
+        // Map<id_comentario, Valoracion>
+        return valoraciones.associateBy { it.id_comentario }
+    }
 
-
-
-
+    suspend fun obtenerUsuarios(): List<Usuario> {
+        return cocineticaApi.consultaTodosUsuarios()
+    }
 
 
 

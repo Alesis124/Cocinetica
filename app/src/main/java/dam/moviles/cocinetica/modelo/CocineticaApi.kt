@@ -101,6 +101,29 @@ interface CocineticaApi {
         @Query("tabla") tabla: String = "um"
     ): List<UM>
 
+    @GET("leer.php")
+    suspend fun leerValoraciones(
+        @Query("tabla") tabla: String = "Valoraciones"
+    ): List<Valoracion>
+
+
+    @GET("leer.php?tabla=comentarios")
+    suspend fun leerComentarios(@Query("id_receta") idReceta: Int): List<Comentario>
+
+
+    @GET("leer.php?tabla=valoraciones")
+    suspend fun leerValoraciones(): List<Valoracion>
+
+    @GET("leer.php?tabla=usuarios")
+    suspend fun consultaTodosUsuarios(): List<Usuario>
+
+
+    @GET("leer.php")
+    suspend fun obtenerComentariosPorReceta(
+        @Query("tabla") tabla: String = "Comentarios",
+        @Query("id_receta") idReceta: Int
+    ): List<Comentario>
+
 
 
 

@@ -1,5 +1,6 @@
 package dam.moviles.cocinetica.vista
 
+import ComentariosAdapter
 import IngredienteAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import dam.moviles.cocinetica.modelo.Contiene
 import dam.moviles.cocinetica.modelo.Ingrediente
 import dam.moviles.cocinetica.modelo.UM
 import dam.moviles.cocinetica.modelo.Paso
+import dam.moviles.cocinetica.modelo.Comentario
 import kotlinx.coroutines.launch
 
 class VerRecetaFragment : Fragment() {
@@ -32,6 +34,7 @@ class VerRecetaFragment : Fragment() {
 
     private lateinit var recyclerIngredientes: RecyclerView
     private lateinit var recyclerPasos: RecyclerView
+    private lateinit var recyclerComentarios: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,32 +67,32 @@ class VerRecetaFragment : Fragment() {
                 recetaGuardada = recetasGuardadas.any { it.id_receta == idReceta }
                 actualizarTextoBoton()
 
-                // Obtener contiene (ingredientes usados en la receta)
+                // Ingredientes
                 val contieneList = repository.obtenerContienePorReceta(idReceta)
-
-                // Obtener todos los ingredientes para filtrar solo los que usa la receta
                 val todosIngredientes = repository.obtenerIngredientes()
-
-                // Filtrar ingredientes solo usados en esta receta
                 val ingredienteList = todosIngredientes.filter { ingrediente ->
                     contieneList.any { contiene -> contiene.id_ingrediente == ingrediente.id_ingrediente }
                 }
-
-                // Obtener unidades de medida
                 val unidadMedidaList = repository.obtenerUM()
-
-                // Configurar RecyclerView ingredientes
-                recyclerIngredientes = binding.reciclerIngrdientes  // Revisa que el ID esté bien en el XML
+                recyclerIngredientes = binding.reciclerIngrdientes
                 recyclerIngredientes.layoutManager = LinearLayoutManager(requireContext())
                 recyclerIngredientes.adapter = IngredienteAdapter(contieneList, ingredienteList, unidadMedidaList)
 
-                // Obtener pasos filtrados por receta
+                // Pasos
                 val pasosList = repository.obtenerPasosPorReceta(idReceta)
-
-                // Configurar RecyclerView pasos
-                recyclerPasos = binding.reciclerPasos  // Revisa que el ID esté bien en el XML
+                recyclerPasos = binding.reciclerPasos
                 recyclerPasos.layoutManager = LinearLayoutManager(requireContext())
                 recyclerPasos.adapter = PasoAdapter(pasosList)
+
+                // Comentarios
+                val comentariosList = repository.obtenerComentariosPorReceta(idReceta)
+                val valoracionesMap = repository.obtenerValoracionesComentarios(idReceta) // Map<Int, Valoracion?>
+                val usuariosList = repository.obtenerUsuarios()
+                val usuariosMap = usuariosList.associateBy({ it.id_usuario }, { it.usuario })
+
+                recyclerComentarios = binding.recyclerComentarios
+                recyclerComentarios.layoutManager = LinearLayoutManager(requireContext())
+                recyclerComentarios.adapter = ComentariosAdapter(comentariosList, valoracionesMap, usuariosMap)
 
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Error al cargar la receta: ${e.message}", Toast.LENGTH_LONG).show()
