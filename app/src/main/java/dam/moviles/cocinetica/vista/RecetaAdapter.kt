@@ -58,6 +58,10 @@ class RecetaAdapter(
             val ratingBar = itemView.findViewById<RatingBar>(R.id.ratingBar)
             val guardado = recetasGuardadas.contains(receta.id_receta)
 
+            itemView.setOnClickListener {
+                onVerClick(receta)
+            }
+
             btnGuardar.text = when {
                 guardado && enVistaGrid -> "Quitar"
                 guardado -> "Quitar de guardados"

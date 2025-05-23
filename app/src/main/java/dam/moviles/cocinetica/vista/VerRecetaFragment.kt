@@ -53,6 +53,7 @@ class VerRecetaFragment : Fragment() {
                 binding.txtNombreReceta.text = receta.nombre
                 binding.descripcionReceta.text = "Hecho por ${receta.usuario}"
                 binding.tiempotxt.text = "${receta.duracion} minutos"
+                binding.ratingBar.rating = receta.valoracion.toFloat()
 
                 // Consultar si está guardada
                 val recetasGuardadas = repository.obtenerRecetasGuardadas(idUsuarioActual!!)
