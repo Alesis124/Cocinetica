@@ -94,8 +94,8 @@ class GuardadosFragment : Fragment() {
                         true
                     },
                     onVerClick = { receta ->
-                        // Navegar al detalle de la receta, pasando id o como necesites
-                        findNavController().navigate(R.id.action_guardadosFragment_to_verRecetaFragment)
+                        val action = GuardadosFragmentDirections.actionGuardadosFragmentToVerRecetaFragment(receta.id_receta)
+                        findNavController().navigate(action)
                     }
                 )
 
