@@ -38,22 +38,38 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="65dp"
             android:text="Hecho por $Persona"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imagenReceta"
             app:layout_constraintTop_toBottomOf="@+id/txtNombreReceta" />
 
+        <RatingBar
+            android:id="@+id/ratingBar"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="65dp"
+            android:numStars="5"
+            android:rating="0"
+            android:stepSize="1.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.16"
+            app:layout_constraintStart_toEndOf="@+id/imagenReceta"
+            app:layout_constraintTop_toBottomOf="@+id/descripcionReceta"
+            tools:ignore="MissingConstraints" />
+
         <TextView
             android:id="@+id/tiempotxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:text="$Horayminutos"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/descripcionReceta" />
+            app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reciclerIngrdientes"
@@ -75,6 +91,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/reciclerIngrdientes" />
 
+        <!-- Botones Guardar y Volver -->
         <Button
             android:id="@+id/btnGuardar"
             android:layout_width="wrap_content"
@@ -96,6 +113,77 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/reciclerPasos" />
+
+        <!-- Apartado para valorar y comentar -->
+        <TextView
+            android:id="@+id/tituloValorar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valora esta receta"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/btnGuardar"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <RatingBar
+            android:id="@+id/ratingBarUsuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="1"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/tituloValorar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp" />
+
+        <EditText
+            android:id="@+id/editTextComentario"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Escribe tu comentario..."
+            android:inputType="textMultiLine"
+            android:minLines="2"
+            android:maxLines="4"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBarUsuario"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/btnEnviarComentario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enviar"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/editTextComentario"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp" />
+
+        <!-- Apartado comentarios (lista) -->
+        <TextView
+            android:id="@+id/tituloComentarios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comentarios"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/btnEnviarComentario"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerComentarios"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/tituloComentarios"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
