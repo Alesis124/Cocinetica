@@ -106,6 +106,10 @@ class CocineticaRepository {
     }
 
 
+    suspend fun consultaRecetaPorId(idReceta: Int): Receta {
+        return cocineticaApi.consultaReceta(id_receta = idReceta)
+    }
+
 
 
 

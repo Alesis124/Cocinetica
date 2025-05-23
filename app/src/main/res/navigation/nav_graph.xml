@@ -147,7 +147,14 @@
         android:id="@+id/verRecetaFragment"
         android:name="dam.moviles.cocinetica.vista.VerRecetaFragment"
         android:label="fragment_ver_receta"
-        tools:layout="@layout/fragment_ver_receta" />
+        tools:layout="@layout/fragment_ver_receta" >
+        <action
+            android:id="@+id/action_verRecetaFragment_to_inicioFragment"
+            app:destination="@id/inicioFragment" />
+        <argument
+            android:name="id_receta"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/creaRecetaFragment"
         android:name="dam.moviles.cocinetica.vista.CreaRecetaFragment"

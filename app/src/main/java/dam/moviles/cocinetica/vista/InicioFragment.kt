@@ -112,7 +112,8 @@ class InicioFragment : Fragment() {
                         true
                     },
                     onVerClick = { receta ->
-                        findNavController().navigate(R.id.action_inicioFragment_to_verRecetaFragment)
+                        val action = InicioFragmentDirections.actionInicioFragmentToVerRecetaFragment(receta.id_receta)
+                        findNavController().navigate(action)
                     }
                 )
 
