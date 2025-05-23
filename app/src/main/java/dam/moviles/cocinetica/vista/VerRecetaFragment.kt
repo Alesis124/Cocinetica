@@ -111,7 +111,7 @@ class VerRecetaFragment : Fragment() {
             .setTitle("Nuevo comentario")
             .setView(editText)
             .setPositiveButton("Enviar") { _, _ ->
-                val texto = editText.text.toString()
+                val texto = binding.editTextComentario.text.toString()
                 enviarComentario(texto)
             }
             .setNegativeButton("Cancelar", null)
