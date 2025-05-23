@@ -66,7 +66,40 @@ interface CocineticaApi {
         @Query("id_receta") id_receta: Int
     ): Receta
 
+    @GET("leer.php")
+    suspend fun consultaIngredientes(
+        @Query("tabla") tabla: String = "Ingredientes",
+        @Query("id_receta") id_receta: Int
+    ): List<Ingrediente>
 
+    @GET("leer.php")
+    suspend fun consultaPasos(
+        @Query("tabla") tabla: String = "Pasos",
+        @Query("id_receta") id_receta: Int
+    ): List<Paso>
+
+
+    @GET("leer.php")
+    suspend fun getContienePorReceta(
+        @Query("tabla") tabla: String = "contiene",
+        @Query("id_receta") idReceta: Int
+    ): List<Contiene>
+
+    @GET("leer.php")
+    suspend fun getPasosPorReceta(
+        @Query("tabla") tabla: String = "pasos",
+        @Query("id_receta") idReceta: Int
+    ): List<Paso>
+
+    @GET("leer.php")
+    suspend fun getIngredientes(
+        @Query("tabla") tabla: String = "ingredientes"
+    ): List<Ingrediente>
+
+    @GET("leer.php")
+    suspend fun getUMs(
+        @Query("tabla") tabla: String = "um"
+    ): List<UM>
 
 
 

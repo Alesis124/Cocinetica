@@ -110,6 +110,35 @@ class CocineticaRepository {
         return cocineticaApi.consultaReceta(id_receta = idReceta)
     }
 
+    suspend fun consultaIngredientes(idReceta: Int): List<Ingrediente> {
+        return cocineticaApi.consultaIngredientes(id_receta = idReceta)
+    }
+    suspend fun consultaPasos(idReceta: Int): List<Paso> {
+        return cocineticaApi.consultaPasos(id_receta = idReceta)
+    }
+
+    // Obtener lista completa de ingredientes
+    suspend fun obtenerIngredientes(): List<Ingrediente> {
+        return cocineticaApi.getIngredientes()
+    }
+
+    // Obtener lista de unidades de medida
+    suspend fun obtenerUM(): List<UM> {
+        return cocineticaApi.getUMs()
+    }
+
+    // Obtener pasos de una receta
+    suspend fun obtenerContienePorReceta(idReceta: Int): List<Contiene> {
+        return cocineticaApi.getContienePorReceta(idReceta = idReceta)
+    }
+
+    suspend fun obtenerPasosPorReceta(idReceta: Int): List<Paso> {
+        return cocineticaApi.getPasosPorReceta(idReceta = idReceta)
+    }
+
+
+
+
 
 
 
