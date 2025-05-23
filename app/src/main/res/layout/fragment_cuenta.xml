@@ -1,168 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     tools:context=".vista.CuentaFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <TextView
-        android:id="@+id/homeTitle2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="32dp"
-        android:padding="8dp"
-        android:text="Mi cuenta"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/btnAyuda"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="24dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:tint="?attr/colorControlNormal"
-            android:contentDescription="Cambiar vista"
-            android:src="@android:drawable/ic_menu_help"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="UseAppTint" />
-
-
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNav"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_gravity="bottom"
-        app:itemTextColor="#D1DB5E"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_bajo" />
-
-    <ImageView
-        android:id="@+id/imagenCuenta"
-        android:layout_width="86dp"
-        android:layout_height="99dp"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="53dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeTitle2"
-        tools:src="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/txtNombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="53dp"
-        android:text="$Nombre"
-        app:layout_constraintStart_toEndOf="@+id/imagenCuenta"
-        app:layout_constraintTop_toBottomOf="@+id/homeTitle2" />
-
-    <TextView
-        android:id="@+id/txtDescripción"
-        android:layout_width="170dp"
-        android:layout_height="73dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/imagenCuenta"
-        app:layout_constraintTop_toBottomOf="@+id/txtNombre" />
-
-    <Button
-        android:id="@+id/btnEditarCuenta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:text="Editar"
-        app:layout_constraintStart_toEndOf="@+id/imagenCuenta"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescripción" />
-
-    <TabHost
-        android:id="@+id/navegadorRecetasCometarios"
+    <!-- ScrollView que contiene TODO el contenido desplazable -->
+    <ScrollView
+        android:id="@+id/scrollViewContenido"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/fabAgregar"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnEditarCuenta">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <!-- Contenedor interno para ConstraintLayout (para poder usar constraints dentro) -->
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            <!-- Título -->
+            <TextView
+                android:id="@+id/homeTitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Mi cuenta"
+                android:textStyle="italic"
+                android:layout_marginTop="32dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <!-- Botón ayuda -->
+            <ImageButton
+                android:id="@+id/btnAyuda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Ayuda"
+                android:src="@android:drawable/ic_menu_help"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Imagen cuenta -->
+            <ImageView
+                android:id="@+id/imagenCuenta"
+                android:layout_width="86dp"
+                android:layout_height="99dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="42dp"
+                app:layout_constraintTop_toBottomOf="@id/homeTitle2"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:src="@tools:sample/avatars" />
+
+            <!-- Nombre -->
+            <TextView
+                android:id="@+id/txtNombre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="$Nombre"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintStart_toEndOf="@id/imagenCuenta"
+                app:layout_constraintTop_toTopOf="@id/imagenCuenta"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Descripción -->
+            <TextView
+                android:id="@+id/txtDescripción"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Descripción del usuario"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintStart_toEndOf="@id/imagenCuenta"
+                app:layout_constraintTop_toBottomOf="@id/txtNombre"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Botón editar -->
+            <Button
+                android:id="@+id/btnEditarCuenta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Editar"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toBottomOf="@id/txtDescripción"
+                app:layout_constraintStart_toEndOf="@id/imagenCuenta" />
+
+            <!-- TabHost (con altura WRAP_CONTENT para evitar problemas) -->
+            <TabHost
+                android:id="@+id/navegadorRecetasCometarios"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/btnEditarCuenta"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <LinearLayout
-                    android:id="@+id/Recetas"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/misRecetas"
+                    <TabWidget
+                        android:id="@android:id/tabs"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:layout_editor_absoluteY="381dp" />
-                </LinearLayout>
+                        android:layout_height="wrap_content" />
 
-                <LinearLayout
-                    android:id="@+id/Comentarios"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/misComentarios"
+                    <FrameLayout
+                        android:id="@android:id/tabcontent"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:layout_editor_absoluteY="381dp" />
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:id="@+id/Recetas"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/misRecetas"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/Comentarios"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/misComentarios"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"/>
+                        </LinearLayout>
+
+                    </FrameLayout>
                 </LinearLayout>
+            </TabHost>
 
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabAgregar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            android:contentDescription="Agregar receta"
-            android:src="@android:drawable/ic_input_add"
-            app:backgroundTint="#70B657"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNav"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@android:color/white" />
+    </ScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+    <!-- Floating Action Button fijo -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAgregar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Agregar receta"
+        android:src="@android:drawable/ic_input_add"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:backgroundTint="#70B657"
+        app:tint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Bottom Navigation fijo -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        app:itemTextColor="#D1DB5E"
+        app:menu="@menu/menu_bajo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

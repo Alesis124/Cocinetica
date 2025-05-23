@@ -50,6 +50,16 @@ interface CocineticaApi {
         @Query("id_usuario") idUsuario: Int
     ): List<Receta>
 
+    @GET("Leer.php")
+    suspend fun leerRecetas(
+        @Query("tabla") tabla: String = "recetas"
+    ): List<Receta>
+
+    @GET("Leer.php")
+    suspend fun leerComentarios(
+        @Query("tabla") tabla: String = "comentarios"
+    ): List<Comentario>
+
 
 
 

@@ -95,6 +95,16 @@ class CocineticaRepository {
 
 
 
+    suspend fun obtenerRecetasUsuario(idUsuario: Int): List<Receta> {
+        return cocineticaApi.leerRecetas()
+            .filter { it.id_usuario == idUsuario }
+    }
+
+    suspend fun obtenerComentariosUsuario(idUsuario: Int): List<Comentario> {
+        return cocineticaApi.leerComentarios()
+            .filter { it.id_usuario == idUsuario }
+    }
+
 
 
 

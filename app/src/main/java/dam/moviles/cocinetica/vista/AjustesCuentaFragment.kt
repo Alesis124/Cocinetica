@@ -120,6 +120,11 @@ class AjustesCuentaFragment : Fragment() {
             }
 
         }
+
+        binding.btnVolver.setOnClickListener {
+            findNavController().navigate(R.id.action_ajustesCuentaFragment_to_cuentaFragment)
+        }
+
         binding.CerrarSesionbtn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             findNavController().navigate(R.id.action_ajustesCuentaFragment_to_loginFragment)

@@ -6,56 +6,51 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TabHost
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.navigation.NavigationBarView
-import com.google.firebase.auth.FirebaseAuth
 import dam.moviles.cocinetica.R
 import dam.moviles.cocinetica.databinding.FragmentCuentaBinding
-import dam.moviles.cocinetica.modelo.CocineticaRepository
-import kotlinx.coroutines.launch
-
+import dam.moviles.cocinetica.viewModel.CuentaViewModel
 
 class CuentaFragment : Fragment() {
 
-    lateinit var binding: FragmentCuentaBinding
-    private val repository = CocineticaRepository()
+    private lateinit var binding: FragmentCuentaBinding
+    private val cuentaViewModel: CuentaViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        inicializarBinding()
+    ): View {
+        binding = FragmentCuentaBinding.inflate(inflater, container, false)
+
         binding.bottomNav.selectedItemId = R.id.nav_profile
         configurarTabs()
         inicializarBotones()
-        cargarDatosUsuario()
+        observarViewModel()
+        cuentaViewModel.cargarUsuarioYContenido()
+
         return binding.root
     }
 
-    fun inicializarBinding(){
-        binding = FragmentCuentaBinding.inflate(layoutInflater)
-    }
+    private fun observarViewModel() {
+        cuentaViewModel.usuario.observe(viewLifecycleOwner, Observer { usuario ->
+            binding.txtNombre.text = usuario.usuario
+            binding.txtDescripciN.text = usuario.descripcion
+        })
 
-    private fun cargarDatosUsuario() {
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        val email = currentUser?.email ?: return
+        cuentaViewModel.recetas.observe(viewLifecycleOwner, Observer { recetas ->
+            // Actualiza UI relacionada a recetas (por ejemplo, un RecyclerView dentro de la pestaña Recetas)
+        })
 
-        lifecycleScope.launch {
-            try {
-                val usuario = repository.consultaUsuarioPorCorreo(email)
-                binding.txtNombre.text = usuario.usuario
-                binding.txtDescripciN.text = usuario.descripcion
-            } catch (e: Exception) {
-                Log.e("CuentaFragment", "Error al cargar datos del usuario: ${e.localizedMessage}")
-            }
-        }
+        cuentaViewModel.comentarios.observe(viewLifecycleOwner, Observer { comentarios ->
+            // Actualiza UI relacionada a comentarios
+        })
     }
 
     private fun configurarTabs() {
-        val tabHost: TabHost = binding.navegadorRecetasCometarios
+        val tabHost = binding.navegadorRecetasCometarios
         tabHost.setup()
 
         val tabSpec1 = tabHost.newTabSpec("recetas")
@@ -70,14 +65,15 @@ class CuentaFragment : Fragment() {
     }
 
 
+
     private fun inicializarBotones() {
         binding.fabAgregar.setOnClickListener {
             findNavController().navigate(R.id.action_cuentaFragment_to_creaRecetaFragment)
         }
+
         binding.bottomNav.setOnItemSelectedListener(NavigationBarView.OnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    // refresh
                     findNavController().navigate(R.id.action_cuentaFragment_to_inicioFragment)
                     true
                 }
@@ -89,20 +85,17 @@ class CuentaFragment : Fragment() {
                     findNavController().navigate(R.id.action_cuentaFragment_to_guardadosFragment)
                     true
                 }
-                R.id.nav_profile -> {
-                    //refesh
-                    true
-                }
+                R.id.nav_profile -> true
                 else -> false
             }
         })
+
         binding.btnEditarCuenta.setOnClickListener {
             findNavController().navigate(R.id.action_cuentaFragment_to_ajustesCuentaFragment)
         }
+
         binding.btnAyuda.setOnClickListener {
-            //findNavController().navigate(R.id.action_cuentaFragment_to_ayudaFragment)
+            // Navegación opcional
         }
-
     }
-
 }
