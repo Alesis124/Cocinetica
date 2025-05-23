@@ -18,6 +18,7 @@
             android:layout_marginTop="64dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/platosinimagen2"
             tools:src="@tools:sample/avatars" />
 
         <TextView
@@ -48,11 +49,11 @@
             android:id="@+id/tiempotxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="32dp"
             android:text="$Horayminutos"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imagenReceta" />
+            app:layout_constraintTop_toBottomOf="@+id/descripcionReceta" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reciclerIngrdientes"
@@ -65,9 +66,11 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reciclerPasos"
-            android:layout_width="221dp"
+            android:layout_width="0dp"
             android:layout_height="231dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/reciclerIngrdientes" />
