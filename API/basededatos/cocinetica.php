@@ -1,7 +1,7 @@
     <?php
 class Cocinetica
 {
-    private $host = 'localhost';
+    private $host = 'mariadb'; //localhost
     private $user = 'root';
     private $password = "D9Qj6yGMdzEREcz";
     private $database = "Cocinetica";
