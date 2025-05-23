@@ -14,6 +14,7 @@ include_once '../tablas/Pasos.php';
 include_once '../tablas/Recetas.php';
 include_once '../tablas/UM.php';
 include_once '../tablas/Usuarios.php';
+include_once '../tablas/Valoraciones.php';
 
 $database = new Cocinetica();
 $conex = $database->dameConexion();
@@ -75,6 +76,17 @@ switch ($datos->tabla) {
         $obj->descripcion = $datos->descripcion;
         $obj->imagen = $datos->imagen;
         break;
+    case 'Valoraciones':
+        $obj = new Valoraciones($conex);
+        $obj->id_valoracion = $datos->id_valoracion;
+        $obj->id_usuario = $datos->id_usuario;
+        $obj->id_receta = $datos->id_receta;
+        $obj->valoracion = $datos->valoracion;
+        if (isset($datos->id_comentario)) {
+            $obj->id_comentario = $datos->id_comentario;
+        }
+        break;
+
     default:
         http_response_code(400);
         echo json_encode(["error" => "Tabla no válida"]);
