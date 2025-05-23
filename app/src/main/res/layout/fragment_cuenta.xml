@@ -41,13 +41,16 @@
                 android:id="@+id/btnAyuda"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Ayuda"
-                android:src="@android:drawable/ic_menu_help"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:tint="?attr/colorControlNormal"
+                android:contentDescription="Cambiar vista"
+                android:src="@android:drawable/ic_menu_help"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                tools:ignore="UseAppTint" />
 
             <!-- Imagen cuenta -->
             <ImageView
