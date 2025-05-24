@@ -1,9 +1,12 @@
 package dam.moviles.cocinetica.modelo
 
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CocineticaApi {
@@ -124,6 +127,10 @@ interface CocineticaApi {
 
     @POST("insertar.php")
     suspend fun insertarComentario(@Body comentarioRequest: ComentarioRequest): Response<GenericResponse>
+
+    @POST("borrar.php")
+    suspend fun eliminarComentario(@Body cuerpo: RequestBody): Response<RespuestaApi>
+
 
 
 

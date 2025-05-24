@@ -96,7 +96,16 @@ class VerRecetaFragment : Fragment() {
 
                 recyclerComentarios = binding.recyclerComentarios
                 recyclerComentarios.layoutManager = LinearLayoutManager(requireContext())
-                recyclerComentarios.adapter = ComentariosAdapter(comentariosList, valoracionesMap, usuariosMap)
+                recyclerComentarios.adapter = ComentariosAdapter(
+                    comentariosList,
+                    valoracionesMap,
+                    usuariosMap,
+                    idUsuarioActual!!,
+                    onEliminarClick = { comentario ->
+                        mostrarDialogoConfirmacionEliminar(comentario)
+                    }
+                )
+
 
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Error al cargar la receta: ${e.message}", Toast.LENGTH_LONG).show()
@@ -104,6 +113,38 @@ class VerRecetaFragment : Fragment() {
             }
         }
     }
+
+    private fun mostrarDialogoConfirmacionEliminar(comentario: Comentario) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Eliminar comentario")
+            .setMessage("¿Estás seguro de que deseas eliminar este comentario?")
+            .setPositiveButton("Sí") { _, _ ->
+            eliminarComentario(comentario.id_comentario)
+        }
+
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun eliminarComentario(idComentario: Int) {
+        lifecycleScope.launch {
+            try {
+                val response = repository.eliminarComentario(idComentario)
+
+                if (response.isSuccessful && response.body()?.error == null) {
+                    Toast.makeText(requireContext(), "Comentario eliminado", Toast.LENGTH_SHORT).show()
+                    cargarDatos(args.idReceta)
+                } else {
+                    Toast.makeText(requireContext(), "Error al eliminar: ${response.message()}", Toast.LENGTH_LONG).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Error de red: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+
+
 
     private fun mostrarDialogoComentario() {
         val editText = EditText(requireContext())

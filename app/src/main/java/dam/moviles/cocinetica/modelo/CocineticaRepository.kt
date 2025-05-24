@@ -2,10 +2,13 @@ package dam.moviles.cocinetica.modelo
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Response
 import retrofit2.Retrofit
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONObject
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 class CocineticaRepository {
@@ -161,6 +164,17 @@ class CocineticaRepository {
     suspend fun insertarComentario(comentarioRequest: ComentarioRequest): Response<GenericResponse> {
         return cocineticaApi.insertarComentario(comentarioRequest)
     }
+
+    suspend fun eliminarComentario(idComentario: Int): Response<RespuestaApi> {
+        val json = JSONObject()
+        json.put("tabla", "Comentarios")
+        json.put("id_comentario", idComentario)
+
+        val body = json.toString().toRequestBody("application/json".toMediaType())
+        return cocineticaApi.eliminarComentario(body)
+    }
+
+
 
 
 
