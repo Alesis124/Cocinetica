@@ -1,4 +1,8 @@
 package dam.moviles.cocinetica.modelo
 
-data class MensajeRespuesta(val mensaje: String?, val error: String?)
+import com.squareup.moshi.JsonClass
+import java.io.Serializable
+
+@JsonClass(generateAdapter = true)
+data class MensajeRespuesta(val mensaje: String?, val error: String?): Serializable
 

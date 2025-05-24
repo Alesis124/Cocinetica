@@ -174,13 +174,43 @@ class CocineticaRepository {
         return cocineticaApi.eliminarComentario(body)
     }
 
+    suspend fun insertarOActualizarValoracionExistente(
+        idUsuario: Int,
+        idReceta: Int,
+        valoracionInt: Int,
+        idComentario: Int?
+    ): Boolean {
+        val todasValoraciones = leerValoraciones()
+        val existente = todasValoraciones.find { it.id_usuario == idUsuario && it.id_receta == idReceta }
 
+        return if (existente != null) {
+            // Ya existe → actualizar
+            val json = JSONObject().apply {
+                put("tabla", "Valoraciones")
+                put("id_valoracion", existente.id_valoracion)
+                put("valoracion", valoracionInt)
+                put("id_comentario", idComentario)
+            }
 
+            val body = json.toString().toRequestBody("application/json".toMediaType())
+            val response = cocineticaApi.actualizarValoracion(body)
+            response.isSuccessful
 
+        } else {
+            // No existe → insertar
+            val json = JSONObject().apply {
+                put("tabla", "Valoraciones")
+                put("id_usuario", idUsuario)
+                put("id_receta", idReceta)
+                put("valoracion", valoracionInt)
+                if (idComentario != null) put("id_comentario", idComentario)
+            }
 
-
-
-
+            val body = json.toString().toRequestBody("application/json".toMediaType())
+            val response = cocineticaApi.insertarGenerico(body)
+            response.isSuccessful
+        }
+    }
 
 
 }

@@ -131,6 +131,17 @@ interface CocineticaApi {
     @POST("borrar.php")
     suspend fun eliminarComentario(@Body cuerpo: RequestBody): Response<RespuestaApi>
 
+    @POST("actualizar.php")
+    suspend fun actualizarValoracion(
+        @Body body: RequestBody
+    ): Response<GenericResponse>
+
+    @POST("insertar.php")
+    suspend fun insertarGenerico(
+        @Body body: RequestBody
+    ): Response<GenericResponse>
+
+
 
 
 

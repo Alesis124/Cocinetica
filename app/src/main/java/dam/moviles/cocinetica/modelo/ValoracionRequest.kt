@@ -4,11 +4,10 @@ import com.squareup.moshi.JsonClass
 import java.io.Serializable
 
 @JsonClass(generateAdapter = true)
-data class Valoracion(
-    val id_valoracion: Int,
+data class ValoracionRequest(
+    val tabla: String = "Valoraciones",
     val id_usuario: Int,
     val id_receta: Int,
     val valoracion: Int,
-    val id_comentario: Int,
-    val fecha: String
-): Serializable
+    val id_comentario: Int? = null
+) : Serializable

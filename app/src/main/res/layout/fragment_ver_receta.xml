@@ -139,6 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="54dp"
             android:text="Guardar"
+            android:enabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/btnVolver"
@@ -150,6 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="54dp"
             android:text="Volver"
+            android:enabled="false"
             app:layout_constraintEnd_toStartOf="@+id/btnGuardar"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -178,26 +180,38 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp" />
 
+        <Button
+            android:id="@+id/btnValorar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:enabled="false"
+            android:text="Valorar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBarUsuario" />
+
         <EditText
             android:id="@+id/editTextComentario"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
             android:hint="Escribe tu comentario..."
             android:inputType="textMultiLine"
-            android:minLines="2"
             android:maxLines="4"
-            android:layout_marginTop="12dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/ratingBarUsuario"
+            android:minLines="2"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/btnValorar" />
 
         <Button
             android:id="@+id/btnEnviarComentario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Enviar"
+            android:enabled="false"
             android:layout_marginTop="12dp"
             app:layout_constraintTop_toBottomOf="@+id/editTextComentario"
             app:layout_constraintEnd_toEndOf="parent"

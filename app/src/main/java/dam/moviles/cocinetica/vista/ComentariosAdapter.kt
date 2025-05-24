@@ -42,9 +42,12 @@ class ComentariosAdapter(
         val nombreUsuario = usuariosMap[comentario.id_usuario] ?: "Anónimo"
         holder.tvUsuario.text = nombreUsuario
 
-        val valoracionInt = valoracionesMap[comentario.id_comentario]?.valoracion ?: 0
-        val valoracionFloat = valoracionInt.toFloat()
-        holder.tvValoracion.text = String.format("⭐ %.1f", valoracionFloat)
+        val valoracion = valoracionesMap[comentario.id_comentario]
+        if (valoracion == null) {
+            holder.tvValoracion.text = "⭐ Sin valorar"
+        } else {
+            holder.tvValoracion.text = "⭐ ${valoracion.valoracion}/5"
+        }
 
         if (comentario.id_usuario == idUsuarioActual) {
             holder.btnEliminar.visibility = View.VISIBLE
