@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardElevation="3dp"
     app:cardCornerRadius="12dp"
-    app:cardBackgroundColor="?android:colorBackground">
+    app:cardElevation="4dp"
+    android:backgroundTint="#FFFFFF">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -33,10 +32,9 @@
             android:id="@+id/tvValoracion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="⭐ 4.5"
+            android:text="⭐ 4"
             android:textColor="#FFA000"
             android:textSize="14sp"
-            android:fontFamily="sans-serif-medium"
             app:layout_constraintBaseline_toBaselineOf="@id/tvUsuario"
             app:layout_constraintEnd_toStartOf="@+id/tvFecha"
             android:layout_marginEnd="8dp" />
@@ -59,27 +57,40 @@
             android:layout_height="wrap_content"
             android:text="Texto del comentario aquí"
             android:textSize="14sp"
-            android:textColor="?android:textColorPrimary"
             android:layout_marginTop="6dp"
-            android:lineSpacingExtra="2dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvUsuario"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Botón Eliminar -->
+        <!-- Botón Borrar -->
         <Button
             android:id="@+id/btnEliminar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Borrar"
+            android:textColor="#D32F2F"
             android:textSize="12sp"
+            android:background="?attr/selectableItemBackground"
             android:paddingHorizontal="12dp"
             android:paddingVertical="4dp"
-            android:layout_marginTop="10dp"
-            android:textColor="#D32F2F"
-            android:backgroundTint="#FCE4EC"
-            app:layout_constraintTop_toBottomOf="@id/tvComentario"
+            app:layout_constraintTop_toBottomOf="@+id/tvComentario"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:layout_marginTop="8dp" />
+
+        <!-- Botón Ir -->
+        <Button
+            android:id="@+id/btnIr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ir"
+            android:textColor="#1976D2"
+            android:textSize="12sp"
+            android:background="?attr/selectableItemBackground"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvComentario"
+            app:layout_constraintEnd_toStartOf="@+id/btnEliminar"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

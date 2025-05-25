@@ -1,25 +1,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#ECEAE1"
-    android:padding="10dp"
+    android:background="?attr/colorSurface"
+    android:padding="12dp"
     android:layout_margin="6dp"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:elevation="2dp">
 
     <TextView
         android:id="@+id/txtTitulo"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:text="Receta1"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp" />
 
     <TextView
         android:id="@+id/txtAutor"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:text="Hecho por persona1"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp" />
 
     <ImageView
         android:id="@+id/imgReceta"
@@ -27,10 +35,11 @@
         android:layout_height="80dp"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="6dp"
-        android:background="#DDD"
         android:scaleType="centerCrop"
-        android:contentDescription="Imagen de receta"
-        android:layout_gravity="center"/>
+        android:clipToOutline="true"
+        android:contentDescription="imagen"
+        android:background="?attr/colorSurfaceVariant"
+        android:layout_gravity="center" />
 
     <RatingBar
         android:id="@+id/ratingBar"
@@ -39,37 +48,47 @@
         android:layout_height="wrap_content"
         android:numStars="5"
         android:stepSize="1.0"
-        android:rating="0"/>
+        android:rating="0"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="4dp"
+        app:flexWrap="wrap"
+        app:justifyContent="center"
+        app:alignItems="center">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/txtGuardar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Guardar"
-            android:textColor="#70B657"
-            android:background="?attr/selectableItemBackground"
-            android:minHeight="0dp"
-            android:minWidth="0dp"
-            android:padding="4dp"
+            android:textColor="?attr/colorPrimary"
             android:textSize="12sp"
+            android:minHeight="0dp"
+            android:minWidth="64dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="6dp"
             android:layout_marginEnd="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="?attr/colorSurface"
+            style="@style/Widget.Material3.Button.TextButton" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/txtVer"
-            android:text="Ver"
-            android:textColor="#70B657"
-            android:background="?attr/selectableItemBackground"
-            android:minHeight="0dp"
-            android:minWidth="0dp"
-            android:padding="4dp"
-            android:textSize="12sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="Ver"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="12sp"
+            android:minHeight="0dp"
+            android:minWidth="64dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="6dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="?attr/colorSurface"
+            style="@style/Widget.Material3.Button.TextButton" />
+    </com.google.android.flexbox.FlexboxLayout>
 </LinearLayout>

@@ -1,79 +1,106 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:background="#ECEAE1"
-    android:padding="10dp"
-    android:layout_marginBottom="8dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:strokeColor="?attr/colorOutline"
+    app:strokeWidth="1dp"
+    app:cardBackgroundColor="?attr/colorSurface">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp">
 
-        <TextView
-            android:id="@+id/txtTitulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Receta1"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/txtAutor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hecho por persona1"
-            android:textStyle="italic" />
-
-        <RatingBar
-            android:id="@+id/ratingBar"
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:numStars="5"
-            android:stepSize="1.0"
-            android:rating="0" />
-
+        <!-- Contenido textual -->
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:paddingEnd="12dp">
 
-            <Button
-                android:id="@+id/txtGuardar"
-                android:text="Guardar"
-                android:textColor="#70B657"
-                android:background="?attr/selectableItemBackground"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
-                android:padding="4dp"
-                android:textSize="14sp"
-                android:layout_marginEnd="8dp"
+            <TextView
+                android:id="@+id/txtTitulo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Receta1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="?attr/colorOnSurface" />
 
-            <Button
-                android:id="@+id/txtVer"
-                android:text="Ver"
-                android:textColor="#70B657"
-                android:background="?attr/selectableItemBackground"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
-                android:padding="4dp"
-                android:textSize="14sp"
+            <TextView
+                android:id="@+id/txtAutor"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Hecho por persona1"
+                android:textStyle="italic"
+                android:textSize="14sp"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:layout_marginBottom="4dp" />
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="0.5"
+                android:isIndicator="true"
+                android:layout_marginBottom="6dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/txtGuardar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Guardar"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="13sp"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:backgroundTint="?attr/colorSurface"
+                    app:iconTint="?attr/colorPrimary"
+                    style="@style/Widget.Material3.Button.TextButton" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/txtVer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ver"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="13sp"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:backgroundTint="?attr/colorSurface"
+                    app:iconTint="?attr/colorPrimary"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imgReceta"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center_vertical"
-        android:background="#DDD"
-        android:contentDescription="Imagen de receta"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_foreground" />
-</LinearLayout>
+        <!-- Imagen receta -->
+        <ImageView
+            android:id="@+id/imgReceta"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerCrop"
+            android:contentDescription="je"
+            android:src="@drawable/ic_launcher_foreground"
+            android:clipToOutline="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
