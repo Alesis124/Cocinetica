@@ -2,14 +2,10 @@ package dam.moviles.cocinetica.modelo
 
 import okhttp3.RequestBody
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface CocineticaApi {
+
     @GET("leer.php")
     suspend fun consultaTodosUsuarios(@Query("tabla") tabla: String = "Usuarios"): List<Usuario>
 
@@ -38,9 +34,7 @@ interface CocineticaApi {
     ): Usuario
 
     @POST("insertar.php")
-    suspend fun insertarGuarda(
-        @Body guardaRequest: GuardaRequest
-    ): Response<GenericResponse>
+    suspend fun insertarGuarda(@Body guardaRequest: GuardaRequest): Response<GenericResponse>
 
     @POST("borrar.php")
     suspend fun eliminarGuarda(@Body guardaRequest: GuardaRequest): Response<GenericResponse>
@@ -51,15 +45,11 @@ interface CocineticaApi {
         @Query("id_usuario") idUsuario: Int
     ): List<Receta>
 
-    @GET("Leer.php")
-    suspend fun leerRecetas(
-        @Query("tabla") tabla: String = "recetas"
-    ): List<Receta>
+    @GET("leer.php")
+    suspend fun leerRecetas(@Query("tabla") tabla: String = "recetas"): List<Receta>
 
-    @GET("Leer.php")
-    suspend fun leerComentarios(
-        @Query("tabla") tabla: String = "comentarios"
-    ): List<Comentario>
+    @GET("leer.php")
+    suspend fun leerComentarios(@Query("tabla") tabla: String = "comentarios"): List<Comentario>
 
     @GET("leer.php")
     suspend fun consultaReceta(
@@ -79,7 +69,6 @@ interface CocineticaApi {
         @Query("id_receta") id_receta: Int
     ): List<Paso>
 
-
     @GET("leer.php")
     suspend fun getContienePorReceta(
         @Query("tabla") tabla: String = "contiene",
@@ -93,31 +82,16 @@ interface CocineticaApi {
     ): List<Paso>
 
     @GET("leer.php")
-    suspend fun getIngredientes(
-        @Query("tabla") tabla: String = "ingredientes"
-    ): List<Ingrediente>
+    suspend fun getIngredientes(@Query("tabla") tabla: String = "ingredientes"): List<Ingrediente>
 
     @GET("leer.php")
-    suspend fun getUMs(
-        @Query("tabla") tabla: String = "um"
-    ): List<UM>
+    suspend fun getUMs(@Query("tabla") tabla: String = "um"): List<UM>
 
     @GET("leer.php")
-    suspend fun leerValoraciones(
-        @Query("tabla") tabla: String = "Valoraciones"
-    ): List<Valoracion>
+    suspend fun leerValoraciones(@Query("tabla") tabla: String = "Valoraciones"): List<Valoracion>
 
-
-    @GET("leer.php?tabla=comentarios")
-    suspend fun leerComentarios(@Query("id_receta") idReceta: Int): List<Comentario>
-
-
-    @GET("leer.php?tabla=valoraciones")
-    suspend fun leerValoraciones(): List<Valoracion>
-
-    @GET("leer.php?tabla=usuarios")
-    suspend fun consultaTodosUsuarios(): List<Usuario>
-
+    @GET("leer.php")
+    suspend fun leerComentarios(@Query("tabla") tabla: String = "comentarios", @Query("id_receta") idReceta: Int): List<Comentario>
 
     @GET("leer.php")
     suspend fun obtenerComentariosPorReceta(
@@ -132,20 +106,8 @@ interface CocineticaApi {
     suspend fun eliminarComentario(@Body cuerpo: RequestBody): Response<RespuestaApi>
 
     @POST("actualizar.php")
-    suspend fun actualizarValoracion(
-        @Body body: RequestBody
-    ): Response<GenericResponse>
+    suspend fun actualizarValoracion(@Body body: RequestBody): Response<GenericResponse>
 
     @POST("insertar.php")
-    suspend fun insertarGenerico(
-        @Body body: RequestBody
-    ): Response<GenericResponse>
-
-
-
-
-
-
-
-
+    suspend fun insertarGenerico(@Body body: RequestBody): Response<GenericResponse>
 }

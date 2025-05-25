@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -18,9 +17,6 @@ import dam.moviles.cocinetica.R
 import dam.moviles.cocinetica.databinding.FragmentVerRecetaBinding
 import dam.moviles.cocinetica.modelo.*
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
 
 class VerRecetaFragment : Fragment() {
 
@@ -58,11 +54,16 @@ class VerRecetaFragment : Fragment() {
                 binding.tiempotxt.text = "${receta.duracion} minutos"
                 binding.ratingBar.rating = receta.valoracion.toFloat()
 
+                val valoracionUsuario = repository
+                    .leerValoraciones()
+                    .firstOrNull { it.id_usuario == idUsuarioActual && it.id_receta == idReceta }
+
+                binding.ratingBarUsuario.rating = valoracionUsuario?.valoracion?.toFloat() ?: 0f
+
                 val recetasGuardadas = repository.obtenerRecetasGuardadas(idUsuarioActual)
                 recetaGuardada = recetasGuardadas.any { it.id_receta == idReceta }
                 actualizarTextoBoton()
 
-                // Ingredientes
                 val contieneList = repository.obtenerContienePorReceta(idReceta)
                 val todosIngredientes = repository.obtenerIngredientes()
                 val ingredienteList = todosIngredientes.filter { ingrediente ->
@@ -72,14 +73,11 @@ class VerRecetaFragment : Fragment() {
                 binding.reciclerIngrdientes.layoutManager = LinearLayoutManager(requireContext())
                 binding.reciclerIngrdientes.adapter = IngredienteAdapter(contieneList, ingredienteList, unidadMedidaList)
 
-                // Pasos
                 val pasosList = repository.obtenerPasosPorReceta(idReceta)
                 binding.reciclerPasos.layoutManager = LinearLayoutManager(requireContext())
                 binding.reciclerPasos.adapter = PasoAdapter(pasosList)
 
-                // Comentarios
                 cargarComentarios()
-
                 habilitarInteraccion(true)
 
             } catch (e: Exception) {
@@ -93,14 +91,18 @@ class VerRecetaFragment : Fragment() {
         lifecycleScope.launch {
             try {
                 val comentariosList = repository.obtenerComentariosPorReceta(idReceta)
-                val valoracionesMap = repository.obtenerValoracionesComentarios(idReceta)
+                val valoracionesMap: Map<Int, Int> = repository.obtenerValoracionesComentarios(idReceta)
                 val usuariosList = repository.obtenerUsuarios()
                 val usuariosMap = usuariosList.associateBy({ it.id_usuario }, { it.usuario })
+
+                if (comentariosList.isEmpty()) {
+                    Toast.makeText(requireContext(), "Sin comentarios", Toast.LENGTH_SHORT).show()
+                }
 
                 binding.recyclerComentarios.layoutManager = LinearLayoutManager(requireContext())
                 binding.recyclerComentarios.adapter = ComentariosAdapter(
                     comentariosList,
-                    valoracionesMap,
+                    valoracionesMap, // Ahora es Map<Int, Int>
                     usuariosMap,
                     idUsuarioActual,
                     onEliminarClick = { comentario ->
@@ -108,10 +110,12 @@ class VerRecetaFragment : Fragment() {
                     }
                 )
             } catch (e: Exception) {
-                Toast.makeText(context, "Error al cargar comentarios", Toast.LENGTH_SHORT).show()
+                e.printStackTrace()
+                Toast.makeText(context, "Error al cargar comentarios: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
 
     private fun mostrarDialogoConfirmacionEliminar(comentario: Comentario) {
         AlertDialog.Builder(requireContext())
@@ -175,22 +179,16 @@ class VerRecetaFragment : Fragment() {
                 id_receta = idReceta
             )
 
-
             lifecycleScope.launch {
                 try {
                     val response = repository.insertarComentario(comentarioRequest)
-                    if (response.isSuccessful) {
-                        val comentarios = repository.obtenerComentariosPorReceta(idReceta)
-                        val nuevoComentario = comentarios.lastOrNull {
-                            it.id_usuario == idUsuarioActual && it.texto == texto
-                        }
 
-                        if (nota > 0 && nuevoComentario != null) {
-                            val exito = insertarOActualizarValoracionExistente(
-                                idUsuarioActual,
-                                idReceta,
-                                nota,
-                                nuevoComentario.id_comentario
+                    if (response.isSuccessful) {
+                        if (nota > 0) {
+                            val exito = repository.insertarOActualizarValoracionExistente(
+                                idUsuario = idUsuarioActual,
+                                idReceta = idReceta,
+                                valoracionInt = nota
                             )
                             if (exito) {
                                 Toast.makeText(context, "Comentario y valoración enviados", Toast.LENGTH_SHORT).show()
@@ -212,6 +210,37 @@ class VerRecetaFragment : Fragment() {
                 }
             }
         }
+
+        binding.btnValorar.setOnClickListener {
+            val nota = binding.ratingBarUsuario.rating.toInt()
+
+            if (nota == 0) {
+                Toast.makeText(context, "Selecciona una valoración", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            lifecycleScope.launch {
+                try {
+                    val exito = repository.insertarOActualizarValoracionExistente(
+                        idUsuario = idUsuarioActual,
+                        idReceta = idReceta,
+                        valoracionInt = nota
+                    )
+
+                    if (exito) {
+                        repository.actualizarMediaValoracionDeReceta(idReceta)
+                        Toast.makeText(context, "Valoración actualizada", Toast.LENGTH_SHORT).show()
+                        cargarDatos()
+                    } else {
+                        Toast.makeText(context, "Error al valorar", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(context, "Excepción: ${e.message}", Toast.LENGTH_LONG).show()
+                    e.printStackTrace()
+                }
+            }
+
+        }
     }
 
     private fun actualizarTextoBoton() {
@@ -225,40 +254,5 @@ class VerRecetaFragment : Fragment() {
         binding.ratingBarUsuario.isEnabled = habilitar
         binding.editTextComentario.isEnabled = habilitar
         binding.btnEnviarComentario.isEnabled = habilitar
-    }
-
-    private suspend fun insertarOActualizarValoracionExistente(
-        idUsuario: Int,
-        idReceta: Int,
-        valoracionInt: Int,
-        idComentario: Int?
-    ): Boolean {
-        val todasValoraciones = repository.leerValoraciones()
-        val existente = todasValoraciones.find { it.id_usuario == idUsuario && it.id_receta == idReceta }
-
-        return if (existente != null) {
-            val json = JSONObject().apply {
-                put("tabla", "Valoraciones")
-                put("id_valoracion", existente.id_valoracion)
-                put("valoracion", valoracionInt)
-                put("id_comentario", idComentario)
-            }
-
-            val body = json.toString().toRequestBody("application/json".toMediaType())
-            val response = repository.cocineticaApi.actualizarValoracion(body)
-            response.isSuccessful
-        } else {
-            val json = JSONObject().apply {
-                put("tabla", "Valoraciones")
-                put("id_usuario", idUsuario)
-                put("id_receta", idReceta)
-                put("valoracion", valoracionInt)
-                if (idComentario != null) put("id_comentario", idComentario)
-            }
-
-            val body = json.toString().toRequestBody("application/json".toMediaType())
-            val response = repository.cocineticaApi.insertarGenerico(body)
-            response.isSuccessful
-        }
     }
 }

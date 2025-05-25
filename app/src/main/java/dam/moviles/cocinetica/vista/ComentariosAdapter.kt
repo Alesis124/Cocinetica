@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter
 
 class ComentariosAdapter(
     private val comentarios: List<Comentario>,
-    private val valoracionesMap: Map<Int, Valoracion?>,
+    private val valoracionesMap: Map<Int, Int>,
     private val usuariosMap: Map<Int, String?>,
     private val idUsuarioActual: Int,
     private val onEliminarClick: (Comentario) -> Unit // callback para eliminar
@@ -42,12 +42,13 @@ class ComentariosAdapter(
         val nombreUsuario = usuariosMap[comentario.id_usuario] ?: "Anónimo"
         holder.tvUsuario.text = nombreUsuario
 
-        val valoracion = valoracionesMap[comentario.id_comentario]
-        if (valoracion == null) {
-            holder.tvValoracion.text = "⭐ Sin valorar"
+        val nota = valoracionesMap[comentario.id_comentario]
+        holder.tvValoracion.text = if (nota != null) {
+            "⭐ $nota/5"
         } else {
-            holder.tvValoracion.text = "⭐ ${valoracion.valoracion}/5"
+            "⭐ Sin valorar"
         }
+
 
         if (comentario.id_usuario == idUsuarioActual) {
             holder.btnEliminar.visibility = View.VISIBLE

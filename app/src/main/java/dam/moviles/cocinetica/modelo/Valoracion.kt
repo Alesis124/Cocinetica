@@ -9,6 +9,5 @@ data class Valoracion(
     val id_usuario: Int,
     val id_receta: Int,
     val valoracion: Int,
-    val id_comentario: Int,
-    val fecha: String
-): Serializable
+    val id_comentario: Int?
+):Serializable

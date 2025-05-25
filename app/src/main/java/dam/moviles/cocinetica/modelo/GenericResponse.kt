@@ -6,5 +6,6 @@ import java.io.Serializable
 @JsonClass(generateAdapter = true)
 data class GenericResponse(
     val mensaje: String?,
-    val error: String?
-):Serializable
+    val error: String?,
+    val id_comentario: Int? = null
+) : Serializable

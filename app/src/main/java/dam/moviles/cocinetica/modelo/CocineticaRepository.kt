@@ -37,20 +37,14 @@ class CocineticaRepository {
             .create(CocineticaApi::class.java)
     }
 
-
     suspend fun consultaTodosUsuarios(): List<Usuario> = cocineticaApi.consultaTodosUsuarios()
 
     suspend fun consultaUsuario(id_usuario: Int): Usuario =
         cocineticaApi.consultaUsuario("Usuarios", id_usuario)
 
     suspend fun consultarUsuarios(query: String?) =
-        if (query == null) {
-            consultaTodosUsuarios()
-        } else {
-            consultaTodosUsuarios()
-                .filter { usuario -> usuario.correo.contains(query, ignoreCase = true) }
-                .toList()
-        }
+        if (query == null) consultaTodosUsuarios()
+        else consultaTodosUsuarios().filter { it.correo.contains(query, ignoreCase = true) }
 
     suspend fun insertarUsuario(usuario: UsuarioInsertar): Response<Unit> {
         return cocineticaApi.insertarUsuario(usuario)
@@ -72,7 +66,6 @@ class CocineticaRepository {
         return cocineticaApi.eliminarUsuario(request)
     }
 
-
     suspend fun consultaTodasRecetas(): List<Receta> = cocineticaApi.consultaTodasRecetas()
 
     suspend fun consultaUsuarioPorCorreo(correo: String): Usuario {
@@ -91,23 +84,17 @@ class CocineticaRepository {
         return response.isSuccessful && response.body()?.mensaje == "Borrado correctamente"
     }
 
-
     suspend fun obtenerRecetasGuardadas(idUsuario: Int): List<Receta> {
         return cocineticaApi.obtenerRecetasGuardadas(idUsuario = idUsuario)
     }
 
-
-
     suspend fun obtenerRecetasUsuario(idUsuario: Int): List<Receta> {
-        return cocineticaApi.leerRecetas()
-            .filter { it.id_usuario == idUsuario }
+        return cocineticaApi.leerRecetas().filter { it.id_usuario == idUsuario }
     }
 
     suspend fun obtenerComentariosUsuario(idUsuario: Int): List<Comentario> {
-        return cocineticaApi.leerComentarios()
-            .filter { it.id_usuario == idUsuario }
+        return cocineticaApi.leerComentarios().filter { it.id_usuario == idUsuario }
     }
-
 
     suspend fun consultaRecetaPorId(idReceta: Int): Receta {
         return cocineticaApi.consultaReceta(id_receta = idReceta)
@@ -116,50 +103,32 @@ class CocineticaRepository {
     suspend fun consultaIngredientes(idReceta: Int): List<Ingrediente> {
         return cocineticaApi.consultaIngredientes(id_receta = idReceta)
     }
+
     suspend fun consultaPasos(idReceta: Int): List<Paso> {
         return cocineticaApi.consultaPasos(id_receta = idReceta)
     }
 
-    // Obtener lista completa de ingredientes
-    suspend fun obtenerIngredientes(): List<Ingrediente> {
-        return cocineticaApi.getIngredientes()
-    }
+    suspend fun obtenerIngredientes(): List<Ingrediente> = cocineticaApi.getIngredientes()
+    suspend fun obtenerUM(): List<UM> = cocineticaApi.getUMs()
+    suspend fun obtenerContienePorReceta(idReceta: Int): List<Contiene> = cocineticaApi.getContienePorReceta("contiene", idReceta)
+    suspend fun obtenerPasosPorReceta(idReceta: Int): List<Paso> = cocineticaApi.getPasosPorReceta("pasos", idReceta)
+    suspend fun leerValoraciones(): List<Valoracion> = cocineticaApi.leerValoraciones()
+    suspend fun obtenerComentariosPorReceta(idReceta: Int): List<Comentario> = cocineticaApi.leerComentarios("comentarios", idReceta)
 
-    // Obtener lista de unidades de medida
-    suspend fun obtenerUM(): List<UM> {
-        return cocineticaApi.getUMs()
-    }
+    suspend fun obtenerValoracionesComentarios(idReceta: Int): Map<Int, Int> {
+        val comentarios = obtenerComentariosPorReceta(idReceta)
+        val valoraciones = leerValoraciones() // Todas las valoraciones
 
-    // Obtener pasos de una receta
-    suspend fun obtenerContienePorReceta(idReceta: Int): List<Contiene> {
-        return cocineticaApi.getContienePorReceta(idReceta = idReceta)
-    }
-
-    suspend fun obtenerPasosPorReceta(idReceta: Int): List<Paso> {
-        return cocineticaApi.getPasosPorReceta(idReceta = idReceta)
-    }
-
-    suspend fun leerValoraciones(): List<Valoracion> {
-        return cocineticaApi.leerValoraciones()
-    }
-
-    suspend fun obtenerComentariosPorReceta(idReceta: Int): List<Comentario> {
-        return cocineticaApi.leerComentarios(idReceta)
+        return comentarios.mapNotNull { comentario ->
+            valoraciones.find {
+                it.id_usuario == comentario.id_usuario && it.id_receta == comentario.id_receta
+            }?.let { comentario.id_comentario to it.valoracion }
+        }.toMap()
     }
 
 
-    suspend fun obtenerValoracionesComentarios(idReceta: Int): Map<Int, Valoracion?> {
-        // Obtenemos todas las valoraciones y las filtramos por receta
-        val valoraciones = cocineticaApi.leerValoraciones()
-            .filter { it.id_receta == idReceta }
 
-        // Map<id_comentario, Valoracion>
-        return valoraciones.associateBy { it.id_comentario }
-    }
-
-    suspend fun obtenerUsuarios(): List<Usuario> {
-        return cocineticaApi.consultaTodosUsuarios()
-    }
+    suspend fun obtenerUsuarios(): List<Usuario> = cocineticaApi.consultaTodosUsuarios()
 
     suspend fun insertarComentario(comentarioRequest: ComentarioRequest): Response<GenericResponse> {
         return cocineticaApi.insertarComentario(comentarioRequest)
@@ -177,8 +146,7 @@ class CocineticaRepository {
     suspend fun insertarOActualizarValoracionExistente(
         idUsuario: Int,
         idReceta: Int,
-        valoracionInt: Int,
-        idComentario: Int?
+        valoracionInt: Int
     ): Boolean {
         val todasValoraciones = leerValoraciones()
         val existente = todasValoraciones.find { it.id_usuario == idUsuario && it.id_receta == idReceta }
@@ -188,14 +156,14 @@ class CocineticaRepository {
             val json = JSONObject().apply {
                 put("tabla", "Valoraciones")
                 put("id_valoracion", existente.id_valoracion)
+                put("id_usuario", idUsuario)
+                put("id_receta", idReceta)
                 put("valoracion", valoracionInt)
-                put("id_comentario", idComentario)
             }
 
             val body = json.toString().toRequestBody("application/json".toMediaType())
             val response = cocineticaApi.actualizarValoracion(body)
             response.isSuccessful
-
         } else {
             // No existe → insertar
             val json = JSONObject().apply {
@@ -203,12 +171,37 @@ class CocineticaRepository {
                 put("id_usuario", idUsuario)
                 put("id_receta", idReceta)
                 put("valoracion", valoracionInt)
-                if (idComentario != null) put("id_comentario", idComentario)
             }
 
             val body = json.toString().toRequestBody("application/json".toMediaType())
             val response = cocineticaApi.insertarGenerico(body)
             response.isSuccessful
+        }
+    }
+    suspend fun actualizarMediaValoracionDeReceta(idReceta: Int) {
+        val valoraciones = cocineticaApi.leerValoraciones("Valoraciones")
+            .filter { it.id_receta == idReceta }
+
+        if (valoraciones.isNotEmpty()) {
+            val media = valoraciones.map { it.valoracion }.average()
+
+            // Paso 1: obtener la receta original
+            val recetaOriginal = cocineticaApi.consultaReceta("Recetas", idReceta)
+
+            // Paso 2: crear el JSON completo para actualizar
+            val json = JSONObject().apply {
+                put("tabla", "Recetas")
+                put("id_receta", recetaOriginal.id_receta)
+                put("nombre", recetaOriginal.nombre)
+                put("duracion", recetaOriginal.duracion)
+                put("imagen", recetaOriginal.imagen ?: "")
+                put("id_usuario", recetaOriginal.id_usuario)
+                put("usuario", recetaOriginal.usuario)
+                put("valoracion", media)
+            }
+
+            val body = json.toString().toRequestBody("application/json".toMediaType())
+            cocineticaApi.actualizarValoracion(body)
         }
     }
 
