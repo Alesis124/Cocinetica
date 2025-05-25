@@ -90,9 +90,18 @@ switch ($datos->tabla) {
 
 if ($obj->insertar()) {
     http_response_code(201);
-    echo json_encode(["mensaje" => "Insertado correctamente"]);
+
+    $respuesta = ["mensaje" => "Insertado correctamente"];
+
+    if ($datos->tabla === 'Comentarios') {
+        $respuesta["id_comentario"] = $obj->id_comentario;
+    }
+
+    echo json_encode($respuesta);
 } else {
     http_response_code(503);
     echo json_encode(["error" => "Error al insertar"]);
 }
+
+
 ?>

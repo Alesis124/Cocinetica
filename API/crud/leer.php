@@ -15,6 +15,8 @@ $tabla = strtolower($_GET['tabla']);
 $database = new Cocinetica();
 $conex = $database->dameConexion();
 
+$result = null;  // Inicializamos $result en null
+
 // Cargar la tabla
 switch ($tabla) {
     case "recetas":
@@ -31,6 +33,11 @@ switch ($tabla) {
         include_once '../tablas/Comentarios.php';
         $objeto = new Comentarios($conex);
         $idCampo = "id_comentario";
+
+        if (isset($_GET['id_receta'])) {
+            $objeto->id_receta = intval($_GET['id_receta']);
+            $result = $objeto->leerPorReceta();
+        }
         break;
     case "ingredientes":
         include_once '../tablas/Ingredientes.php';
@@ -41,6 +48,11 @@ switch ($tabla) {
         include_once '../tablas/Pasos.php';
         $objeto = new Pasos($conex);
         $idCampo = "id_paso";
+
+        if (isset($_GET['id_receta'])) {
+            $objeto->id_receta = intval($_GET['id_receta']);
+            $result = $objeto->leerPorReceta();
+        }
         break;
     case "guarda":
         if (isset($_GET['id_usuario'])) {
@@ -65,12 +77,16 @@ switch ($tabla) {
             echo json_encode([]);
         }
 
-
         exit;
     case "contiene":
         include_once '../tablas/Contiene.php';
         $objeto = new Contiene($conex);
         $idCampo = ""; // No hay ID único simple
+
+        if (isset($_GET['id_receta'])) {
+            $id_receta = intval($_GET['id_receta']);
+            $result = $objeto->leerPorIdReceta($id_receta);
+        }
         break;
     case "um":
         include_once '../tablas/UM.php';
@@ -80,7 +96,7 @@ switch ($tabla) {
     case "valoraciones":
         include_once '../tablas/Valoraciones.php';
         $objeto = new Valoraciones($conex);
-        $idCampo = "id_valoracion"; // Ajusta si usas otro nombre
+        $idCampo = "id_valoracion";
         break;
 
     default:
@@ -108,30 +124,44 @@ if ($tabla == "usuarios" && isset($_GET['correo'])) {
     exit;
 }
 
-// Leer por ID si se pasa como parámetro
-if (!empty($idCampo) && isset($_GET[$idCampo])) {
-    $objeto->$idCampo = intval($_GET[$idCampo]);
-    $result = $objeto->leerUno();
-} else {
-    $result = $objeto->leerTodos();
+// Solo hacer lectura general si $result aún no se ha asignado
+if ($result === null) {
+    if (!empty($idCampo) && isset($_GET[$idCampo])) {
+        $objeto->$idCampo = intval($_GET[$idCampo]);
+        $result = $objeto->leerUno();
+    } else {
+        $result = $objeto->leerTodos();
+    }
 }
 
 // Procesamos el resultado
 if ($result->num_rows > 0) {
-    if ($result->num_rows == 1) {
-        $registro = $result->fetch_assoc();
-        http_response_code(200);
-        echo json_encode($registro);
-    } else {
+    // Si estamos en la tabla comentarios, siempre devolvemos un array, aunque haya sólo uno
+    if ($tabla === "comentarios") {
         $datos = [];
         while ($fila = $result->fetch_assoc()) {
-            array_push($datos, $fila);
+            $datos[] = $fila;
         }
         http_response_code(200);
         echo json_encode($datos);
+    } else {
+        // Para otras tablas, dejamos la lógica original
+        if ($result->num_rows == 1) {
+            $registro = $result->fetch_assoc();
+            http_response_code(200);
+            echo json_encode($registro);
+        } else {
+            $datos = [];
+            while ($fila = $result->fetch_assoc()) {
+                $datos[] = $fila;
+            }
+            http_response_code(200);
+            echo json_encode($datos);
+        }
     }
 } else {
     http_response_code(404);
     echo json_encode(["info" => "No se encontraron datos"]);
 }
+
 ?>

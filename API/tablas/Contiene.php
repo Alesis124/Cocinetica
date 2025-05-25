@@ -36,6 +36,15 @@ class Contiene {
         return $stmt->execute();
     }
 
+    public function leerPorIdReceta($id_receta) {
+        $sql = "SELECT * FROM Contiene WHERE id_receta = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $id_receta);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
+
     function borrar() {
         $stmt = $this->conn->prepare("DELETE FROM " . $this->tabla . " WHERE id_receta = ? AND id_ingrediente = ?");
         $stmt->bind_param("ii", $this->id_receta, $this->id_ingrediente);

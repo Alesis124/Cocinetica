@@ -36,8 +36,15 @@ class Comentarios {
         $this->texto = strip_tags($this->texto);
         $stmt = $this->conn->prepare("INSERT INTO " . $this->tabla . " (texto, id_usuario, id_receta) VALUES (?, ?, ?)");
         $stmt->bind_param("sii", $this->texto, $this->id_usuario, $this->id_receta);
-        return $stmt->execute();
+        $exito = $stmt->execute();
+
+        if ($exito) {
+            $this->id_comentario = $stmt->insert_id;
+        }
+
+        return $exito;
     }
+
 
     function actualizar() {
         $this->texto = strip_tags($this->texto);

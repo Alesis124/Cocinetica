@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: mariadb
--- Tiempo de generación: 23-05-2025 a las 10:59:26
+-- Tiempo de generación: 25-05-2025 a las 12:40:35
 -- Versión del servidor: 11.7.2-MariaDB-ubu2404
 -- Versión de PHP: 8.2.28
 
@@ -42,7 +42,9 @@ CREATE TABLE `Comentarios` (
 INSERT INTO `Comentarios` (`id_comentario`, `texto`, `fecha`, `id_usuario`, `id_receta`) VALUES
 (1, '¡Esta tarta quedó increíble!', '2025-04-28 08:56:51', 1, 1),
 (2, 'Receta rápida y muy rica.', '2025-04-28 08:56:51', 2, 2),
-(3, 'Perfecto para desayunar.', '2025-04-28 08:56:51', 13, 3);
+(3, 'Perfecto para desayunar.', '2025-04-28 08:56:51', 13, 3),
+(20, 'hg', '2025-05-25 10:59:38', 13, 3),
+(23, 'nuevo?', '2025-05-25 11:38:15', 13, 3);
 
 -- --------------------------------------------------------
 
@@ -86,8 +88,9 @@ CREATE TABLE `Guarda` (
 
 INSERT INTO `Guarda` (`id_usuario`, `id_receta`) VALUES
 (1, 1),
-(13, 1),
+(16, 1),
 (1, 2),
+(13, 2),
 (1, 3),
 (3, 3),
 (13, 3);
@@ -158,9 +161,9 @@ CREATE TABLE `Recetas` (
 --
 
 INSERT INTO `Recetas` (`id_receta`, `nombre`, `duracion`, `valoracion`, `imagen`, `id_usuario`) VALUES
-(1, 'Tarta de Manzana', 90, 4.50, 'tarta.jpg', 1),
-(2, 'Tortilla Española', 30, 4.80, 'tortilla.jpg', 2),
-(3, 'Bizcocho de Yogur', 45, 4.20, 'bizcocho.jpg', 3);
+(1, 'Tarta de manzana', 90, 5.00, 'tarta.jpg', 1),
+(2, 'Tortilla Española', 30, 4.00, 'tortilla.jpg', 2),
+(3, 'Bizcocho de Yogur', 45, 3.00, 'bizcocho.jpg', 3);
 
 -- --------------------------------------------------------
 
@@ -204,9 +207,10 @@ INSERT INTO `Usuarios` (`id_usuario`, `correo`, `usuario`, `descripcion`, `image
 (1, 'maria@example.com', 'María García', 'Me encanta cocinar platos vegetarianos.', 'maria.jpg'),
 (2, 'juan@example.com', 'Juan Pérez', 'Amante de las recetas rápidas.', 'juan.jpg'),
 (3, 'ana@example.com', 'Ana López', 'Chef aficionada.', 'ana.jpg'),
-(13, 'alejandro.moreno.lechado@gmail.com', 'Alejandro Moreno Lechado', 'Hola soy un usuario nuevokvkvjvhcyvucycycychcycycyicihn n k j j u u j jvu u j j j jvn jvjvj b j h v b b nvn j kvi jvi jvj uvuvj jvjvjvubn j j j n j', 'https://lh3.googleusercontent.com/a/ACg8ocIj0BuJzuDTWlnxntKf9_CvhBZHTczkPEJH7b0h1E32pFFJTGBG=s96-c'),
+(13, 'alejandro.moreno.lechado@gmail.com', 'Alesis', 'Hola soy un usuario nuevo', 'https://lh3.googleusercontent.com/a/ACg8ocIj0BuJzuDTWlnxntKf9_CvhBZHTczkPEJH7b0h1E32pFFJTGBG=s96-c'),
 (14, 'franciscolozano2005@gmail.com', 'Franxute', 'me cago en tus muertos', 'https://lh3.googleusercontent.com/a/ACg8ocLvBGJcUY-WUbz_QCSerkwDsR70wxyRDwC-csLiWaaeTQz3rUwM6w=s96-c'),
-(15, 'tonimansal@gmail.com', 'Antonio Mantas', 'Bombardeiro Crocodilo. un fottuto jacaré volante che vola e bombarda i bambini a gaza e in palestina.\n\nBombardiro Crocodilo é um avião bombardeiro com cabeça de jacaré. Seu hobby é bombardear crianças em Gaza e Palestina.', 'https://lh3.googleusercontent.com/a/ACg8ocIZ_EhaQRDrYBM3cZzRP0M_MsJ9UHnz88gxSKm-dpQJ0JPeo40k=s96-c');
+(15, 'tonimansal@gmail.com', 'Antonio Mantas', 'Bombardeiro Crocodilo. un fottuto jacaré volante che vola e bombarda i bambini a gaza e in palestina.\n\nBombardiro Crocodilo é um avião bombardeiro com cabeça de jacaré. Seu hobby é bombardear crianças em Gaza e Palestina.', 'https://lh3.googleusercontent.com/a/ACg8ocIZ_EhaQRDrYBM3cZzRP0M_MsJ9UHnz88gxSKm-dpQJ0JPeo40k=s96-c'),
+(16, 'alvaro.guedu@gmail.com', 'saturno2000', 'tonto el que lo lea', 'https://lh3.googleusercontent.com/a/ACg8ocK-ZV6NYgcDMXAcPyqvp9boDzctcf3QFi4_iVsxApEirMvneqsA=s96-c');
 
 -- --------------------------------------------------------
 
@@ -230,7 +234,9 @@ CREATE TABLE `Valoraciones` (
 INSERT INTO `Valoraciones` (`id_valoracion`, `id_usuario`, `id_receta`, `valoracion`, `id_comentario`, `fecha`) VALUES
 (8, 1, 1, 5, 1, '2025-04-28 08:56:51'),
 (9, 2, 2, 4, 2, '2025-04-28 08:56:51'),
-(10, 13, 3, 5, 3, '2025-04-28 08:56:51');
+(10, 13, 3, 3, NULL, '2025-04-28 08:56:51'),
+(11, 13, 2, 4, NULL, '2025-05-25 11:55:11'),
+(12, 13, 1, 5, NULL, '2025-05-25 12:21:27');
 
 --
 -- Índices para tablas volcadas
@@ -299,9 +305,9 @@ ALTER TABLE `Usuarios`
 --
 ALTER TABLE `Valoraciones`
   ADD PRIMARY KEY (`id_valoracion`),
-  ADD UNIQUE KEY `uq_usuario_receta` (`id_usuario`,`id_receta`),
   ADD KEY `fk_valoraciones_recetas` (`id_receta`),
-  ADD KEY `fk_valoracion_comentario` (`id_comentario`);
+  ADD KEY `fk_valoracion_comentario` (`id_comentario`),
+  ADD KEY `fk_valoraciones_usuarios` (`id_usuario`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -311,7 +317,7 @@ ALTER TABLE `Valoraciones`
 -- AUTO_INCREMENT de la tabla `Comentarios`
 --
 ALTER TABLE `Comentarios`
-  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `Ingredientes`
@@ -341,13 +347,13 @@ ALTER TABLE `UM`
 -- AUTO_INCREMENT de la tabla `Usuarios`
 --
 ALTER TABLE `Usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `Valoraciones`
 --
 ALTER TABLE `Valoraciones`
-  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Restricciones para tablas volcadas
@@ -391,9 +397,9 @@ ALTER TABLE `Recetas`
 -- Filtros para la tabla `Valoraciones`
 --
 ALTER TABLE `Valoraciones`
-  ADD CONSTRAINT `fk_valoracion_comentario` FOREIGN KEY (`id_comentario`) REFERENCES `Comentarios` (`id_comentario`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_valoraciones_recetas` FOREIGN KEY (`id_receta`) REFERENCES `Recetas` (`id_receta`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_valoraciones_usuarios` FOREIGN KEY (`id_usuario`) REFERENCES `Usuarios` (`id_usuario`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_valoracion_comentario` FOREIGN KEY (`id_comentario`) REFERENCES `Comentarios` (`id_comentario`),
+  ADD CONSTRAINT `fk_valoraciones_recetas` FOREIGN KEY (`id_receta`) REFERENCES `Recetas` (`id_receta`),
+  ADD CONSTRAINT `fk_valoraciones_usuarios` FOREIGN KEY (`id_usuario`) REFERENCES `Usuarios` (`id_usuario`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
