@@ -9,6 +9,7 @@ import dam.moviles.cocinetica.modelo.Comentario
 import dam.moviles.cocinetica.modelo.Valoracion
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 class ComentariosAdapter(
@@ -64,11 +65,16 @@ class ComentariosAdapter(
 
     private fun formatearTiempoRelativo(fechaStr: String): String {
         return try {
-            // Formato para "2025-04-28 08:56:51"
+            // Parsear como fecha UTC
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            val fecha = LocalDateTime.parse(fechaStr, formatter)
+            val localDateTimeUtc = LocalDateTime.parse(fechaStr, formatter)
+            val fechaUtc = localDateTimeUtc.atZone(ZoneId.of("UTC"))
+
+            // Convertir a hora local del dispositivo
+            val fechaLocal = fechaUtc.withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime()
+
             val ahora = LocalDateTime.now()
-            val duracion = Duration.between(fecha, ahora)
+            val duracion = Duration.between(fechaLocal, ahora)
 
             val minutos = duracion.toMinutes()
             val horas = duracion.toHours()
@@ -88,8 +94,8 @@ class ComentariosAdapter(
                 else -> "hace ${dias / 365} ${if (dias / 365 == 1L) "año" else "años"}"
             }
         } catch (e: Exception) {
-            // Si no se puede parsear la fecha, devolver el string original
-            fechaStr
+            fechaStr // Si falla, muestra la original
         }
     }
+
 }

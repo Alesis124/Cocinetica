@@ -13,12 +13,12 @@
         android:layout_height="wrap_content"
         android:text="Usuario"
         android:textStyle="bold"
-        android:textColor="#000"
+        android:textColor="@color/design_default_color_primary"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tvValoracion"
-        app:layout_constraintHorizontal_bias="0" />
+        app:layout_constraintHorizontal_bias="0"/>
 
     <TextView
         android:id="@+id/tvValoracion"
@@ -47,11 +47,12 @@
         android:layout_height="wrap_content"
         android:text="Texto del comentario aquí"
         android:textSize="14sp"
-        android:textColor="#333"
+        android:tint="?attr/colorControlNormal"
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUsuario"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="UseAppTint"/>
 
     <Button
         android:id="@+id/btnEliminar"
