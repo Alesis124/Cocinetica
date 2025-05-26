@@ -11,5 +11,5 @@ data class Receta(
     val valoracion: String,
     val imagen: String,
     val id_usuario: Int,
-    val usuario: String
+    val usuario: String? = null
 ): Serializable

@@ -19,6 +19,7 @@ class RecetaAdapter(
     private var enVistaGrid: Boolean,
     private val recetasGuardadas: MutableSet<Int>,
     private val idUsuario: Int?,
+    private val nombreAutor: String,  // nuevo parámetro
     val onGuardarClick: suspend (Receta, Boolean) -> Boolean,
     val onVerClick: (Receta) -> Unit
 ) : RecyclerView.Adapter<RecetaAdapter.RecetaViewHolder>() {
@@ -57,6 +58,7 @@ class RecetaAdapter(
             val txtAutor = itemView.findViewById<TextView>(R.id.txtAutor)
             val ratingBar = itemView.findViewById<RatingBar>(R.id.ratingBar)
             val guardado = recetasGuardadas.contains(receta.id_receta)
+            txtAutor.text = "Autor: $nombreAutor"
 
             itemView.setOnClickListener {
                 onVerClick(receta)
@@ -96,7 +98,7 @@ class RecetaAdapter(
             }
 
             txtTitulo.text = receta.nombre
-            txtAutor.text = "Autor: ${receta.usuario}"
+            txtAutor.text = "Autor: ${receta.usuario ?: nombreAutor}"
             ratingBar.rating = receta.valoracion.toFloat()
         }
     }

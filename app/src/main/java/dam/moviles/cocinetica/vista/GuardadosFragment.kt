@@ -89,6 +89,7 @@ class GuardadosFragment : Fragment() {
                     viewModel.enVistaGrid.value ?: false,
                     recetasGuardadas,
                     idUsuarioActual,
+                    usuario.usuario, // <-- Aquí pasas el nombre del usuario real
                     onGuardarClick = { receta, estaGuardada ->
                         onGuardarClick(receta, estaGuardada)
                         true

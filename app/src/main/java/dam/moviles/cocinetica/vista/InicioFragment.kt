@@ -107,6 +107,7 @@ class InicioFragment : Fragment() {
                     viewModel.enVistaGrid.value ?: false,
                     recetasGuardadas,
                     idUsuarioActual,
+                    usuario.usuario,  // <--- PASAR NOMBRE DEL AUTOR AQUÍ
                     onGuardarClick = { receta, estaGuardada ->
                         onGuardarClick(receta, estaGuardada)
                         true

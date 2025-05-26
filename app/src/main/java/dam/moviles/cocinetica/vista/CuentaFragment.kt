@@ -24,6 +24,7 @@ class CuentaFragment : Fragment() {
 
     private var comentariosCargados: List<Comentario>? = null
     private var valoracionesCargadas: Map<Int, Valoracion>? = null
+    private lateinit var recetaAdapter: RecetaAdapter
 
 
     override fun onCreateView(
@@ -42,37 +43,35 @@ class CuentaFragment : Fragment() {
     }
 
     private fun observarViewModel() {
-        cuentaViewModel.usuario.observe(viewLifecycleOwner, Observer { usuario ->
+        cuentaViewModel.usuario.observe(viewLifecycleOwner) { usuario ->
             binding.txtNombre.text = usuario.usuario
             binding.txtDescripciN.text = usuario.descripcion
-        })
 
-        cuentaViewModel.recetas.observe(viewLifecycleOwner, Observer { recetas ->
-            // Actualiza UI relacionada a recetas (por ejemplo, un RecyclerView dentro de la pestaña Recetas)
-        })
+            cuentaViewModel.cargarMisRecetas(usuario.id_usuario) // <--- AQUÍ
 
-        cuentaViewModel.comentarios.observe(viewLifecycleOwner) { comentarios ->
-            val comentariosMios = comentarios.filter { it.id_usuario == cuentaViewModel.usuario.value?.id_usuario }
-
-            Log.d("CuentaFragment", "Comentarios del usuario: $comentariosMios")
-            Log.d("CuentaFragment", "Valoraciones actuales: ${cuentaViewModel.valoraciones.value}")
-
-            val adapter = ComentarioUsuarioAdapter(
-                comentarios = comentariosMios,
-                valoracionesMap = cuentaViewModel.valoraciones.value ?: emptyMap(),
-                nombreUsuario = cuentaViewModel.usuario.value?.usuario ?: "Yo",
-                onEliminarClick = { comentario ->
-                    cuentaViewModel.eliminarComentario(comentario)
-                },
-                onIrClick = { idReceta ->
-                    val action = CuentaFragmentDirections.actionCuentaFragmentToVerRecetaFragment3(idReceta)
+            recetaAdapter = RecetaAdapter(
+                recetas = emptyList(),
+                enVistaGrid = false,
+                recetasGuardadas = mutableSetOf(),
+                idUsuario = usuario.id_usuario,
+                nombreAutor = usuario.usuario,
+                onGuardarClick = { receta, estabaGuardada -> true },
+                onVerClick = { receta ->
+                    val action = CuentaFragmentDirections.actionCuentaFragmentToVerRecetaFragment3(receta.id_receta)
                     findNavController().navigate(action)
                 }
             )
 
-            binding.misComentarios.layoutManager = LinearLayoutManager(requireContext())
-            binding.misComentarios.adapter = adapter
 
+            binding.misRecetas.layoutManager = LinearLayoutManager(requireContext())
+            binding.misRecetas.adapter = recetaAdapter
+        }
+
+
+        cuentaViewModel.recetas.observe(viewLifecycleOwner) { recetas ->
+            if (::recetaAdapter.isInitialized) {
+                recetaAdapter.actualizarRecetas(recetas)
+            }
         }
 
         cuentaViewModel.comentarios.observe(viewLifecycleOwner) { comentarios ->
@@ -84,9 +83,6 @@ class CuentaFragment : Fragment() {
             valoracionesCargadas = valoraciones
             actualizarAdapterSiListo()
         }
-
-
-
     }
 
     private fun actualizarAdapterSiListo() {

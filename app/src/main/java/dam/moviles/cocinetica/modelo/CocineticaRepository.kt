@@ -89,7 +89,7 @@ class CocineticaRepository {
     }
 
     suspend fun obtenerRecetasUsuario(idUsuario: Int): List<Receta> {
-        return cocineticaApi.leerRecetas().filter { it.id_usuario == idUsuario }
+        return cocineticaApi.obtenerRecetasUsuario(idUsuario = idUsuario)
     }
 
     suspend fun obtenerComentariosUsuario(idUsuario: Int): List<Comentario> {
@@ -208,6 +208,8 @@ class CocineticaRepository {
     suspend fun buscarRecetas(texto: String): List<Receta> {
         return cocineticaApi.buscarRecetas("recetas", texto)
     }
+
+
 
 
 

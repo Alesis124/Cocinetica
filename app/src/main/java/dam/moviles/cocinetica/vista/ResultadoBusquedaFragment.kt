@@ -125,6 +125,7 @@ class ResultadoBusquedaFragment : Fragment() {
                     enVistaGrid,
                     recetasGuardadas,
                     idUsuarioActual,
+                    usuario.usuario,  // <--- Nombre del autor
                     onGuardarClick = { receta, estaGuardada ->
                         onGuardarClick(receta, estaGuardada)
                         true
@@ -134,6 +135,7 @@ class ResultadoBusquedaFragment : Fragment() {
                         findNavController().navigate(action)
                     }
                 )
+
 
                 binding.recyclerViewBusqueda.adapter = recetaAdapter
                 actualizarLayoutSegunVista()

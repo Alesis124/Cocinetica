@@ -72,6 +72,14 @@ class CuentaViewModel : ViewModel() {
         }
     }
 
+    fun cargarMisRecetas(idUsuario: Int) {
+        viewModelScope.launch {
+            val recetasDelUsuario = repository.obtenerRecetasUsuario(idUsuario)
+            _recetas.value = recetasDelUsuario
+        }
+    }
+
+
 
     fun eliminarComentario(comentario: Comentario) {
         viewModelScope.launch {
