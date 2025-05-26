@@ -9,15 +9,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationBarView
 import dam.moviles.cocinetica.R
 import dam.moviles.cocinetica.databinding.FragmentCuentaBinding
+import dam.moviles.cocinetica.modelo.Comentario
+import dam.moviles.cocinetica.modelo.Valoracion
 import dam.moviles.cocinetica.viewModel.CuentaViewModel
 
 class CuentaFragment : Fragment() {
 
     private lateinit var binding: FragmentCuentaBinding
     private val cuentaViewModel: CuentaViewModel by viewModels()
+
+    private var comentariosCargados: List<Comentario>? = null
+    private var valoracionesCargadas: Map<Int, Valoracion>? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,10 +51,68 @@ class CuentaFragment : Fragment() {
             // Actualiza UI relacionada a recetas (por ejemplo, un RecyclerView dentro de la pestaña Recetas)
         })
 
-        cuentaViewModel.comentarios.observe(viewLifecycleOwner, Observer { comentarios ->
-            // Actualiza UI relacionada a comentarios
-        })
+        cuentaViewModel.comentarios.observe(viewLifecycleOwner) { comentarios ->
+            val comentariosMios = comentarios.filter { it.id_usuario == cuentaViewModel.usuario.value?.id_usuario }
+
+            Log.d("CuentaFragment", "Comentarios del usuario: $comentariosMios")
+            Log.d("CuentaFragment", "Valoraciones actuales: ${cuentaViewModel.valoraciones.value}")
+
+            val adapter = ComentarioUsuarioAdapter(
+                comentarios = comentariosMios,
+                valoracionesMap = cuentaViewModel.valoraciones.value ?: emptyMap(),
+                nombreUsuario = cuentaViewModel.usuario.value?.usuario ?: "Yo",
+                onEliminarClick = { comentario ->
+                    cuentaViewModel.eliminarComentario(comentario)
+                },
+                onIrClick = { idReceta ->
+                    val action = CuentaFragmentDirections.actionCuentaFragmentToVerRecetaFragment3(idReceta)
+                    findNavController().navigate(action)
+                }
+            )
+
+            binding.misComentarios.layoutManager = LinearLayoutManager(requireContext())
+            binding.misComentarios.adapter = adapter
+
+        }
+
+        cuentaViewModel.comentarios.observe(viewLifecycleOwner) { comentarios ->
+            comentariosCargados = comentarios
+            actualizarAdapterSiListo()
+        }
+
+        cuentaViewModel.valoraciones.observe(viewLifecycleOwner) { valoraciones ->
+            valoracionesCargadas = valoraciones
+            actualizarAdapterSiListo()
+        }
+
+
+
     }
+
+    private fun actualizarAdapterSiListo() {
+        val usuario = cuentaViewModel.usuario.value ?: return
+        val comentarios = comentariosCargados ?: return
+        val valoraciones = valoracionesCargadas ?: return
+
+        val comentariosMios = comentarios.filter { it.id_usuario == usuario.id_usuario }
+
+        val adapter = ComentarioUsuarioAdapter(
+            comentarios = comentariosMios,
+            valoracionesMap = valoraciones,
+            nombreUsuario = usuario.usuario,
+            onEliminarClick = { comentario ->
+                cuentaViewModel.eliminarComentario(comentario)
+            },
+            onIrClick = { idReceta ->
+                val action = CuentaFragmentDirections.actionCuentaFragmentToVerRecetaFragment3(idReceta)
+                findNavController().navigate(action)
+            }
+        )
+
+        binding.misComentarios.layoutManager = LinearLayoutManager(requireContext())
+        binding.misComentarios.adapter = adapter
+    }
+
 
     private fun configurarTabs() {
         val tabHost = binding.navegadorRecetasCometarios

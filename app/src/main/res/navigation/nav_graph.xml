@@ -73,6 +73,9 @@
         <action
             android:id="@+id/action_cuentaFragment_to_creaRecetaFragment"
             app:destination="@id/creaRecetaFragment" />
+        <action
+            android:id="@+id/action_cuentaFragment_to_verRecetaFragment3"
+            app:destination="@id/verRecetaFragment" />
     </fragment>
     <fragment
         android:id="@+id/ajustesCuentaFragment"

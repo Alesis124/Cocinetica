@@ -6,7 +6,7 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="4dp"
-    android:backgroundTint="#FFFFFF">
+    app:cardBackgroundColor="?android:colorBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -68,14 +68,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Borrar"
-            android:textColor="#D32F2F"
             android:textSize="12sp"
-            android:background="?attr/selectableItemBackground"
+            android:textColor="#D32F2F"
             android:paddingHorizontal="12dp"
             android:paddingVertical="4dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#FCE4EC"
             app:layout_constraintTop_toBottomOf="@+id/tvComentario"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Botón Ir -->
         <Button
@@ -85,12 +85,12 @@
             android:text="Ir"
             android:textColor="#1976D2"
             android:textSize="12sp"
-            android:background="?attr/selectableItemBackground"
             android:paddingHorizontal="12dp"
             android:paddingVertical="4dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#E3F2FD"
             app:layout_constraintTop_toBottomOf="@+id/tvComentario"
             app:layout_constraintEnd_toStartOf="@+id/btnEliminar"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp" />
+            android:layout_marginEnd="8dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
