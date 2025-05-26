@@ -67,6 +67,22 @@ class Recetas {
         return $stmt->execute();
     }
 
+    function buscar($texto) {
+        $like = '%' . $texto . '%';
+        $stmt = $this->conn->prepare("
+            SELECT DISTINCT r.*, u.usuario
+            FROM Recetas r
+            JOIN Usuarios u ON r.id_usuario = u.id_usuario
+            LEFT JOIN Contiene c ON r.id_receta = c.id_receta
+            LEFT JOIN Ingredientes i ON c.id_ingrediente = i.id_ingrediente
+            WHERE r.nombre LIKE ? OR i.nombre LIKE ?
+        ");
+        $stmt->bind_param("ss", $like, $like);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
+
     // Actualizar receta existente
     function actualizar() {
         $this->nombre = strip_tags($this->nombre);
@@ -82,6 +98,15 @@ class Recetas {
         $stmt->bind_param("sidii", $this->nombre, $this->duracion, $this->valoracion, $this->imagen, $this->id_receta);
         return $stmt->execute();
     }
+
+    public function leerPorUsuario($id_usuario) {
+        $query = "SELECT * FROM Recetas WHERE id_usuario = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
 
     // Borrar una receta
     function borrar() {
