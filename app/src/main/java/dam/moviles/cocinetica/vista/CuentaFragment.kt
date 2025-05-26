@@ -47,7 +47,7 @@ class CuentaFragment : Fragment() {
             binding.txtNombre.text = usuario.usuario
             binding.txtDescripciN.text = usuario.descripcion
 
-            cuentaViewModel.cargarMisRecetas(usuario.id_usuario) // <--- AQUÍ
+            cuentaViewModel.cargarMisRecetas(usuario.id_usuario)
 
             recetaAdapter = RecetaAdapter(
                 recetas = emptyList(),
@@ -62,15 +62,22 @@ class CuentaFragment : Fragment() {
                 }
             )
 
-
             binding.misRecetas.layoutManager = LinearLayoutManager(requireContext())
             binding.misRecetas.adapter = recetaAdapter
         }
 
-
         cuentaViewModel.recetas.observe(viewLifecycleOwner) { recetas ->
             if (::recetaAdapter.isInitialized) {
                 recetaAdapter.actualizarRecetas(recetas)
+
+                // Mostrar u ocultar mensaje de no recetas
+                if (recetas.isEmpty()) {
+                    binding.txtNoRecetas.visibility = View.VISIBLE
+                    binding.misRecetas.visibility = View.GONE
+                } else {
+                    binding.txtNoRecetas.visibility = View.GONE
+                    binding.misRecetas.visibility = View.VISIBLE
+                }
             }
         }
 
@@ -91,6 +98,15 @@ class CuentaFragment : Fragment() {
         val valoraciones = valoracionesCargadas ?: return
 
         val comentariosMios = comentarios.filter { it.id_usuario == usuario.id_usuario }
+
+        // Mostrar u ocultar mensaje de no comentarios
+        if (comentariosMios.isEmpty()) {
+            binding.txtNoComentarios.visibility = View.VISIBLE
+            binding.misComentarios.visibility = View.GONE
+        } else {
+            binding.txtNoComentarios.visibility = View.GONE
+            binding.misComentarios.visibility = View.VISIBLE
+        }
 
         val adapter = ComentarioUsuarioAdapter(
             comentarios = comentariosMios,
