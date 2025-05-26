@@ -132,6 +132,7 @@ class CreaRecetaFragment : Fragment() {
             }
 
             btnEliminar.setOnClickListener {
+                ocultarTecladoYQuitarFoco()
                 sincronizarDatosConViewModel()
                 viewModel.eliminarIngrediente(index)
                 renderIngredientes()
@@ -150,6 +151,14 @@ class CreaRecetaFragment : Fragment() {
         }
     }
 
+    private fun ocultarTecladoYQuitarFoco() {
+        val imm = requireContext().getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+        val view = requireActivity().currentFocus
+        view?.clearFocus()
+        if (view != null) {
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
 
     private fun renderPasos() {
         binding.layoutPasos.removeAllViews()
@@ -170,6 +179,7 @@ class CreaRecetaFragment : Fragment() {
             }
 
             btnEliminar.setOnClickListener {
+                ocultarTecladoYQuitarFoco()
                 sincronizarDatosConViewModel()
                 viewModel.eliminarPaso(index)
                 renderPasos()
