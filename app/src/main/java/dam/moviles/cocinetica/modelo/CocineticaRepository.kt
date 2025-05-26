@@ -205,5 +205,10 @@ class CocineticaRepository {
         }
     }
 
+    suspend fun buscarRecetas(texto: String): List<Receta> {
+        return cocineticaApi.buscarRecetas("recetas", texto)
+    }
+
+
 
 }

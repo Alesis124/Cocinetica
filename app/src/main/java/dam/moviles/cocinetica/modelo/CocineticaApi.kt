@@ -110,4 +110,11 @@ interface CocineticaApi {
 
     @POST("insertar.php")
     suspend fun insertarGenerico(@Body body: RequestBody): Response<GenericResponse>
+
+    @GET("leer.php")
+    suspend fun buscarRecetas(
+        @Query("tabla") tabla: String = "recetas",
+        @Query("busqueda") texto: String
+    ): List<Receta>
+
 }

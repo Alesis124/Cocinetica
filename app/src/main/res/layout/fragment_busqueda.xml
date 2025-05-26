@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/busqueda"
@@ -7,37 +8,121 @@
     android:layout_height="match_parent"
     tools:context=".vista.BusquedaFragment">
 
-
-    <SearchView
-        android:id="@+id/busquedaFragment"
-        android:layout_width="260dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="64dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <!-- Contenedor con padding para todo excepto el menú inferior -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contenidoBusqueda"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAgregar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="Agregar receta"
-        android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="#70B657"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@android:color/white" />
+        <!-- Título -->
+        <TextView
+            android:id="@+id/tituloBusqueda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buscar Receta"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Barra de búsqueda y botón juntos -->
+        <EditText
+            android:id="@+id/etBusqueda"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Buscar recetas o ingredientes"
+            android:textColor="?android:textColorPrimary"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:drawableTint="?attr/colorControlNormal"
+            android:drawablePadding="8dp"
+            android:inputType="text"
+            android:padding="12dp"
+            app:layout_constraintTop_toBottomOf="@id/tituloBusqueda"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnBuscar"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/btnBuscar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buscar"
+            app:layout_constraintTop_toTopOf="@id/etBusqueda"
+            app:layout_constraintBottom_toBottomOf="@id/etBusqueda"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Historial de búsqueda -->
+        <LinearLayout
+            android:id="@+id/historialBusqueda"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/etBusqueda"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Historial"
+                android:textStyle="bold"
+                android:paddingBottom="4dp" />
+
+            <TextView android:id="@+id/historial1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+            <TextView android:id="@+id/historial2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+            <TextView android:id="@+id/historial3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+            <TextView android:id="@+id/historial4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+            <TextView android:id="@+id/historial5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+        </LinearLayout>
+
+        <!-- Botón flotante -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAgregar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:contentDescription="Agregar receta"
+            android:src="@android:drawable/ic_input_add"
+            app:backgroundTint="#70B657"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@android:color/white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Menú inferior sin padding -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_gravity="bottom"
         app:itemTextColor="#D1DB5E"
+        app:menu="@menu/menu_bajo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_bajo" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -121,6 +121,9 @@
         <action
             android:id="@+id/action_busquedaFragment_to_creaRecetaFragment"
             app:destination="@id/creaRecetaFragment" />
+        <action
+            android:id="@+id/action_busquedaFragment_to_resultadoBusquedaFragment"
+            app:destination="@id/resultadoBusquedaFragment" />
     </fragment>
     <fragment
         android:id="@+id/guardadosFragment"
@@ -195,5 +198,31 @@
         <action
             android:id="@+id/action_noRecuerdoFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultadoBusquedaFragment"
+        android:name="dam.moviles.cocinetica.vista.ResultadoBusquedaFragment"
+        android:label="ResultadoBusquedaFragment" >
+        <action
+            android:id="@+id/action_resultadoBusquedaFragment_to_guardadosFragment"
+            app:destination="@id/guardadosFragment" />
+        <action
+            android:id="@+id/action_resultadoBusquedaFragment_to_cuentaFragment"
+            app:destination="@id/cuentaFragment" />
+        <action
+            android:id="@+id/action_resultadoBusquedaFragment_to_verRecetaFragment"
+            app:destination="@id/verRecetaFragment" />
+        <action
+            android:id="@+id/action_resultadoBusquedaFragment_to_inicioFragment"
+            app:destination="@id/inicioFragment" />
+        <action
+            android:id="@+id/action_resultadoBusquedaFragment_to_busquedaFragment"
+            app:destination="@id/busquedaFragment" />
+        <action
+            android:id="@+id/action_resultadoBusquedaFragment_to_creaRecetaFragment"
+            app:destination="@id/creaRecetaFragment" />
+        <argument
+            android:name="id_receta"
+            app:argType="integer[]" />
     </fragment>
 </navigation>
