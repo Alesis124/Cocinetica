@@ -144,7 +144,7 @@ class VerRecetaFragment : Fragment() {
 
     private fun configurarBotones() {
         binding.btnVolver.setOnClickListener {
-            findNavController().navigate(R.id.action_verRecetaFragment_to_inicioFragment)
+            requireActivity().onBackPressed()
         }
 
         binding.btnGuardar.setOnClickListener {

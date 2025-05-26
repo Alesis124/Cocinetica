@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".vista.CuentaFragment">
 
-    <!-- ScrollView que contiene TODO el contenido desplazable -->
+
     <ScrollView
         android:id="@+id/scrollViewContenido"
         android:layout_width="0dp"

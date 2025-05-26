@@ -122,7 +122,7 @@ class AjustesCuentaFragment : Fragment() {
         }
 
         binding.btnVolver.setOnClickListener {
-            findNavController().navigate(R.id.action_ajustesCuentaFragment_to_cuentaFragment)
+            requireActivity().onBackPressed()
         }
 
         binding.CerrarSesionbtn.setOnClickListener {
