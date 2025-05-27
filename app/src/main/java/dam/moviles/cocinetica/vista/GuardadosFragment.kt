@@ -45,6 +45,11 @@ class GuardadosFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        cargarDatosGuardados()
+    }
+
     private fun inicializarViewModel() {
         viewModel = ViewModelProvider(this)[GuardadosFragmentViewModel::class.java]
 
@@ -95,8 +100,22 @@ class GuardadosFragment : Fragment() {
                         true
                     },
                     onVerClick = { receta ->
-                        val action = GuardadosFragmentDirections.actionGuardadosFragmentToVerRecetaFragment(receta.id_receta)
-                        findNavController().navigate(action)
+                        lifecycleScope.launch {
+                            try {
+                                val recetaActualizada = repository.consultaRecetaPorId(receta.id_receta)
+                                val action = InicioFragmentDirections.actionInicioFragmentToVerRecetaFragment(recetaActualizada.id_receta, "guardados")
+                                findNavController().navigate(action)
+                            } catch (e: Exception) {
+                                // Elimina del RecyclerView si ya no existe
+                                val index = recetaAdapter.recetas.indexOfFirst { it.id_receta == receta.id_receta }
+                                if (index != -1) {
+                                    recetaAdapter.recetas.removeAt(index)
+                                    recetaAdapter.notifyItemRemoved(index)
+                                    Toast.makeText(requireContext(), "La receta ya no está disponible y se ha eliminado de la lista", Toast.LENGTH_SHORT).show()
+                                }
+                                Log.e("InicioFragment", "Receta eliminada remotamente: ${e.message}")
+                            }
+                        }
                     }
                 )
 

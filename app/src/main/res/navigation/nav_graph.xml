@@ -160,6 +160,9 @@
         <argument
             android:name="id_receta"
             app:argType="integer" />
+        <argument
+            android:name="origen"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/creaRecetaFragment"
@@ -184,6 +187,9 @@
         <action
             android:id="@+id/action_completadoFragment_to_verRecetaFragment"
             app:destination="@id/verRecetaFragment" />
+        <argument
+            android:name="id_receta"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/errorFragment"

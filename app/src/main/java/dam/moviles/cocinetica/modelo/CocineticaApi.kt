@@ -117,7 +117,7 @@ interface CocineticaApi {
     suspend fun actualizarValoracion(@Body body: RequestBody): Response<GenericResponse>
 
     @POST("insertar.php")
-    suspend fun insertarGenerico(@Body body: RequestBody): Response<GenericResponse>
+    suspend fun insertarGenerico(@Body body: RequestBody): Response<RecetaResponse>
 
     @GET("leer.php")
     suspend fun buscarRecetas(

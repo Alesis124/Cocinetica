@@ -144,7 +144,13 @@ class VerRecetaFragment : Fragment() {
 
     private fun configurarBotones() {
         binding.btnVolver.setOnClickListener {
-            requireActivity().onBackPressed()
+            if (args.origen == "completado") {
+                // Si vienes de CompletadoFragment, ir a inicioFragment
+                findNavController().navigate(R.id.action_verRecetaFragment_to_inicioFragment)
+            } else {
+                // Comportamiento normal: ir atrás en pila
+                requireActivity().onBackPressed()
+            }
         }
 
         binding.btnGuardar.setOnClickListener {

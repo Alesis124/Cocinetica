@@ -1,6 +1,7 @@
 package dam.moviles.cocinetica.vista
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +9,14 @@ import android.widget.*
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import dam.moviles.cocinetica.databinding.FragmentCreaRecetaBinding
 import dam.moviles.cocinetica.R
+import dam.moviles.cocinetica.modelo.Contiene
+import dam.moviles.cocinetica.modelo.Receta
 import dam.moviles.cocinetica.viewModel.CreaRecetaViewModel
+import kotlinx.coroutines.launch
 
 class CreaRecetaFragment : Fragment() {
 
@@ -28,9 +34,21 @@ class CreaRecetaFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[CreaRecetaViewModel::class.java]
 
+        viewModel.cargarDatosDisponibles()
+
+        viewModel.cargarUsuarioDesdeFirebase()
+
+        viewModel.usuario.observe(viewLifecycleOwner) { usuario ->
+            binding.buttonGuardar.isEnabled = (usuario != null)
+            if (usuario == null) {
+                Toast.makeText(requireContext(), "No hay usuario logueado", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         binding.buttonAgregarIngrediente.setOnClickListener {
             sincronizarDatosConViewModel()
             viewModel.agregarIngrediente()
+            println("DEBUG: Ingredientes en VM tras agregar: ${viewModel.ingredientes.size}")
             renderIngredientes()
         }
 
@@ -74,7 +92,9 @@ class CreaRecetaFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        sincronizarDatosConViewModel() // Guarda los textos reales en el ViewModel
+        if (::binding.isInitialized) {
+            sincronizarDatosConViewModel()
+        }
     }
 
 
@@ -142,13 +162,73 @@ class CreaRecetaFragment : Fragment() {
         }
     }
 
+
+
     fun inicializarBotones(){
         binding.buttonVolver.setOnClickListener {
             requireActivity().onBackPressed()
         }
         binding.buttonGuardar.setOnClickListener {
-            //Guardara en la base de datos
+            sincronizarDatosConViewModel()
+
+            lifecycleScope.launch {
+                val nombre = binding.editTextNombre.text.toString().trim()
+                val duracionStr = binding.editTextDuracion.text.toString()
+                val duracion = duracionStr.toIntOrNull() ?: 0
+                val idUsuario = viewModel.usuario.value?.id_usuario ?: return@launch
+
+                val receta = Receta(
+                    id_receta = 0,
+                    nombre = nombre,
+                    duracion = duracion,
+                    valoracion = "0",
+                    imagen = "",
+                    id_usuario = idUsuario
+                )
+
+                try {
+                    val ingredientesList = viewModel.ingredientes.map { ing ->
+                        val idIng = viewModel.repository.obtenerOInsertarIngrediente(ing.nombre)
+                        val idUM = viewModel.obtenerIdUMPorNombre(ing.unidad)
+                        val cantidad = ing.cantidad.toDoubleOrNull()
+
+                        if (idUM == null || cantidad == null) {
+                            throw IllegalArgumentException("Unidad o cantidad inválida para ingrediente '${ing.nombre}'")
+                        }
+
+                        Contiene(0, idIng, idUM, cantidad)
+                    }
+
+                    val pasosList = viewModel.pasos.mapNotNull { it.descripcion.takeIf { it.isNotBlank() } }
+
+                    if (nombre.isBlank() || ingredientesList.isEmpty() || pasosList.isEmpty()) {
+                        Toast.makeText(requireContext(), "Completa todos los campos correctamente", Toast.LENGTH_SHORT).show()
+                        return@launch
+                    }
+
+                    val idReceta = viewModel.repository.insertarRecetaCompleta(receta, ingredientesList, pasosList)
+
+                    // Ahora consultas si la receta ya está en la base de datos (ejemplo: consultaUsuario o consultaReceta)
+                    val recetaInsertada = viewModel.repository.consultaRecetaPorId(idReceta ?: 0)
+
+                    if (recetaInsertada != null) {
+                        Toast.makeText(requireContext(), "Receta guardada con éxito", Toast.LENGTH_SHORT).show()
+                        val action = CreaRecetaFragmentDirections.actionCreaRecetaFragmentToCompletadoFragment(recetaInsertada.id_receta)
+                        findNavController().navigate(action)
+                    } else {
+                        Toast.makeText(requireContext(), "Error al confirmar receta guardada", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_creaRecetaFragment_to_errorFragment)
+                    }
+
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                    e.printStackTrace()
+                }
+            }
         }
+
+
+
     }
 
     private fun ocultarTecladoYQuitarFoco() {

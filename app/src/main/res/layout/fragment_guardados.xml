@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLayout"
@@ -34,25 +35,33 @@
             tools:ignore="UseAppTint" />
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewGuardados"
+    <!-- Envolvemos RecyclerView y FAB en FrameLayout -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:padding="8dp"
-        android:scrollbars="vertical" />
+        android:layout_weight="1">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAgregar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="Agregar receta"
-        android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="#70B657"
-        app:tint="@android:color/white" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewGuardados"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="8dp"
+            android:scrollbars="vertical" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAgregar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="20dp"
+            android:contentDescription="Agregar receta"
+            android:src="@android:drawable/ic_input_add"
+            app:backgroundTint="#70B657"
+            app:tint="@android:color/white" />
+
+    </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
@@ -63,4 +72,3 @@
         app:menu="@menu/menu_bajo" />
 
 </LinearLayout>
-

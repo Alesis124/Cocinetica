@@ -49,6 +49,11 @@ class InicioFragment : Fragment() {
         cargarDatosCompletos()
     }
 
+    override fun onResume() {
+        super.onResume()
+        cargarDatosCompletos()
+    }
+
     private fun inicializarViewModel() {
         val factory = InicioFragmenViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory)[InicioFragmenViewModel::class.java]
@@ -103,7 +108,7 @@ class InicioFragment : Fragment() {
                 val recetas = repository.consultaTodasRecetas()
 
                 recetaAdapter = RecetaAdapter(
-                    recetas,
+                    recetas.toMutableList(),
                     viewModel.enVistaGrid.value ?: false,
                     recetasGuardadas,
                     idUsuarioActual,
@@ -113,9 +118,25 @@ class InicioFragment : Fragment() {
                         true
                     },
                     onVerClick = { receta ->
-                        val action = InicioFragmentDirections.actionInicioFragmentToVerRecetaFragment(receta.id_receta)
-                        findNavController().navigate(action)
+                        lifecycleScope.launch {
+                            try {
+                                val recetaActualizada = repository.consultaRecetaPorId(receta.id_receta)
+                                val action = InicioFragmentDirections.actionInicioFragmentToVerRecetaFragment(recetaActualizada.id_receta, "inicio")
+                                findNavController().navigate(action)
+                            } catch (e: Exception) {
+                                // Elimina del RecyclerView si ya no existe
+                                val index = recetaAdapter.recetas.indexOfFirst { it.id_receta == receta.id_receta }
+                                if (index != -1) {
+                                    recetaAdapter.recetas.removeAt(index)
+                                    recetaAdapter.notifyItemRemoved(index)
+                                    Toast.makeText(requireContext(), "La receta ya no está disponible y se ha eliminado de la lista", Toast.LENGTH_SHORT).show()
+                                }
+                                Log.e("InicioFragment", "Receta eliminada remotamente: ${e.message}")
+                            }
+                        }
                     }
+
+
                 )
 
                 binding.recyclerViewRecetas.adapter = recetaAdapter

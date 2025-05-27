@@ -6,16 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationBarView
 import dam.moviles.cocinetica.R
 import dam.moviles.cocinetica.databinding.FragmentCuentaBinding
+import dam.moviles.cocinetica.modelo.CocineticaRepository
 import dam.moviles.cocinetica.modelo.Comentario
 import dam.moviles.cocinetica.modelo.Valoracion
 import dam.moviles.cocinetica.viewModel.CuentaViewModel
+import kotlinx.coroutines.launch
 
 class CuentaFragment : Fragment() {
 
@@ -25,6 +29,7 @@ class CuentaFragment : Fragment() {
     private var comentariosCargados: List<Comentario>? = null
     private var valoracionesCargadas: Map<Int, Valoracion>? = null
     private lateinit var recetaAdapter: RecetaAdapter
+    private val repository = CocineticaRepository()
 
 
     override fun onCreateView(
@@ -42,6 +47,11 @@ class CuentaFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        observarViewModel()
+    }
+
     private fun observarViewModel() {
         cuentaViewModel.usuario.observe(viewLifecycleOwner) { usuario ->
             binding.txtNombre.text = usuario.usuario
@@ -50,15 +60,31 @@ class CuentaFragment : Fragment() {
             cuentaViewModel.cargarMisRecetas(usuario.id_usuario)
 
             recetaAdapter = RecetaAdapter(
-                recetas = emptyList(),
+                recetas = mutableListOf(),
                 enVistaGrid = false,
                 recetasGuardadas = mutableSetOf(),
                 idUsuario = usuario.id_usuario,
                 nombreAutor = usuario.usuario,
                 onGuardarClick = { receta, estabaGuardada -> true },
                 onVerClick = { receta ->
-                    val action = CuentaFragmentDirections.actionCuentaFragmentToVerRecetaFragment3(receta.id_receta)
-                    findNavController().navigate(action)
+                    lifecycleScope.launch {
+                        try {
+                            val recetaActualizada = repository.consultaRecetaPorId(receta.id_receta)
+                            val action = InicioFragmentDirections.actionInicioFragmentToVerRecetaFragment(recetaActualizada.id_receta, origen = "cuenta")
+                            findNavController().navigate(action)
+                        } catch (e: Exception) {
+                            // Elimina del RecyclerView si ya no existe
+                            val index = recetaAdapter.recetas.indexOfFirst { it.id_receta == receta.id_receta }
+                            if (index != -1) {
+                                recetaAdapter.recetas.removeAt(index)
+                                recetaAdapter.notifyItemRemoved(index)
+                                Toast.makeText(requireContext(), "La receta ya no está disponible y se ha eliminado de la lista", Toast.LENGTH_SHORT).show()
+                                binding.txtNoRecetas.visibility = View.VISIBLE
+                                binding.misRecetas.visibility = View.GONE
+                            }
+                            Log.e("InicioFragment", "Receta eliminada remotamente: ${e.message}")
+                        }
+                    }
                 }
             )
 
@@ -116,7 +142,7 @@ class CuentaFragment : Fragment() {
                 cuentaViewModel.eliminarComentario(comentario)
             },
             onIrClick = { idReceta ->
-                val action = CuentaFragmentDirections.actionCuentaFragmentToVerRecetaFragment3(idReceta)
+                val action = CuentaFragmentDirections.actionCuentaFragmentToVerRecetaFragment3(idReceta, origen = "cuenta")
                 findNavController().navigate(action)
             }
         )

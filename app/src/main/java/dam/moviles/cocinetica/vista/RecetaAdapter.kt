@@ -15,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class RecetaAdapter(
-    var recetas: List<Receta>,
+    var recetas: MutableList<Receta>,
     private var enVistaGrid: Boolean,
     private val recetasGuardadas: MutableSet<Int>,
     private val idUsuario: Int?,
@@ -25,9 +25,17 @@ class RecetaAdapter(
 ) : RecyclerView.Adapter<RecetaAdapter.RecetaViewHolder>() {
 
     fun actualizarRecetas(nuevasRecetas: List<Receta>) {
-        this.recetas = nuevasRecetas
+        this.recetas = nuevasRecetas.toMutableList()
         notifyDataSetChanged()
     }
+
+    fun eliminarRecetaPorIndex(index: Int) {
+        if (index >= 0 && index < recetas.size) {
+            recetas.removeAt(index)
+            notifyItemRemoved(index)
+        }
+    }
+
 
     fun cambiarVista(grid: Boolean) {
         enVistaGrid = grid

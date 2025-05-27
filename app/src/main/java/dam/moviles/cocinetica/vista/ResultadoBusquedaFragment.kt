@@ -121,7 +121,7 @@ class ResultadoBusquedaFragment : Fragment() {
                 val recetasFiltradas = idsRecetas.map { id -> repository.consultaRecetaPorId(id) }
 
                 recetaAdapter = RecetaAdapter(
-                    recetasFiltradas,
+                    recetasFiltradas.toMutableList(),
                     enVistaGrid,
                     recetasGuardadas,
                     idUsuarioActual,
@@ -131,7 +131,7 @@ class ResultadoBusquedaFragment : Fragment() {
                         true
                     },
                     onVerClick = { receta ->
-                        val action = ResultadoBusquedaFragmentDirections.actionResultadoBusquedaFragmentToVerRecetaFragment(receta.id_receta)
+                        val action = ResultadoBusquedaFragmentDirections.actionResultadoBusquedaFragmentToVerRecetaFragment(receta.id_receta, "busqueda")
                         findNavController().navigate(action)
                     }
                 )

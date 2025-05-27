@@ -209,6 +209,88 @@ class CocineticaRepository {
         return cocineticaApi.buscarRecetas("recetas", texto)
     }
 
+    suspend fun insertarRecetaCompleta(
+        recetaBase: Receta,
+        ingredientes: List<Contiene>,
+        pasos: List<String>
+    ): Int? {
+        val recetaJson = JSONObject().apply {
+            put("tabla", "Recetas")
+            put("nombre", recetaBase.nombre)
+            put("duracion", recetaBase.duracion)
+            put("valoracion", recetaBase.valoracion)
+            put("imagen", recetaBase.imagen)
+            put("id_usuario", recetaBase.id_usuario)
+        }
+        val body = recetaJson.toString().toRequestBody("application/json".toMediaType())
+
+        val response = cocineticaApi.insertarGenerico(body) // Response<GenericResponse>
+
+        if (!response.isSuccessful) return null
+
+        val RecetaResponse = response.body() ?: return null
+
+        // Suponiendo que el campo con el id insertado viene en otro nombre, por ejemplo 'id_comentario' o deberías cambiarlo a 'id_receta'
+        // Aquí debes ajustar el nombre según lo que devuelva tu backend.
+
+        val idReceta = RecetaResponse.id_receta ?: return null // Cambia id_comentario por id_receta si está disponible
+
+        // Insertar ingredientes
+        for (contiene in ingredientes) {
+            val ingJson = JSONObject().apply {
+                put("tabla", "Contiene")
+                put("id_receta", idReceta)
+                put("id_ingrediente", contiene.id_ingrediente)
+                put("id_um", contiene.id_um)
+                put("cantidad", contiene.cantidad)
+            }
+            val ingBody = ingJson.toString().toRequestBody("application/json".toMediaType())
+            cocineticaApi.insertarGenerico(ingBody)
+        }
+
+        // Insertar pasos
+        for (textoPaso in pasos) {
+            val pasoJson = JSONObject().apply {
+                put("tabla", "Pasos")
+                put("id_receta", idReceta)
+                put("texto", textoPaso)
+            }
+            val pasoBody = pasoJson.toString().toRequestBody("application/json".toMediaType())
+            cocineticaApi.insertarGenerico(pasoBody)
+        }
+
+        return idReceta
+    }
+
+
+    suspend fun obtenerOInsertarIngrediente(nombre: String): Int {
+        val nombreLimpio = nombre.trim()
+
+        // 1. Obtener ingredientes disponibles
+        val ingredientes = cocineticaApi.getIngredientes()
+        val existente = ingredientes.find { it.nombre.equals(nombreLimpio, ignoreCase = true) }
+
+        // 2. Si ya existe, devolver ID
+        if (existente != null) return existente.id_ingrediente
+
+        // 3. Si no existe, insertarlo
+        val json = JSONObject().apply {
+            put("tabla", "Ingredientes")
+            put("nombre", nombreLimpio)
+        }
+        val body = json.toString().toRequestBody("application/json".toMediaType())
+        val response = cocineticaApi.insertarGenerico(body)
+
+        if (!response.isSuccessful) throw Exception("Error insertando ingrediente: $nombreLimpio")
+
+        // 4. Obtener nuevamente para buscar el ID insertado
+        val actualizados = cocineticaApi.getIngredientes()
+        return actualizados.find { it.nombre.equals(nombreLimpio, ignoreCase = true) }?.id_ingrediente
+            ?: throw Exception("Ingrediente insertado pero no encontrado: $nombreLimpio")
+    }
+
+
+
 
 
 

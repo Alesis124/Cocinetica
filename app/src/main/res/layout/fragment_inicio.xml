@@ -1,59 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <!-- Contenido principal -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="12dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/homeTitle"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/homeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="8dp"
+                android:text="Home"
+                android:textStyle="italic" />
+
+            <ImageButton
+                android:id="@+id/btnGrid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="38dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:tint="?attr/colorControlNormal"
+                android:contentDescription="Cambiar vista"
+                android:src="@android:drawable/ic_dialog_dialer"
+                tools:ignore="UseAppTint" />
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewRecetas"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="53dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
             android:padding="8dp"
-            android:text="Home"
-            android:textStyle="italic" />
+            android:scrollbars="vertical" />
 
-        <ImageButton
-            android:id="@+id/btnGrid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="38dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:tint="?attr/colorControlNormal"
-            android:contentDescription="Cambiar vista"
-            android:src="@android:drawable/ic_dialog_dialer"
-            tools:ignore="UseAppTint" />
-    </RelativeLayout>
+    </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewRecetas"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:padding="8dp"
-        android:scrollbars="vertical" />
-
+    <!-- FloatingActionButton flotante, con margen inferior para estar arriba del menú -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAgregar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_marginBottom="72dp"
+        android:layout_marginEnd="16dp"
         android:contentDescription="Agregar receta"
         android:src="@android:drawable/ic_input_add"
         app:backgroundTint="#70B657"
         app:tint="@android:color/white" />
 
+    <!-- Bottom Navigation pegado abajo -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
@@ -62,5 +73,4 @@
         app:itemTextColor="#D1DB5E"
         app:menu="@menu/menu_bajo" />
 
-</LinearLayout>
-
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
