@@ -93,11 +93,18 @@ if ($obj->insertar()) {
 
     $respuesta = ["mensaje" => "Insertado correctamente"];
 
-    if ($datos->tabla === 'Comentarios') {
-        $respuesta["id_comentario"] = $obj->id_comentario;
+    switch ($datos->tabla) {
+        case 'Comentarios':
+            $respuesta["id_comentario"] = $obj->id_comentario;
+            break;
+        case 'Recetas':
+            $respuesta["id_receta"] = $obj->id_receta;
+            break;
+        // Puedes añadir más casos si otras tablas devuelven un ID
     }
 
     echo json_encode($respuesta);
+
 } else {
     http_response_code(503);
     echo json_encode(["error" => "Error al insertar"]);

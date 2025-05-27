@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: mariadb
--- Tiempo de generación: 25-05-2025 a las 12:40:35
+-- Tiempo de generación: 27-05-2025 a las 09:39:39
 -- Versión del servidor: 11.7.2-MariaDB-ubu2404
 -- Versión de PHP: 8.2.28
 
@@ -42,9 +42,13 @@ CREATE TABLE `Comentarios` (
 INSERT INTO `Comentarios` (`id_comentario`, `texto`, `fecha`, `id_usuario`, `id_receta`) VALUES
 (1, '¡Esta tarta quedó increíble!', '2025-04-28 08:56:51', 1, 1),
 (2, 'Receta rápida y muy rica.', '2025-04-28 08:56:51', 2, 2),
-(3, 'Perfecto para desayunar.', '2025-04-28 08:56:51', 13, 3),
-(20, 'hg', '2025-05-25 10:59:38', 13, 3),
-(23, 'nuevo?', '2025-05-25 11:38:15', 13, 3);
+(28, 'no sé si me arrepiento', '2025-05-25 13:33:12', 13, 1),
+(30, 'pero si solo tiene dos pasos esta receta', '2025-05-25 15:11:06', 16, 1),
+(31, 'pues que solo me dice que eche aceite, ahora tengo aceite caliente', '2025-05-25 15:12:06', 16, 2),
+(32, 'se me ha quemado el horno', '2025-05-25 15:12:33', 16, 3),
+(34, 'me huelen los pies', '2025-05-26 14:42:21', 14, 3),
+(35, 'viva España coñooo', '2025-05-26 14:42:41', 14, 2),
+(36, 'tiene que llevar manzana si o si?', '2025-05-26 14:43:14', 14, 1);
 
 -- --------------------------------------------------------
 
@@ -92,8 +96,7 @@ INSERT INTO `Guarda` (`id_usuario`, `id_receta`) VALUES
 (1, 2),
 (13, 2),
 (1, 3),
-(3, 3),
-(13, 3);
+(3, 3);
 
 -- --------------------------------------------------------
 
@@ -113,6 +116,7 @@ CREATE TABLE `Ingredientes` (
 INSERT INTO `Ingredientes` (`id_ingrediente`, `nombre`) VALUES
 (5, 'Aceite de oliva'),
 (4, 'Azúcar'),
+(6, 'Cb'),
 (1, 'Harina'),
 (3, 'Huevos'),
 (2, 'Leche');
@@ -161,9 +165,9 @@ CREATE TABLE `Recetas` (
 --
 
 INSERT INTO `Recetas` (`id_receta`, `nombre`, `duracion`, `valoracion`, `imagen`, `id_usuario`) VALUES
-(1, 'Tarta de manzana', 90, 5.00, 'tarta.jpg', 1),
-(2, 'Tortilla Española', 30, 4.00, 'tortilla.jpg', 2),
-(3, 'Bizcocho de Yogur', 45, 3.00, 'bizcocho.jpg', 3);
+(1, 'Tarta de manzana', 90, 2.67, '0', 1),
+(2, 'Tortilla Española', 30, 3.50, '0', 2),
+(3, 'Bizcocho de Yogur', 45, 3.00, '0', 3);
 
 -- --------------------------------------------------------
 
@@ -181,9 +185,13 @@ CREATE TABLE `UM` (
 --
 
 INSERT INTO `UM` (`id_um`, `medida`) VALUES
-(1, 'gramos'),
-(2, 'mililitros'),
-(3, 'unidades');
+(5, 'cucharada'),
+(1, 'g'),
+(4, 'kg'),
+(3, 'l'),
+(2, 'ml'),
+(7, 'pieza'),
+(6, 'taza');
 
 -- --------------------------------------------------------
 
@@ -210,7 +218,8 @@ INSERT INTO `Usuarios` (`id_usuario`, `correo`, `usuario`, `descripcion`, `image
 (13, 'alejandro.moreno.lechado@gmail.com', 'Alesis', 'Hola soy un usuario nuevo', 'https://lh3.googleusercontent.com/a/ACg8ocIj0BuJzuDTWlnxntKf9_CvhBZHTczkPEJH7b0h1E32pFFJTGBG=s96-c'),
 (14, 'franciscolozano2005@gmail.com', 'Franxute', 'me cago en tus muertos', 'https://lh3.googleusercontent.com/a/ACg8ocLvBGJcUY-WUbz_QCSerkwDsR70wxyRDwC-csLiWaaeTQz3rUwM6w=s96-c'),
 (15, 'tonimansal@gmail.com', 'Antonio Mantas', 'Bombardeiro Crocodilo. un fottuto jacaré volante che vola e bombarda i bambini a gaza e in palestina.\n\nBombardiro Crocodilo é um avião bombardeiro com cabeça de jacaré. Seu hobby é bombardear crianças em Gaza e Palestina.', 'https://lh3.googleusercontent.com/a/ACg8ocIZ_EhaQRDrYBM3cZzRP0M_MsJ9UHnz88gxSKm-dpQJ0JPeo40k=s96-c'),
-(16, 'alvaro.guedu@gmail.com', 'saturno2000', 'tonto el que lo lea', 'https://lh3.googleusercontent.com/a/ACg8ocK-ZV6NYgcDMXAcPyqvp9boDzctcf3QFi4_iVsxApEirMvneqsA=s96-c');
+(16, 'alvaro.guedu@gmail.com', 'saturno2000', 'tonto el que lo lea', 'https://lh3.googleusercontent.com/a/ACg8ocK-ZV6NYgcDMXAcPyqvp9boDzctcf3QFi4_iVsxApEirMvneqsA=s96-c'),
+(17, 'jesus@email.com', 'jesus', 'Nuevo usuario registrado', '');
 
 -- --------------------------------------------------------
 
@@ -234,9 +243,14 @@ CREATE TABLE `Valoraciones` (
 INSERT INTO `Valoraciones` (`id_valoracion`, `id_usuario`, `id_receta`, `valoracion`, `id_comentario`, `fecha`) VALUES
 (8, 1, 1, 5, 1, '2025-04-28 08:56:51'),
 (9, 2, 2, 4, 2, '2025-04-28 08:56:51'),
-(10, 13, 3, 3, NULL, '2025-04-28 08:56:51'),
+(10, 13, 3, 5, NULL, '2025-04-28 08:56:51'),
 (11, 13, 2, 4, NULL, '2025-05-25 11:55:11'),
-(12, 13, 1, 5, NULL, '2025-05-25 12:21:27');
+(12, 13, 1, 2, NULL, '2025-05-25 12:21:27'),
+(13, 16, 1, 1, NULL, '2025-05-25 15:11:07'),
+(14, 16, 2, 1, NULL, '2025-05-25 15:12:06'),
+(15, 16, 3, 1, NULL, '2025-05-25 15:12:33'),
+(16, 14, 2, 5, NULL, '2025-05-26 14:42:36'),
+(17, 14, 1, 3, NULL, '2025-05-26 14:43:14');
 
 --
 -- Índices para tablas volcadas
@@ -317,43 +331,43 @@ ALTER TABLE `Valoraciones`
 -- AUTO_INCREMENT de la tabla `Comentarios`
 --
 ALTER TABLE `Comentarios`
-  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `Ingredientes`
 --
 ALTER TABLE `Ingredientes`
-  MODIFY `id_ingrediente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_ingrediente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `Pasos`
 --
 ALTER TABLE `Pasos`
-  MODIFY `id_paso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_paso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `Recetas`
 --
 ALTER TABLE `Recetas`
-  MODIFY `id_receta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_receta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `UM`
 --
 ALTER TABLE `UM`
-  MODIFY `id_um` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_um` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `Usuarios`
 --
 ALTER TABLE `Usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `Valoraciones`
 --
 ALTER TABLE `Valoraciones`
-  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Restricciones para tablas volcadas
@@ -397,9 +411,9 @@ ALTER TABLE `Recetas`
 -- Filtros para la tabla `Valoraciones`
 --
 ALTER TABLE `Valoraciones`
-  ADD CONSTRAINT `fk_valoracion_comentario` FOREIGN KEY (`id_comentario`) REFERENCES `Comentarios` (`id_comentario`),
-  ADD CONSTRAINT `fk_valoraciones_recetas` FOREIGN KEY (`id_receta`) REFERENCES `Recetas` (`id_receta`),
-  ADD CONSTRAINT `fk_valoraciones_usuarios` FOREIGN KEY (`id_usuario`) REFERENCES `Usuarios` (`id_usuario`);
+  ADD CONSTRAINT `fk_valoracion_comentario` FOREIGN KEY (`id_comentario`) REFERENCES `Comentarios` (`id_comentario`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_valoraciones_recetas` FOREIGN KEY (`id_receta`) REFERENCES `Recetas` (`id_receta`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_valoraciones_usuarios` FOREIGN KEY (`id_usuario`) REFERENCES `Usuarios` (`id_usuario`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

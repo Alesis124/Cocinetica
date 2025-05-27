@@ -61,11 +61,18 @@ class Recetas {
 
         $stmt = $this->conn->prepare(
             "INSERT INTO " . $this->tabla . " (nombre, duracion, valoracion, imagen, id_usuario) 
-             VALUES (?, ?, ?, ?, ?)"
+            VALUES (?, ?, ?, ?, ?)"
         );
         $stmt->bind_param("sidsi", $this->nombre, $this->duracion, $this->valoracion, $this->imagen, $this->id_usuario);
-        return $stmt->execute();
+        
+        if ($stmt->execute()) {
+            $this->id_receta = $this->conn->insert_id;
+            return true;
+        }
+
+        return false;
     }
+
 
     function buscar($texto) {
         $like = '%' . $texto . '%';
