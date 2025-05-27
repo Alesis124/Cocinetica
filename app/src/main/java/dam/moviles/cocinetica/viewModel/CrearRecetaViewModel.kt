@@ -7,19 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import dam.moviles.cocinetica.modelo.CocineticaRepository
 import dam.moviles.cocinetica.modelo.Ingrediente
+import dam.moviles.cocinetica.modelo.IngredienteUI
+import dam.moviles.cocinetica.modelo.PasoUI
 import dam.moviles.cocinetica.modelo.UM
 import dam.moviles.cocinetica.modelo.Usuario
 import kotlinx.coroutines.launch
-
-data class IngredienteUI(
-    var cantidad: String = "",
-    var unidad: String = "",
-    var nombre: String = ""
-)
-
-data class PasoUI(
-    var descripcion: String = ""
-)
 
 class CreaRecetaViewModel : ViewModel() {
 
