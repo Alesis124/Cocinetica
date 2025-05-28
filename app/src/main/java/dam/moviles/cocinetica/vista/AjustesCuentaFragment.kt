@@ -201,6 +201,18 @@ class AjustesCuentaFragment : Fragment() {
     private fun cargarDatosUsuario() {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val email = currentUser?.email ?: return
+        lifecycleScope.launch {
+            try {
+                val usuario = repository.consultaUsuarioPorCorreo(email)
+                binding.nombreEdit.setText(usuario.usuario)
+                binding.descripcionEdit.setText(usuario.descripcion)
+            }catch (e: Exception){
+
+            }
+        }
+
+
+
 
         // Primero verifica si el usuario tiene foto de Google (URL)
         currentUser.photoUrl?.let { photoUrl ->
@@ -218,8 +230,6 @@ class AjustesCuentaFragment : Fragment() {
             lifecycleScope.launch {
                 try {
                     val usuario = repository.consultaUsuarioPorCorreo(email)
-                    binding.nombreEdit.setText(usuario.usuario)
-                    binding.descripcionEdit.setText(usuario.descripcion)
 
                     usuario.imagen?.let { imagenBase64 ->
                         try {
@@ -251,14 +261,14 @@ class AjustesCuentaFragment : Fragment() {
             .circleCrop()
             .into(binding.imagenUsuarioEdit)
 
-        // Si necesitas convertirla a Base64 después
-        lifecycleScope.launch {
+        // Convertir a Base64 en un hilo en segundo plano
+        lifecycleScope.launch(Dispatchers.IO) {
             try {
                 val bitmap = Glide.with(requireContext())
                     .asBitmap()
                     .load(imageUrl)
                     .submit(128, 128)
-                    .get()
+                    .get() // Esto ahora es seguro porque estamos en Dispatchers.IO
 
                 val byteArray = ByteArrayOutputStream().apply {
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 80, this)
@@ -267,6 +277,9 @@ class AjustesCuentaFragment : Fragment() {
                 imagenBase64 = Base64.encodeToString(byteArray, Base64.NO_WRAP)
             } catch (e: Exception) {
                 Log.e("AjustesCuenta", "Error al convertir imagen de Google a Base64", e)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "Error al procesar imagen", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
