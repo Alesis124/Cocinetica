@@ -30,6 +30,9 @@ class CuentaViewModel : ViewModel() {
     private val _valoraciones = MutableLiveData<Map<Int, Valoracion>>()
     val valoraciones: LiveData<Map<Int, Valoracion>> = _valoraciones
 
+    val _recetasGuardadas = MutableLiveData<Set<Int>>()
+    val recetasGuardadas: LiveData<Set<Int>> = _recetasGuardadas
+
 
     fun cargarUsuarioYContenido() {
         val email = FirebaseAuth.getInstance().currentUser?.email
@@ -40,15 +43,22 @@ class CuentaViewModel : ViewModel() {
 
         viewModelScope.launch {
             try {
-                val usuario = repository.consultaUsuarioPorCorreo(email)
+                val usuario = repository.consultaUsuarioPorCorreo(email) ?: return@launch
+                _usuario.value = usuario
+
                 if (usuario == null) {
                     Log.e("CuentaViewModel", "No se encontró usuario en la API para email: $email")
                     return@launch
                 }
 
-                Log.d("CuentaViewModel", "Usuario cargado: $usuario")
 
-                _usuario.value = usuario
+
+                // Cargar recetas del usuario
+                cargarMisRecetas(usuario.id_usuario)
+
+                // Cargar recetas guardadas
+                cargarRecetasGuardadas(usuario.id_usuario)
+
 
                 val recetasUsuario = repository.obtenerRecetasUsuario(usuario.id_usuario)
                 _recetas.value = recetasUsuario
@@ -78,6 +88,23 @@ class CuentaViewModel : ViewModel() {
             _recetas.value = recetasDelUsuario
         }
     }
+
+    fun cargarRecetasGuardadas(idUsuario: Int) {
+        viewModelScope.launch {
+            try {
+                // Obtener las recetas guardadas como lista
+                val recetasGuardadas = repository.obtenerRecetasGuardadas(idUsuario)
+
+                // Extraer solo los IDs y convertirlos a Set
+                val idsGuardados = recetasGuardadas.map { it.id_receta }.toSet()
+
+                _recetasGuardadas.value = idsGuardados
+            } catch (e: Exception) {
+                Log.e("CuentaViewModel", "Error cargando recetas guardadas", e)
+            }
+        }
+    }
+
 
 
 

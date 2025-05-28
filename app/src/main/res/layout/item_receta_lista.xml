@@ -15,7 +15,7 @@
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <!-- Contenido textual -->
+        <!-- Contenido textual y botones izquierdos -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -62,16 +62,13 @@
                     android:id="@+id/txtGuardar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Guardar"
-                    android:textColor="?attr/colorPrimary"
-                    android:textSize="13sp"
                     android:minHeight="0dp"
                     android:minWidth="0dp"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="4dp"
+                    android:padding="12dp"
                     android:backgroundTint="?attr/colorSurface"
                     app:iconTint="?attr/colorPrimary"
-                    style="@style/Widget.Material3.Button.TextButton" />
+                    style="@style/Widget.Material3.Button.TextButton"
+                    app:icon="@drawable/guardar48vacio"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/txtVer"
@@ -91,16 +88,39 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Imagen receta -->
-        <ImageView
-            android:id="@+id/imgReceta"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_gravity="center_vertical"
-            android:scaleType="centerCrop"
-            android:contentDescription="je"
-            android:src="@drawable/ic_launcher_foreground"
-            android:clipToOutline="true"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+        <!-- Contenedor derecho (imagen + botón eliminar) -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <!-- Imagen receta -->
+            <ImageView
+                android:id="@+id/imgReceta"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="je"
+                android:src="@drawable/ic_launcher_foreground"
+                android:clipToOutline="true"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+            <!-- Botón eliminar -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEliminar"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="?attr/colorSurface"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:textColor="?attr/colorError"
+                app:icon="@android:drawable/ic_menu_delete"
+                app:iconTint="?attr/colorError" />
+        </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
