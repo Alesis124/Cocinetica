@@ -217,6 +217,9 @@ class CuentaFragment : Fragment() {
                         Log.e("CuentaFragment", "Error al ver receta: ${e.message}")
                     }
                 }
+            },
+            onEliminarClick = { idReceta ->
+                confirmarYEliminarReceta(idReceta)
             }
         )
 
@@ -284,6 +287,9 @@ class CuentaFragment : Fragment() {
                             Log.e("CuentaFragment", "Error al ver receta: ${e.message}")
                         }
                     }
+                },
+                onEliminarClick = { idReceta ->
+                    confirmarYEliminarReceta(idReceta)
                 }
             )
 
@@ -302,5 +308,52 @@ class CuentaFragment : Fragment() {
             binding.misRecetas.visibility = View.VISIBLE
         }
     }
+
+    private fun confirmarYEliminarReceta(idReceta: Int) {
+        val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+        builder.setTitle("Confirmar eliminación")
+        builder.setMessage("¿Estás seguro de que quieres eliminar esta receta?")
+
+        builder.setPositiveButton("Sí") { dialog, _ ->
+            dialog.dismiss()
+            eliminarReceta(idReceta)
+        }
+
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun eliminarReceta(idReceta: Int) {
+        lifecycleScope.launch {
+            try {
+                val resultado = repository.eliminarReceta(idReceta)
+                if (resultado) {
+                    val index = recetaAdapter.recetas.indexOfFirst { it.id_receta == idReceta }
+                    if (index != -1) {
+                        recetaAdapter.eliminarRecetaPorIndex(index)
+                        Toast.makeText(requireContext(), "Receta eliminada", Toast.LENGTH_SHORT).show()
+
+                        // Actualizar visibilidad del texto cuando no hay recetas
+                        if (recetaAdapter.recetas.isEmpty()) {
+                            binding.txtNoRecetas.visibility = View.VISIBLE
+                            binding.misRecetas.visibility = View.GONE
+                        } else {
+                            binding.txtNoRecetas.visibility = View.GONE
+                            binding.misRecetas.visibility = View.VISIBLE
+                        }
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "No se pudo eliminar", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
 }

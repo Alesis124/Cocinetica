@@ -289,6 +289,17 @@ class CocineticaRepository {
             ?: throw Exception("Ingrediente insertado pero no encontrado: $nombreLimpio")
     }
 
+    suspend fun eliminarReceta(idReceta: Int): Boolean {
+        val json = JSONObject().apply {
+            put("tabla", "Recetas")
+            put("id_receta", idReceta)
+        }
+        val body = json.toString().toRequestBody("application/json".toMediaType())
+        val response = cocineticaApi.eliminarReceta(body)
+        return response.isSuccessful && response.body()?.mensaje == "Borrado correctamente"
+    }
+
+
 
 
 

@@ -134,6 +134,9 @@ class InicioFragment : Fragment() {
                                 Log.e("InicioFragment", "Receta eliminada remotamente: ${e.message}")
                             }
                         }
+                    },
+                    onEliminarClick = { idReceta ->
+                        confirmarYEliminarReceta(idReceta)
                     }
 
 
@@ -203,4 +206,43 @@ class InicioFragment : Fragment() {
             }
         })
     }
+
+    private fun confirmarYEliminarReceta(idReceta: Int) {
+        val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+        builder.setTitle("Confirmar eliminación")
+        builder.setMessage("¿Estás seguro de que quieres eliminar esta receta?")
+
+        builder.setPositiveButton("Sí") { dialog, _ ->
+            dialog.dismiss()
+            eliminarReceta(idReceta)
+        }
+
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun eliminarReceta(idReceta: Int) {
+        lifecycleScope.launch {
+            try {
+                val resultado = repository.eliminarReceta(idReceta)
+                if (resultado) {
+                    val index = recetaAdapter.recetas.indexOfFirst { it.id_receta == idReceta }
+                    if (index != -1) {
+                        recetaAdapter.eliminarRecetaPorIndex(index)
+                        Toast.makeText(requireContext(), "Receta eliminada", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "No se pudo eliminar", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
 }

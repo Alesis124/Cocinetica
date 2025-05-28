@@ -25,7 +25,8 @@ class RecetaAdapter(
     private val idUsuario: Int?,
     private val nombreAutor: String,
     val onGuardarClick: suspend (Receta, Boolean) -> Boolean,
-    val onVerClick: (Receta) -> Unit
+    val onVerClick: (Receta) -> Unit,
+    val onEliminarClick: (Int) -> Unit
 ) : RecyclerView.Adapter<RecetaAdapter.RecetaViewHolder>() {
 
     private val repository = CocineticaRepository()
@@ -99,11 +100,23 @@ class RecetaAdapter(
             // Mostrar el botón de borrar solo si la receta es del usuario actual
             if (receta.id_usuario == idUsuario) {
                 btnBorrar.visibility = View.VISIBLE
+                btnBorrar.setOnClickListener {
+                    onEliminarClick(receta.id_receta)
+                }
             } else {
                 btnBorrar.visibility = View.GONE
             }
 
-
+            /*
+            if (receta.id_usuario == idUsuarioActual) {
+                btnBorrar.visibility = View.VISIBLE
+                btnBorrar.setOnClickListener {
+                    onEliminarClick(receta.id_receta)
+                }
+            } else {
+                btnBorrar.visibility = View.GONE
+            }
+*/
 
             btnGuardar.setOnClickListener {
                 CoroutineScope(Dispatchers.Main).launch {

@@ -125,4 +125,8 @@ interface CocineticaApi {
         @Query("busqueda") texto: String
     ): List<Receta>
 
+    @POST("borrar.php")
+    suspend fun eliminarReceta(@Body body: RequestBody): Response<GenericResponse>
+
+
 }
