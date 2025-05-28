@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -46,6 +48,27 @@ class ResultadoBusquedaFragment : Fragment() {
     }
 
     private fun inicializarBotones() {
+
+        val etBusquedaResultado = binding.root.findViewById<EditText>(R.id.etBusquedaResultado)
+        val btnBuscarResultado = binding.root.findViewById<Button>(R.id.btnBuscarResultado)
+
+        btnBuscarResultado.setOnClickListener {
+            val textoBusqueda = etBusquedaResultado.text.toString().trim()
+            if (textoBusqueda.isNotEmpty()) {
+                buscarYMostrarResultados(textoBusqueda)
+            }
+        }
+
+        etBusquedaResultado.setOnEditorActionListener { _, _, _ ->
+            val textoBusqueda = etBusquedaResultado.text.toString().trim()
+            if (textoBusqueda.isNotEmpty()) {
+                buscarYMostrarResultados(textoBusqueda)
+                true
+            } else {
+                false
+            }
+        }
+
         binding.fabBusquedaAgregar.setOnClickListener {
             findNavController().navigate(R.id.action_resultadoBusquedaFragment_to_creaRecetaFragment)
         }
@@ -92,6 +115,26 @@ class ResultadoBusquedaFragment : Fragment() {
             actualizarLayoutSegunVista()
         }
     }
+
+    private fun buscarYMostrarResultados(texto: String) {
+        lifecycleScope.launch {
+            try {
+                val recetas = repository.buscarRecetas(texto)
+                if (recetas.isNotEmpty()) {
+                    // Actualizar lista de recetas en el adaptador
+                    recetaAdapter.recetas.clear()
+                    recetaAdapter.recetas.addAll(recetas)
+                    recetaAdapter.notifyDataSetChanged()
+                    actualizarLayoutSegunVista()
+                } else {
+                    Toast.makeText(requireContext(), "No se encontró ninguna receta con ese nombre", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Log.e("ResultadoBusqueda", "Error al buscar recetas: ${e.message}")
+            }
+        }
+    }
+
 
     private fun actualizarLayoutSegunVista() {
         if (enVistaGrid) {
