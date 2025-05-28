@@ -74,7 +74,7 @@
                     android:id="@+id/txtVer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ver"
+                    android:text="Ir"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="13sp"
                     android:minHeight="0dp"
@@ -88,12 +88,28 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Contenedor derecho (imagen + botón eliminar) -->
+        <!-- Contenedor derecho modificado (botón eliminar arriba + imagen) -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center">
+
+            <!-- Botón eliminar ahora arriba -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEliminar"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="?attr/colorSurface"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:textColor="?attr/colorError"
+                app:icon="@android:drawable/ic_menu_delete"
+                app:iconTint="?attr/colorError" />
 
             <!-- Imagen receta -->
             <ImageView
@@ -105,22 +121,6 @@
                 android:src="@drawable/ic_launcher_foreground"
                 android:clipToOutline="true"
                 android:background="?attr/selectableItemBackgroundBorderless" />
-
-            <!-- Botón eliminar -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnEliminar"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="?attr/colorSurface"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
-                android:textColor="?attr/colorError"
-                app:icon="@android:drawable/ic_menu_delete"
-                app:iconTint="?attr/colorError" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
