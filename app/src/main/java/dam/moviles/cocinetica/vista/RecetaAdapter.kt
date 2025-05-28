@@ -80,6 +80,7 @@ class RecetaAdapter(
             val ratingBar = itemView.findViewById<RatingBar>(R.id.ratingBar)
             val guardado = recetasGuardadas.contains(receta.id_receta)
             val email = FirebaseAuth.getInstance().currentUser?.email ?: return
+            val btnBorrar = itemView.findViewById<Button>(R.id.btnEliminar)
 
             actualizarBotonGuardar(btnGuardar, guardado)
 
@@ -94,6 +95,14 @@ class RecetaAdapter(
             itemView.setOnClickListener {
                 onVerClick(receta)
             }
+
+            // Mostrar el botón de borrar solo si la receta es del usuario actual
+            if (receta.id_usuario == idUsuario) {
+                btnBorrar.visibility = View.VISIBLE
+            } else {
+                btnBorrar.visibility = View.GONE
+            }
+
 
 
             btnGuardar.setOnClickListener {
