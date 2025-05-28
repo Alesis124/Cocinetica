@@ -10,5 +10,5 @@ data class UsuarioActualizarRequest(
     val correo: String,
     val usuario: String,
     val descripcion: String,
-    val imagen: String = ""
+    val imagen: String?
 ): Serializable

@@ -1,7 +1,14 @@
 package dam.moviles.cocinetica.vista
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
+import android.util.Base64
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +28,8 @@ import dam.moviles.cocinetica.modelo.Receta
 import dam.moviles.cocinetica.modelo.Valoracion
 import dam.moviles.cocinetica.viewModel.CuentaViewModel
 import kotlinx.coroutines.launch
+import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 
 class CuentaFragment : Fragment() {
 
@@ -70,14 +79,56 @@ class CuentaFragment : Fragment() {
         }
     }
 
+    private fun getCircularBitmap(bitmap: Bitmap): Bitmap {
+        val output = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(output)
+        val paint = Paint()
+        val rect = Rect(0, 0, bitmap.width, bitmap.height)
+
+        paint.isAntiAlias = true
+        canvas.drawARGB(0, 0, 0, 0)
+        canvas.drawCircle(bitmap.width / 2f, bitmap.height / 2f, bitmap.width / 2f, paint)
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        canvas.drawBitmap(bitmap, rect, rect, paint)
+
+        return output
+    }
+
     private fun observarViewModel() {
         cuentaViewModel.usuario.observe(viewLifecycleOwner) { usuario ->
             binding.txtNombre.text = usuario.usuario
             binding.txtDescripciN.text = usuario.descripcion
 
-            cuentaViewModel.cargarMisRecetas(usuario.id_usuario)
+            // Primero verificar si el usuario actual tiene foto de Google
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            currentUser?.photoUrl?.let { photoUrl ->
+                // Cargar imagen de Google con Glide
+                Glide.with(requireContext())
+                    .load(photoUrl)
+                    .circleCrop()
+                    .placeholder(R.drawable.cuent64)
+                    .into(binding.imagenCuenta)
+            } ?: run {
+                // Si no hay foto de Google, cargar la imagen Base64 de la base de datos
+                usuario.imagen?.let { imagenBase64 ->
+                    try {
+                        val decodedBytes = Base64.decode(imagenBase64, Base64.DEFAULT)
+                        val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+                        if (bitmap != null) {
+                            val circularBitmap = getCircularBitmap(bitmap)
+                            binding.imagenCuenta.setImageBitmap(circularBitmap)
+                        } else {
+                            binding.imagenCuenta.setImageResource(R.drawable.cuent64)
+                        }
+                    } catch (e: Exception) {
+                        binding.imagenCuenta.setImageResource(R.drawable.cuent64)
+                    }
+                } ?: run {
+                    binding.imagenCuenta.setImageResource(R.drawable.cuent64)
+                }
+            }
 
-            // Ya no creamos el adapter aquí directamente
+            cuentaViewModel.cargarMisRecetas(usuario.id_usuario)
         }
 
         cuentaViewModel.recetas.observe(viewLifecycleOwner) { recetas ->
