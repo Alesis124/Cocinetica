@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.doOnLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
@@ -74,14 +75,14 @@ class RecetaAdapter(
 
     inner class RecetaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(receta: Receta) {
-            val btnGuardar = itemView.findViewById<com.google.android.material.button.MaterialButton>(R.id.txtGuardar)
-            val btnVer = itemView.findViewById<Button>(R.id.txtVer)
+            val btnGuardar = itemView.findViewById<MaterialButton>(R.id.txtGuardar)
+            val btnVer = itemView.findViewById<MaterialButton>(R.id.txtVer)
             val txtTitulo = itemView.findViewById<TextView>(R.id.txtTitulo)
             val txtAutor = itemView.findViewById<TextView>(R.id.txtAutor)
             val ratingBar = itemView.findViewById<RatingBar>(R.id.ratingBar)
             val guardado = recetasGuardadas.contains(receta.id_receta)
             val email = FirebaseAuth.getInstance().currentUser?.email ?: return
-            val btnBorrar = itemView.findViewById<Button>(R.id.btnEliminar)
+            val btnBorrar = itemView.findViewById<MaterialButton>(R.id.btnEliminar)
 
             actualizarBotonGuardar(btnGuardar, guardado)
 
@@ -93,6 +94,13 @@ class RecetaAdapter(
             // Estado inicial del botón guardar (icono + texto)
             actualizarBotonGuardar(btnGuardar, guardado)
 
+            // Reemplaza el código actual del btnVer por esto:
+            btnVer.doOnLayout {
+                val textWidth = btnVer.paint.measureText(btnVer.text.toString()).toInt()
+                btnVer.minWidth = textWidth + btnVer.paddingLeft + btnVer.paddingRight
+                btnVer.minimumWidth = textWidth + btnVer.paddingLeft + btnVer.paddingRight
+            }
+
             itemView.setOnClickListener {
                 onVerClick(receta)
             }
@@ -103,6 +111,7 @@ class RecetaAdapter(
                 btnBorrar.setOnClickListener {
                     onEliminarClick(receta.id_receta)
                 }
+                itemView.post { itemView.requestLayout() }
             } else {
                 btnBorrar.visibility = View.GONE
             }

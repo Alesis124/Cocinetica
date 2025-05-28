@@ -9,15 +9,39 @@
     android:gravity="center_horizontal"
     android:elevation="2dp">
 
-    <TextView
-        android:id="@+id/txtTitulo"
-        android:layout_width="wrap_content"
+    <!-- Contenedor top: título + botón eliminar -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Receta1"
-        android:textStyle="bold"
-        android:textColor="?attr/colorOnSurface"
-        android:textSize="16sp"
-        android:layout_marginBottom="4dp" />
+        android:orientation="horizontal"
+        android:gravity="start|top">
+
+        <TextView
+            android:id="@+id/txtTitulo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Receta1"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEliminar"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="4dp"
+            android:layout_gravity="top|end"
+            android:textColor="?attr/colorError"
+            android:backgroundTint="@android:color/transparent"
+            app:icon="@android:drawable/ic_menu_delete"
+            app:iconTint="?attr/colorError" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/txtAutor"
@@ -56,39 +80,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        app:flexWrap="wrap"
+        app:flexWrap="nowrap"
+        app:flexDirection="row"
         app:justifyContent="center"
         app:alignItems="center">
 
+
+        <!-- Botón guardar como ícono, sin fondo -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/txtGuardar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Guardar"
-            android:textColor="?attr/colorPrimary"
-            android:textSize="12sp"
             android:minHeight="0dp"
-            android:minWidth="64dp"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="6dp"
+            android:minWidth="0dp"
+            android:padding="12dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:backgroundTint="?attr/colorSurface"
+            android:backgroundTint="@android:color/transparent"
+            app:icon="@drawable/guardar48vacio"
+            app:iconTint="?attr/colorPrimary"
             style="@style/Widget.Material3.Button.TextButton" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/txtVer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ver"
+            android:text="Ir"
             android:textColor="?attr/colorPrimary"
             android:textSize="12sp"
             android:minHeight="0dp"
-            android:minWidth="64dp"
-            android:paddingHorizontal="16dp"
+            android:minWidth="0dp"
+            android:paddingHorizontal="8dp"
             android:paddingVertical="6dp"
             android:layout_marginBottom="8dp"
-            android:backgroundTint="?attr/colorSurface"
-            style="@style/Widget.Material3.Button.TextButton" />
+            android:backgroundTint="@android:color/transparent"
+            style="@style/Widget.Material3.Button.TextButton"
+            app:cornerRadius="4dp" />
     </com.google.android.flexbox.FlexboxLayout>
 </LinearLayout>
