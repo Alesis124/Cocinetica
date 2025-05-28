@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_margin="8dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="4dp"
@@ -114,13 +115,13 @@
             <!-- Imagen receta -->
             <ImageView
                 android:id="@+id/imgReceta"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="je"
-                android:src="@drawable/ic_launcher_foreground"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:clipToOutline="true"
-                android:background="?attr/selectableItemBackgroundBorderless" />
+                android:contentDescription="imagen"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sinimagenplato"
+                tool:src="@drawable/sinimagenplato" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

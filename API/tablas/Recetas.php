@@ -92,17 +92,57 @@ class Recetas {
 
     // Actualizar receta existente
     function actualizar() {
-        $this->nombre = strip_tags($this->nombre);
-        $this->duracion = strip_tags($this->duracion);
-        $this->valoracion = strip_tags($this->valoracion);
-        $this->imagen = strip_tags($this->imagen);
+        // Solo sanitizar campos de texto
+        if (isset($this->nombre)) {
+            $this->nombre = strip_tags($this->nombre);
+        }
+        if (isset($this->duracion)) {
+            $this->duracion = strip_tags($this->duracion);
+        }
+        if (isset($this->valoracion)) {
+            $this->valoracion = strip_tags($this->valoracion);
+        }
+        
+        // NO sanitizar la imagen - mantenerla exactamente como viene
+        // $this->imagen = strip_tags($this->imagen); // <- ELIMINAR ESTA LÍNEA
 
-        $stmt = $this->conn->prepare(
-            "UPDATE " . $this->tabla . " 
-             SET nombre = ?, duracion = ?, valoracion = ?, imagen = ? 
-             WHERE id_receta = ?"
-        );
-        $stmt->bind_param("sidii", $this->nombre, $this->duracion, $this->valoracion, $this->imagen, $this->id_receta);
+        // Construir consulta dinámica
+        $updates = [];
+        $params = [];
+        $types = '';
+
+        if (isset($this->nombre)) {
+            $updates[] = "nombre = ?";
+            $params[] = $this->nombre;
+            $types .= 's';
+        }
+        if (isset($this->duracion)) {
+            $updates[] = "duracion = ?";
+            $params[] = $this->duracion;
+            $types .= 'i';
+        }
+        if (isset($this->valoracion)) {
+            $updates[] = "valoracion = ?";
+            $params[] = $this->valoracion;
+            $types .= 'd';
+        }
+        if (isset($this->imagen)) {
+            $updates[] = "imagen = ?";
+            $params[] = $this->imagen;
+            $types .= 's';
+        }
+
+        if (empty($updates)) {
+            return false;
+        }
+
+        $params[] = $this->id_receta;
+        $types .= 'i';
+
+        $sql = "UPDATE " . $this->tabla . " SET " . implode(', ', $updates) . " WHERE id_receta = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param($types, ...$params);
+        
         return $stmt->execute();
     }
 

@@ -178,30 +178,37 @@ class CocineticaRepository {
             response.isSuccessful
         }
     }
-    suspend fun actualizarMediaValoracionDeReceta(idReceta: Int) {
-        val valoraciones = cocineticaApi.leerValoraciones("Valoraciones")
-            .filter { it.id_receta == idReceta }
+    suspend fun actualizarMediaValoracionDeReceta(idReceta: Int): Boolean {
+        return try {
+            val valoraciones = cocineticaApi.leerValoraciones("Valoraciones")
+                .filter { it.id_receta == idReceta }
 
-        if (valoraciones.isNotEmpty()) {
-            val media = valoraciones.map { it.valoracion }.average()
+            if (valoraciones.isNotEmpty()) {
+                val media = valoraciones.map { it.valoracion }.average()
 
-            // Paso 1: obtener la receta original
-            val recetaOriginal = cocineticaApi.consultaReceta("Recetas", idReceta)
+                // Usa consultaRecetaPorId para obtener la imagen correctamente
+                val recetaOriginal = cocineticaApi.consultaReceta("Recetas", idReceta)
 
-            // Paso 2: crear el JSON completo para actualizar
-            val json = JSONObject().apply {
-                put("tabla", "Recetas")
-                put("id_receta", recetaOriginal.id_receta)
-                put("nombre", recetaOriginal.nombre)
-                put("duracion", recetaOriginal.duracion)
-                put("imagen", recetaOriginal.imagen ?: "")
-                put("id_usuario", recetaOriginal.id_usuario)
-                put("usuario", recetaOriginal.usuario)
-                put("valoracion", media)
+                // Debug: Verifica la imagen antes de construir el JSON
+                println("DEBUG - Imagen original: ${recetaOriginal.imagen?.take(10)}...")
+
+                val json = JSONObject().apply {
+                    put("tabla", "Recetas")
+                    put("id_receta", idReceta)
+                    put("valoracion", media) // Solo el campo que cambió
+                    // No envíes la imagen si no la estás modificando
+                }
+
+                val body = json.toString().toRequestBody("application/json".toMediaType())
+                val response = cocineticaApi.actualizarValoracion(body)
+
+                response.isSuccessful && response.body()?.error == null
+            } else {
+                true  // No hay valoraciones para actualizar
             }
-
-            val body = json.toString().toRequestBody("application/json".toMediaType())
-            cocineticaApi.actualizarValoracion(body)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
         }
     }
 

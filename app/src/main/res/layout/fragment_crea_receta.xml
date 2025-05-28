@@ -1,69 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
     android:padding="16dp">
-    <!--aqui-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <!-- Aquí va tu botón de volver -->
+        <!-- Botón de volver -->
         <ImageButton
             android:id="@+id/buttonVolver"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="start"
             android:layout_marginBottom="8dp"
-            android:tint="?attr/colorControlNormal"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Volver"
             android:src="@android:drawable/ic_menu_revert"
-            tools:ignore="UseAppTint"/>
-
+            android:tint="?attr/colorControlNormal"
+            tools:ignore="UseAppTint" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- Imagen -->
-            <ImageButton
-                android:id="@+id/imageButton"
+            <!-- Imagen con CardView (reemplaza el ImageButton original) -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardImageButton"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:contentDescription="Imagen de receta"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/platosinimagen2"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:contentDescription="Imagen de receta"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sinimagenplato"
+                android:onClick="onImageButtonClick"/>
+        </androidx.cardview.widget.CardView>
 
-            <!-- Nombre -->
-            <EditText
-                android:id="@+id/editTextNombre"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="Nombre de la receta"
-                android:inputType="textCapWords"
-                android:layout_marginStart="16dp"
-                app:layout_constraintStart_toEndOf="@id/imageButton"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+        <!-- Resto del layout (igual que antes) -->
+        <EditText
+            android:id="@+id/editTextNombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Nombre de la receta"
+            android:inputType="textCapWords"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/cardImageButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-            <!-- Duración -->
-            <EditText
-                android:id="@+id/editTextDuracion"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="Duración (minutos)"
-                android:inputType="number"
-                android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@id/editTextNombre"
-                app:layout_constraintStart_toStartOf="@id/editTextNombre"
-                app:layout_constraintEnd_toEndOf="parent" />
+        <EditText
+            android:id="@+id/editTextDuracion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Duración (minutos)"
+            android:inputType="number"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/editTextNombre"
+            app:layout_constraintStart_toStartOf="@id/editTextNombre"
+            app:layout_constraintEnd_toEndOf="parent" />
 
             <!-- Ingredientes -->
             <TextView

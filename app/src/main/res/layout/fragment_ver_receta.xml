@@ -12,13 +12,13 @@
 
         <ImageView
             android:id="@+id/imagenReceta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="64dp"
+            android:src="@drawable/platosinimagen2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/platosinimagen2"
             tools:src="@tools:sample/avatars" />
 
         <TextView

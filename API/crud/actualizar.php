@@ -64,11 +64,13 @@ switch ($datos->tabla) {
     case 'Recetas':
         $obj = new Recetas($conex);
         $obj->id_receta = $datos->id_receta;
-        $obj->nombre = $datos->nombre;
-        $obj->duracion = $datos->duracion;
-        $obj->valoracion = $datos->valoracion;
-        $obj->imagen = $datos->imagen;
-        $obj->id_usuario = $datos->id_usuario;
+        if (isset($datos->nombre)) $obj->nombre = $datos->nombre;
+        if (isset($datos->duracion)) $obj->duracion = $datos->duracion;
+        if (isset($datos->valoracion)) $obj->valoracion = $datos->valoracion;
+        // Solo actualizar imagen si se envía explícitamente
+        if (isset($datos->imagen) && $datos->imagen !== null) {
+            $obj->imagen = $datos->imagen;
+        }
         break;
     case 'Usuarios':
         $obj = new Usuarios($conex);

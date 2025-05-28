@@ -3,6 +3,7 @@ package dam.moviles.cocinetica.vista
 import ComentariosAdapter
 import IngredienteAdapter
 import android.app.AlertDialog
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -54,6 +55,18 @@ class VerRecetaFragment : Fragment() {
                 binding.tiempotxt.text = "${receta.duracion} minutos"
                 binding.ratingBar.rating = receta.valoracion.toFloat()
 
+
+                if (!receta.imagen.isNullOrEmpty()) {
+                    val bitmap = base64ToBitmap(receta.imagen)
+                    bitmap?.let {
+                        binding.imagenReceta.setImageBitmap(it)
+                    } ?: run {
+                        binding.imagenReceta.setImageResource(R.drawable.sinimagenplato)
+                    }
+                } else {
+                    binding.imagenReceta.setImageResource(R.drawable.sinimagenplato)
+                }
+
                 val valoracionUsuario = repository
                     .leerValoraciones()
                     .firstOrNull { it.id_usuario == idUsuarioActual && it.id_receta == idReceta }
@@ -87,6 +100,16 @@ class VerRecetaFragment : Fragment() {
         }
     }
 
+    private fun base64ToBitmap(base64String: String): Bitmap? {
+        return try {
+            val decodedBytes = android.util.Base64.decode(base64String, android.util.Base64.DEFAULT)
+            android.graphics.BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
     private fun cargarComentarios() {
         lifecycleScope.launch {
             try {
@@ -94,6 +117,8 @@ class VerRecetaFragment : Fragment() {
                 val valoracionesMap: Map<Int, Int> = repository.obtenerValoracionesComentarios(idReceta)
                 val usuariosList = repository.obtenerUsuarios()
                 val usuariosMap = usuariosList.associateBy({ it.id_usuario }, { it.usuario })
+
+
 
                 if (comentariosList.isEmpty()) {
                     Toast.makeText(requireContext(), "Sin comentarios", Toast.LENGTH_SHORT).show()
@@ -245,25 +270,37 @@ class VerRecetaFragment : Fragment() {
 
             lifecycleScope.launch {
                 try {
-                    val exito = repository.insertarOActualizarValoracionExistente(
+                    // 1. Guardar la valoración del usuario
+                    val exitoGuardar = repository.insertarOActualizarValoracionExistente(
                         idUsuario = idUsuarioActual,
                         idReceta = idReceta,
                         valoracionInt = nota
                     )
 
-                    if (exito) {
-                        repository.actualizarMediaValoracionDeReceta(idReceta)
-                        Toast.makeText(context, "Valoración actualizada", Toast.LENGTH_SHORT).show()
-                        cargarDatos()
+                    if (exitoGuardar) {
+                        // 2. Actualizar la media
+                        val exitoActualizar = repository.actualizarMediaValoracionDeReceta(idReceta)
+
+                        if (exitoActualizar) {
+                            // Actualizar UI
+                            val recetaActualizada = repository.consultaRecetaPorId(idReceta)
+                            binding.ratingBar.rating = recetaActualizada.valoracion.toFloat()
+
+                            // Refrescar los comentarios para mostrar la valoración actualizada
+                            cargarComentarios()
+
+                            Toast.makeText(context, "Valoración actualizada", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "Error al actualizar media", Toast.LENGTH_SHORT).show()
+                        }
                     } else {
-                        Toast.makeText(context, "Error al valorar", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Error al guardar valoración", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
-                    Toast.makeText(context, "Excepción: ${e.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_LONG).show()
                     e.printStackTrace()
                 }
             }
-
         }
     }
 

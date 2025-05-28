@@ -1,10 +1,12 @@
 package dam.moviles.cocinetica.vista
 
+import android.graphics.Bitmap
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -18,6 +20,10 @@ import dam.moviles.cocinetica.modelo.Receta
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import android.graphics.BitmapFactory
+import android.util.Base64
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 
 class RecetaAdapter(
     var recetas: MutableList<Receta>,
@@ -71,6 +77,16 @@ class RecetaAdapter(
         idUsuarioActual = usuario.id_usuario
     }
 
+    fun base64ToBitmap(base64String: String): Bitmap? {
+        return try {
+            val decodedBytes = Base64.decode(base64String, Base64.DEFAULT)
+            BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
     override fun getItemCount(): Int = recetas.size
 
     inner class RecetaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -83,6 +99,7 @@ class RecetaAdapter(
             val guardado = recetasGuardadas.contains(receta.id_receta)
             val email = FirebaseAuth.getInstance().currentUser?.email ?: return
             val btnBorrar = itemView.findViewById<MaterialButton>(R.id.btnEliminar)
+            val imagenReceta = itemView.findViewById<ImageView>(R.id.imgReceta)
 
             actualizarBotonGuardar(btnGuardar, guardado)
 
@@ -90,6 +107,16 @@ class RecetaAdapter(
             txtAutor.text = "Autor: $nombreAutor"
             txtTitulo.text = receta.nombre
             ratingBar.rating = receta.valoracion.toFloat()
+            if (!receta.imagen.isNullOrEmpty()) {
+                val bitmap = base64ToBitmap(receta.imagen)
+                bitmap?.let {
+                    imagenReceta.setImageBitmap(it)
+                } ?: run {
+                    imagenReceta.setImageResource(R.drawable.sinimagenplato) // Imagen por defecto si hay error
+                }
+            } else {
+                imagenReceta.setImageResource(R.drawable.sinimagenplato) // Imagen por defecto si no hay Base64
+            }
 
             // Estado inicial del botón guardar (icono + texto)
             actualizarBotonGuardar(btnGuardar, guardado)

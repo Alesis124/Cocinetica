@@ -1,12 +1,23 @@
 package dam.moviles.cocinetica.vista
 
+import android.Manifest
+import android.app.AlertDialog
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.os.Environment
+import android.provider.MediaStore
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.widget.doAfterTextChanged
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +29,10 @@ import dam.moviles.cocinetica.modelo.Contiene
 import dam.moviles.cocinetica.modelo.Receta
 import dam.moviles.cocinetica.viewModel.CreaRecetaViewModel
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CreaRecetaFragment : Fragment() {
 
@@ -25,6 +40,26 @@ class CreaRecetaFragment : Fragment() {
     private lateinit var viewModel: CreaRecetaViewModel
     private val unidades = listOf("g", "kg", "ml", "l", "cucharada", "taza", "pieza")
     private val args: CreaRecetaFragmentArgs by navArgs()
+
+    // Variables para manejo de imágenes
+    private var imageUri: Uri? = null
+    private var currentPhotoPath: String? = null
+    private var imagenBase64: String? = null
+
+    // Registros para los resultados de actividad
+    private val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+        if (success && imageUri != null) {
+            cargarImagenDesdeUri(imageUri!!)
+        } else {
+            Toast.makeText(requireContext(), "Error al tomar la foto", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        if (uri != null) {
+            cargarImagenDesdeUri(uri)
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCreaRecetaBinding.inflate(inflater, container, false)
@@ -36,8 +71,12 @@ class CreaRecetaFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[CreaRecetaViewModel::class.java]
 
-        viewModel.cargarDatosDisponibles()
+        // Configurar el click listener para el botón de imagen
+        binding.imageButton.setOnClickListener {
+            mostrarDialogoSeleccionImagen()
+        }
 
+        viewModel.cargarDatosDisponibles()
         viewModel.cargarUsuarioDesdeFirebase()
 
         viewModel.usuario.observe(viewLifecycleOwner) { usuario ->
@@ -50,7 +89,6 @@ class CreaRecetaFragment : Fragment() {
         binding.buttonAgregarIngrediente.setOnClickListener {
             sincronizarDatosConViewModel()
             viewModel.agregarIngrediente()
-            println("DEBUG: Ingredientes en VM tras agregar: ${viewModel.ingredientes.size}")
             renderIngredientes()
         }
 
@@ -65,8 +103,165 @@ class CreaRecetaFragment : Fragment() {
         inicializarBotones()
     }
 
+    private fun mostrarDialogoSeleccionImagen() {
+        val opciones = arrayOf("Tomar foto", "Elegir de galería", "Cancelar")
+        AlertDialog.Builder(requireContext())
+            .setTitle("Seleccionar imagen de receta")
+            .setItems(opciones) { _, which ->
+                when (which) {
+                    0 -> checkCameraPermissionAndOpenCamera()
+                    1 -> abrirGaleria()
+                    2 -> {} // Cancelar
+                }
+            }
+            .show()
+    }
+
+    private fun checkCameraPermissionAndOpenCamera() {
+        val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            arrayOf(Manifest.permission.CAMERA)
+        } else {
+            arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+
+        if (permissions.all { ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED }) {
+            abrirCamara()
+        } else {
+            requestPermissions(permissions, 1001)
+        }
+    }
+
+    private fun abrirCamara() {
+        try {
+            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+            val imageFileName = "JPEG_${timeStamp}_"
+            val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            val imageFile = File.createTempFile(imageFileName, ".jpg", storageDir)
+
+            currentPhotoPath = imageFile.absolutePath
+            imageUri = FileProvider.getUriForFile(
+                requireContext(),
+                "${requireContext().packageName}.provider",
+                imageFile
+            )
+
+            cameraLauncher.launch(imageUri)
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Error al abrir cámara: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun abrirGaleria() {
+        galleryLauncher.launch("image/*")
+    }
+
+    private fun cargarImagenDesdeUri(uri: Uri) {
+        try {
+            val inputStream = requireContext().contentResolver.openInputStream(uri)
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+            inputStream?.close()
+
+            // Redimensionar para optimización
+            val resizedBitmap = Bitmap.createScaledBitmap(bitmap, 800, 800, true)
+
+            // Mostrar la imagen
+            binding.imageButton.setImageBitmap(resizedBitmap)
+
+            // Convertir a Base64
+            imagenBase64 = bitmapToBase64(resizedBitmap)
+
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Error al cargar imagen", Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
+        }
+    }
+
+    private fun bitmapToBase64(bitmap: Bitmap): String {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1001 && grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+            abrirCamara()
+        } else {
+            Toast.makeText(requireContext(), "Permisos necesarios denegados", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun inicializarBotones() {
+        binding.buttonVolver.setOnClickListener {
+            if(args.tab == "nada" && !args.cuenta) {
+                requireActivity().onBackPressed()
+            } else {
+                val action = CreaRecetaFragmentDirections.actionCreaRecetaFragmentToCuentaFragment(args.tab)
+                findNavController().navigate(action)
+            }
+        }
+
+        binding.buttonGuardar.setOnClickListener {
+            sincronizarDatosConViewModel()
+
+            lifecycleScope.launch {
+                val nombre = binding.editTextNombre.text.toString().trim()
+                val duracionStr = binding.editTextDuracion.text.toString()
+                val duracion = duracionStr.toIntOrNull() ?: 0
+                val idUsuario = viewModel.usuario.value?.id_usuario ?: return@launch
+
+                val receta = Receta(
+                    id_receta = 0,
+                    nombre = nombre,
+                    duracion = duracion,
+                    valoracion = "0",
+                    imagen = imagenBase64 ?: "",
+                    id_usuario = idUsuario
+                )
+
+                try {
+                    val ingredientesList = viewModel.ingredientes.map { ing ->
+                        val idIng = viewModel.repository.obtenerOInsertarIngrediente(ing.nombre)
+                        val idUM = viewModel.obtenerIdUMPorNombre(ing.unidad)
+                        val cantidad = ing.cantidad.toDoubleOrNull()
+
+                        if (idUM == null || cantidad == null) {
+                            throw IllegalArgumentException("Unidad o cantidad inválida para ingrediente '${ing.nombre}'")
+                        }
+
+                        Contiene(0, idIng, idUM, cantidad)
+                    }
+
+                    val pasosList = viewModel.pasos.mapNotNull { it.descripcion.takeIf { it.isNotBlank() } }
+
+                    if (nombre.isBlank() || ingredientesList.isEmpty() || pasosList.isEmpty()) {
+                        Toast.makeText(requireContext(), "Completa todos los campos correctamente", Toast.LENGTH_SHORT).show()
+                        return@launch
+                    }
+
+                    val idReceta = viewModel.repository.insertarRecetaCompleta(receta, ingredientesList, pasosList)
+                    val recetaInsertada = viewModel.repository.consultaRecetaPorId(idReceta ?: 0)
+
+                    if (recetaInsertada != null) {
+                        Toast.makeText(requireContext(), "Receta guardada con éxito", Toast.LENGTH_SHORT).show()
+                        val action = CreaRecetaFragmentDirections.actionCreaRecetaFragmentToCompletadoFragment(recetaInsertada.id_receta)
+                        findNavController().navigate(action)
+                    } else {
+                        Toast.makeText(requireContext(), "Error al confirmar receta guardada", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_creaRecetaFragment_to_errorFragment)
+                    }
+
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
     private fun sincronizarDatosConViewModel() {
-        // Ingredientes
+        // Sincronizar ingredientes
         for (i in 0 until binding.layoutIngredientes.childCount) {
             val ingredienteView = binding.layoutIngredientes.getChildAt(i)
             val etCantidad = ingredienteView.findViewById<EditText>(R.id.editTextCantidad)
@@ -80,7 +275,7 @@ class CreaRecetaFragment : Fragment() {
             }
         }
 
-        // Pasos
+        // Sincronizar pasos
         for (i in 0 until binding.layoutPasos.childCount) {
             val pasoView = binding.layoutPasos.getChildAt(i)
             val etDescripcion = pasoView.findViewById<EditText>(R.id.etDescripcionPaso)
@@ -90,23 +285,6 @@ class CreaRecetaFragment : Fragment() {
             }
         }
     }
-
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        if (::binding.isInitialized) {
-            sincronizarDatosConViewModel()
-        }
-    }
-
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        // Vuelve a renderizar los datos después de restaurar el estado
-        renderIngredientes()
-        renderPasos()
-    }
-
 
     private fun renderIngredientes() {
         binding.layoutIngredientes.removeAllViews()
@@ -120,12 +298,9 @@ class CreaRecetaFragment : Fragment() {
             val btnEliminar = ingredienteView.findViewById<ImageButton>(R.id.buttonEliminarIngrediente)
 
             tvNumero.text = "${index + 1}."
+            etCantidad.setText(ingrediente.cantidad)
+            etNombre.setText(ingrediente.nombre)
 
-            // Quitar listeners antes de setText para evitar que se dispare
-            etCantidad.setText(ingrediente.cantidad, TextView.BufferType.EDITABLE)
-            etNombre.setText(ingrediente.nombre, TextView.BufferType.EDITABLE)
-
-            // Solo registrar cambios del usuario
             etCantidad.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     viewModel.ingredientes[index].cantidad = etCantidad.text.toString()
@@ -164,90 +339,6 @@ class CreaRecetaFragment : Fragment() {
         }
     }
 
-
-
-    fun inicializarBotones(){
-        binding.buttonVolver.setOnClickListener {
-            if(args.tab == "nada"&& !args.cuenta){
-                requireActivity().onBackPressed()
-            }else{
-                val action = CreaRecetaFragmentDirections.actionCreaRecetaFragmentToCuentaFragment(args.tab)
-                findNavController().navigate(action)
-            }
-        }
-
-        binding.buttonGuardar.setOnClickListener {
-            sincronizarDatosConViewModel()
-
-            lifecycleScope.launch {
-                val nombre = binding.editTextNombre.text.toString().trim()
-                val duracionStr = binding.editTextDuracion.text.toString()
-                val duracion = duracionStr.toIntOrNull() ?: 0
-                val idUsuario = viewModel.usuario.value?.id_usuario ?: return@launch
-
-                val receta = Receta(
-                    id_receta = 0,
-                    nombre = nombre,
-                    duracion = duracion,
-                    valoracion = "0",
-                    imagen = "",
-                    id_usuario = idUsuario
-                )
-
-                try {
-                    val ingredientesList = viewModel.ingredientes.map { ing ->
-                        val idIng = viewModel.repository.obtenerOInsertarIngrediente(ing.nombre)
-                        val idUM = viewModel.obtenerIdUMPorNombre(ing.unidad)
-                        val cantidad = ing.cantidad.toDoubleOrNull()
-
-                        if (idUM == null || cantidad == null) {
-                            throw IllegalArgumentException("Unidad o cantidad inválida para ingrediente '${ing.nombre}'")
-                        }
-
-                        Contiene(0, idIng, idUM, cantidad)
-                    }
-
-                    val pasosList = viewModel.pasos.mapNotNull { it.descripcion.takeIf { it.isNotBlank() } }
-
-                    if (nombre.isBlank() || ingredientesList.isEmpty() || pasosList.isEmpty()) {
-                        Toast.makeText(requireContext(), "Completa todos los campos correctamente", Toast.LENGTH_SHORT).show()
-                        return@launch
-                    }
-
-                    val idReceta = viewModel.repository.insertarRecetaCompleta(receta, ingredientesList, pasosList)
-
-                    // Ahora consultas si la receta ya está en la base de datos (ejemplo: consultaUsuario o consultaReceta)
-                    val recetaInsertada = viewModel.repository.consultaRecetaPorId(idReceta ?: 0)
-
-                    if (recetaInsertada != null) {
-                        Toast.makeText(requireContext(), "Receta guardada con éxito", Toast.LENGTH_SHORT).show()
-                        val action = CreaRecetaFragmentDirections.actionCreaRecetaFragmentToCompletadoFragment(recetaInsertada.id_receta)
-                        findNavController().navigate(action)
-                    } else {
-                        Toast.makeText(requireContext(), "Error al confirmar receta guardada", Toast.LENGTH_SHORT).show()
-                        findNavController().navigate(R.id.action_creaRecetaFragment_to_errorFragment)
-                    }
-
-                } catch (e: Exception) {
-                    Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_LONG).show()
-                    e.printStackTrace()
-                }
-            }
-        }
-
-
-
-    }
-
-    private fun ocultarTecladoYQuitarFoco() {
-        val imm = requireContext().getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
-        val view = requireActivity().currentFocus
-        view?.clearFocus()
-        if (view != null) {
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
-    }
-
     private fun renderPasos() {
         binding.layoutPasos.removeAllViews()
         viewModel.pasos.forEachIndexed { index, paso ->
@@ -258,7 +349,7 @@ class CreaRecetaFragment : Fragment() {
             val btnEliminar = pasoView.findViewById<ImageButton>(R.id.btnEliminarPaso)
 
             tvNumeroPaso.text = "${index + 1}."
-            etDescripcion.setText(paso.descripcion, TextView.BufferType.EDITABLE)
+            etDescripcion.setText(paso.descripcion)
 
             etDescripcion.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
@@ -277,4 +368,10 @@ class CreaRecetaFragment : Fragment() {
         }
     }
 
+    private fun ocultarTecladoYQuitarFoco() {
+        val imm = requireContext().getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+        val view = requireActivity().currentFocus
+        view?.clearFocus()
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+    }
 }
