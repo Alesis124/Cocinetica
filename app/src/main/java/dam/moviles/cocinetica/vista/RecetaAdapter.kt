@@ -95,10 +95,6 @@ class RecetaAdapter(
                 onVerClick(receta)
             }
 
-            CoroutineScope(Dispatchers.Main).launch {
-                cargarUsuario()
-            }
-
 
             btnGuardar.setOnClickListener {
                 CoroutineScope(Dispatchers.Main).launch {
@@ -123,6 +119,10 @@ class RecetaAdapter(
             btnVer?.setOnClickListener {
                 onVerClick(receta)
             }
+
+            txtTitulo.text = receta.nombre
+            txtAutor.text = "Autor: ${receta.usuario ?: nombreAutor}"
+            ratingBar.rating = receta.valoracion.toFloat()
         }
 
         private fun actualizarBotonGuardar(btn: MaterialButton, estaGuardada: Boolean) {
