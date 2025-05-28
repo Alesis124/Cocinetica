@@ -102,11 +102,21 @@ class VerRecetaFragment : Fragment() {
                 binding.recyclerComentarios.layoutManager = LinearLayoutManager(requireContext())
                 binding.recyclerComentarios.adapter = ComentariosAdapter(
                     comentariosList,
-                    valoracionesMap, // Ahora es Map<Int, Int>
+                    valoracionesMap,
                     usuariosMap,
                     idUsuarioActual,
                     onEliminarClick = { comentario ->
                         mostrarDialogoConfirmacionEliminar(comentario)
+                    },
+                    onIrClick = { idRecetaComentario ->
+                        // Navegar a la receta del comentario si es diferente a la actual
+                        if (idRecetaComentario != idReceta) {
+                            val action = VerRecetaFragmentDirections.actionVerRecetaFragmentSelf(
+                                idRecetaComentario,
+                                origen = args.origen
+                            )
+                            findNavController().navigate(action)
+                        }
                     }
                 )
             } catch (e: Exception) {
@@ -144,13 +154,21 @@ class VerRecetaFragment : Fragment() {
 
     private fun configurarBotones() {
         binding.btnVolver.setOnClickListener {
-            if (args.origen == "completado") {
-                // Si vienes de CompletadoFragment, ir a inicioFragment
-                findNavController().navigate(R.id.action_verRecetaFragment_to_inicioFragment)
-            } else {
-                // Comportamiento normal: ir atrás en pila
-                requireActivity().onBackPressed()
-            }
+            when (args.origen) {
+                "completado" -> {
+                    // Ir a inicioFragment
+                    findNavController().navigate(R.id.action_verRecetaFragment_to_inicioFragment)
+                }
+                "cuenta" -> {
+                    // Ir directamente a cuentaFragment con recarga forzada
+                    val action = VerRecetaFragmentDirections.actionVerRecetaFragmentToCuentaFragment("comentarios")
+                    findNavController().navigate(action)
+                }
+                else -> {
+                    // Comportamiento por defecto: ir atrás
+                    requireActivity().onBackPressed()
+                }
+                }
         }
 
         binding.btnGuardar.setOnClickListener {

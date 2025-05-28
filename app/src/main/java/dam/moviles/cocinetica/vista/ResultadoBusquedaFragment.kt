@@ -74,8 +74,9 @@ class ResultadoBusquedaFragment : Fragment() {
                     true
                 }
                 R.id.nav_profile -> {
+                    val action = ResultadoBusquedaFragmentDirections.actionResultadoBusquedaFragmentToCuentaFragment(args.tab)
                     if (navController.currentDestination?.id != R.id.cuentaFragment)
-                        navController.navigate(R.id.action_resultadoBusquedaFragment_to_cuentaFragment)
+                        navController.navigate(action)
                     true
                 }
                 else -> false

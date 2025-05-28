@@ -52,6 +52,10 @@
         <action
             android:id="@+id/action_inicioFragment_to_creaRecetaFragment"
             app:destination="@id/creaRecetaFragment" />
+        <argument
+            android:name="tab"
+            app:argType="string"
+            android:defaultValue="nada" />
     </fragment>
     <fragment
         android:id="@+id/cuentaFragment"
@@ -76,6 +80,9 @@
         <action
             android:id="@+id/action_cuentaFragment_to_verRecetaFragment3"
             app:destination="@id/verRecetaFragment" />
+        <argument
+            android:name="tab_select"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/ajustesCuentaFragment"
@@ -91,6 +98,10 @@
         <action
             android:id="@+id/action_ajustesCuentaFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <argument
+            android:name="tab"
+            app:argType="string"
+            android:defaultValue="nada" />
     </fragment>
     <fragment
         android:id="@+id/cargaFragment"
@@ -127,6 +138,10 @@
         <action
             android:id="@+id/action_busquedaFragment_to_resultadoBusquedaFragment"
             app:destination="@id/resultadoBusquedaFragment" />
+        <argument
+            android:name="tab"
+            app:argType="string"
+            android:defaultValue="nada" />
     </fragment>
     <fragment
         android:id="@+id/guardadosFragment"
@@ -148,6 +163,10 @@
         <action
             android:id="@+id/action_guardadosFragment_to_verRecetaFragment"
             app:destination="@id/verRecetaFragment" />
+        <argument
+            android:name="tab"
+            app:argType="string"
+            android:defaultValue="nada" />
     </fragment>
     <fragment
         android:id="@+id/verRecetaFragment"
@@ -163,6 +182,18 @@
         <argument
             android:name="origen"
             app:argType="string" />
+        <action
+            android:id="@+id/action_verRecetaFragment_self"
+            app:destination="@id/verRecetaFragment" />
+        <action
+            android:id="@+id/action_verRecetaFragment_to_cuentaFragment"
+            app:destination="@id/cuentaFragment"
+            app:popUpTo="@id/cuentaFragment"
+            app:popUpToInclusive="true"/>
+        <argument
+            android:name="tab"
+            app:argType="string"
+            android:defaultValue="nada" />
     </fragment>
     <fragment
         android:id="@+id/creaRecetaFragment"
@@ -175,6 +206,17 @@
         <action
             android:id="@+id/action_creaRecetaFragment_to_errorFragment"
             app:destination="@id/errorFragment" />
+        <argument
+            android:name="tab"
+            app:argType="string"
+            android:defaultValue="nada" />
+        <action
+            android:id="@+id/action_creaRecetaFragment_to_cuentaFragment"
+            app:destination="@id/cuentaFragment" />
+        <argument
+            android:name="cuenta"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/completadoFragment"
@@ -233,5 +275,9 @@
         <argument
             android:name="id_receta"
             app:argType="integer[]" />
+        <argument
+            android:name="tab"
+            app:argType="string"
+            android:defaultValue="nada" />
     </fragment>
 </navigation>

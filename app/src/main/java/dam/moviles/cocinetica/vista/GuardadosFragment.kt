@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationBarView
@@ -28,6 +29,7 @@ class GuardadosFragment : Fragment() {
     private lateinit var recetaAdapter: RecetaAdapter
     private val repository = CocineticaRepository()
     private var idUsuarioActual: Int? = null
+    private val args: GuardadosFragmentArgs by navArgs()
 
     // Lista mutable de recetas para mostrar en el adapter
     private val recetas = mutableListOf<Receta>()
@@ -204,7 +206,8 @@ class GuardadosFragment : Fragment() {
                 }
                 R.id.nav_book -> true // Ya estás en guardados, no hace nada
                 R.id.nav_profile -> {
-                    findNavController().navigate(R.id.action_guardadosFragment_to_cuentaFragment)
+                    val action = GuardadosFragmentDirections.actionGuardadosFragmentToCuentaFragment(args.tab)
+                    findNavController().navigate(action)
                     true
                 }
                 else -> false

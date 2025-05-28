@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.firebase.auth.FirebaseAuth
 import dam.moviles.cocinetica.R
 import dam.moviles.cocinetica.databinding.FragmentAjustesCuentaBinding
@@ -19,6 +20,8 @@ class AjustesCuentaFragment : Fragment() {
 
     lateinit var binding: FragmentAjustesCuentaBinding
     private val repository = CocineticaRepository()
+    private val args: AjustesCuentaFragmentArgs by navArgs()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -122,7 +125,8 @@ class AjustesCuentaFragment : Fragment() {
         }
 
         binding.btnVolver.setOnClickListener {
-            requireActivity().onBackPressed()
+            val action = AjustesCuentaFragmentDirections.actionAjustesCuentaFragmentToCuentaFragment(args.tab)
+            findNavController().navigate(action)
         }
 
         binding.CerrarSesionbtn.setOnClickListener {

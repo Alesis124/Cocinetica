@@ -12,12 +12,14 @@ import dam.moviles.cocinetica.databinding.FragmentBusquedaBinding
 import dam.moviles.cocinetica.modelo.CocineticaRepository
 import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 
 
 class BusquedaFragment : Fragment() {
 
     lateinit var binding: FragmentBusquedaBinding
     private val repository = CocineticaRepository()
+    private val args: BusquedaFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +53,8 @@ class BusquedaFragment : Fragment() {
                     true
                 }
                 R.id.nav_profile -> {
-                    findNavController().navigate(R.id.action_busquedaFragment_to_cuentaFragment)
+                    val action = BusquedaFragmentDirections.actionBusquedaFragmentToCuentaFragment(args.tab)
+                    findNavController().navigate(action)
                     true
                 }
                 else -> false
@@ -83,7 +86,7 @@ class BusquedaFragment : Fragment() {
                 if (recetas.isNotEmpty()) {
                     val idsRecetas = recetas.map { it.id_receta }.toIntArray()
                     val action = BusquedaFragmentDirections
-                        .actionBusquedaFragmentToResultadoBusquedaFragment(idsRecetas)
+                        .actionBusquedaFragmentToResultadoBusquedaFragment(idsRecetas, args.tab)
                     findNavController().navigate(action)
                 } else {
                     // Aquí podrías mostrar un Toast o mensaje que no hay resultados

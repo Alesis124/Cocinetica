@@ -154,4 +154,11 @@ class RecetaAdapter(
             )
         }
     }
+    // Añade este método en tu RecetaAdapter
+    fun actualizarRecetasGuardadas(nuevasGuardadas: Set<Int>) {
+        recetasGuardadas.clear()
+        recetasGuardadas.addAll(nuevasGuardadas)
+        notifyDataSetChanged() // O notifyItemRangeChanged(0, itemCount)
+    }
+
 }

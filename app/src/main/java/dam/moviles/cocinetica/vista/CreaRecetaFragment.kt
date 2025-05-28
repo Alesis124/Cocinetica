@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import dam.moviles.cocinetica.databinding.FragmentCreaRecetaBinding
 import dam.moviles.cocinetica.R
 import dam.moviles.cocinetica.modelo.Contiene
@@ -23,6 +24,7 @@ class CreaRecetaFragment : Fragment() {
     private lateinit var binding: FragmentCreaRecetaBinding
     private lateinit var viewModel: CreaRecetaViewModel
     private val unidades = listOf("g", "kg", "ml", "l", "cucharada", "taza", "pieza")
+    private val args: CreaRecetaFragmentArgs by navArgs()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCreaRecetaBinding.inflate(inflater, container, false)
@@ -166,8 +168,14 @@ class CreaRecetaFragment : Fragment() {
 
     fun inicializarBotones(){
         binding.buttonVolver.setOnClickListener {
-            requireActivity().onBackPressed()
+            if(args.tab == "nada"&& !args.cuenta){
+                requireActivity().onBackPressed()
+            }else{
+                val action = CreaRecetaFragmentDirections.actionCreaRecetaFragmentToCuentaFragment(args.tab)
+                findNavController().navigate(action)
+            }
         }
+
         binding.buttonGuardar.setOnClickListener {
             sincronizarDatosConViewModel()
 

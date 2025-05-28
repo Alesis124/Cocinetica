@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationBarView
@@ -28,6 +29,7 @@ class InicioFragment : Fragment() {
     private lateinit var binding: FragmentInicioBinding
     private lateinit var viewModel: InicioFragmenViewModel
     private lateinit var recetaAdapter: RecetaAdapter
+    private val args: InicioFragmentArgs by navArgs()
 
     private val recetasGuardadas = mutableSetOf<Int>()
     private var idUsuarioActual: Int? = null
@@ -199,7 +201,9 @@ class InicioFragment : Fragment() {
                     true
                 }
                 R.id.nav_profile -> {
-                    findNavController().navigate(R.id.action_inicioFragment_to_cuentaFragment)
+
+                    val action = InicioFragmentDirections.actionInicioFragmentToCuentaFragment(args.tab)
+                    findNavController().navigate(action)
                     true
                 }
                 else -> false

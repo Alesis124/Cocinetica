@@ -17,7 +17,8 @@ class ComentariosAdapter(
     private val valoracionesMap: Map<Int, Int>,
     private val usuariosMap: Map<Int, String?>,
     private val idUsuarioActual: Int,
-    private val onEliminarClick: (Comentario) -> Unit // callback para eliminar
+    private val onEliminarClick: (Comentario) -> Unit,
+    private val onIrClick: (Int) -> Unit  // Nuevo parámetro para navegación
 ) : RecyclerView.Adapter<ComentariosAdapter.ComentarioViewHolder>() {
 
     inner class ComentarioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -26,8 +27,20 @@ class ComentariosAdapter(
         val tvFecha: TextView = itemView.findViewById(R.id.tvFecha)
         val tvComentario: TextView = itemView.findViewById(R.id.tvComentario)
         val btnEliminar: Button = itemView.findViewById(R.id.btnEliminar)
+
+        init {
+            // Agregar clic a toda la vista del comentario
+            itemView.setOnClickListener {
+                val comentario = comentarios[adapterPosition]
+                // Verificar si el comentario tiene una receta asociada
+                if (comentario.id_receta != null) {
+                    onIrClick(comentario.id_receta)
+                }
+            }
+        }
     }
 
+    // Resto del código del adaptador permanece igual...
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComentarioViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.comentarios_receta, parent, false)
@@ -49,7 +62,6 @@ class ComentariosAdapter(
         } else {
             "⭐ Sin valorar"
         }
-
 
         if (comentario.id_usuario == idUsuarioActual) {
             holder.btnEliminar.visibility = View.VISIBLE
