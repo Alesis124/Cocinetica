@@ -116,12 +116,19 @@ class AjustesCuentaViewModel(application: Application) : AndroidViewModel(applic
                 _usuarioNombre.postValue(usuario.usuario)
                 _usuarioDescripcion.postValue(usuario.descripcion)
 
-                if (usuario.imagen != null) {
-                    _imagenBase64.postValue(usuario.imagen)
-                } else {
+                // Primero intenta con la imagen de la base de datos
+                usuario.imagen?.let { imagenBase64 ->
+                    if (imagenBase64.startsWith("http")) {
+                        // Es una URL (caso Google)
+                        _glideImageUrl.postValue(imagenBase64)
+                    } else {
+                        // Es una imagen en base64
+                        _imagenBase64.postValue(imagenBase64)
+                    }
+                } ?: run {
+                    // Si no hay imagen en BD, intenta con la de Firebase Auth (Google)
                     auth.currentUser?.photoUrl?.let { url ->
                         _glideImageUrl.postValue(url.toString())
-                        loadImageFromUrlAndConvertToBase64(getApplication(), url.toString())
                     }
                 }
             } catch (e: Exception) {
