@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Cocinetica"
+rootProject.name = "Cocinética"
 include(":app")
