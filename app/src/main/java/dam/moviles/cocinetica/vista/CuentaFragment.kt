@@ -9,6 +9,7 @@ import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +30,7 @@ import dam.moviles.cocinetica.modelo.Valoracion
 import dam.moviles.cocinetica.viewModel.CuentaViewModel
 import kotlinx.coroutines.launch
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.auth.FirebaseAuth
 
 class CuentaFragment : Fragment() {
@@ -99,36 +101,36 @@ class CuentaFragment : Fragment() {
             binding.txtNombre.text = usuario.usuario
             binding.txtDescripciN.text = usuario.descripcion
 
-            // Primero verificar si el usuario actual tiene foto de Google
+            // Intentar primero con la imagen de la base de datos si existe
+            usuario.imagen?.let { imagenBase64 ->
+                try {
+                    val decodedBytes = Base64.decode(imagenBase64, Base64.DEFAULT)
+                    val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+                    if (bitmap != null) {
+                        val circularBitmap = getCircularBitmap(bitmap)
+                        binding.imagenCuenta.setImageBitmap(circularBitmap)
+                        return@observe // Salir si la imagen de la BD se cargó correctamente
+                    } else {
+                        //nada
+                    }
+                } catch (e: Exception) {
+                    Log.e("CuentaFragment", "Error al cargar imagen Base64", e)
+                }
+            }
+
+            // Si no hay imagen en BD o falló, intentar con Google
             val currentUser = FirebaseAuth.getInstance().currentUser
             currentUser?.photoUrl?.let { photoUrl ->
-                // Cargar imagen de Google con Glide
                 Glide.with(requireContext())
                     .load(photoUrl)
                     .circleCrop()
                     .placeholder(R.drawable.cuent64)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE) // Añade esto para evitar caché
+                    .skipMemoryCache(true) // Añade esto para evitar caché
                     .into(binding.imagenCuenta)
             } ?: run {
-                // Si no hay foto de Google, cargar la imagen Base64 de la base de datos
-                usuario.imagen?.let { imagenBase64 ->
-                    try {
-                        val decodedBytes = Base64.decode(imagenBase64, Base64.DEFAULT)
-                        val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-                        if (bitmap != null) {
-                            val circularBitmap = getCircularBitmap(bitmap)
-                            binding.imagenCuenta.setImageBitmap(circularBitmap)
-                        } else {
-                            binding.imagenCuenta.setImageResource(R.drawable.cuent64)
-                        }
-                    } catch (e: Exception) {
-                        binding.imagenCuenta.setImageResource(R.drawable.cuent64)
-                    }
-                } ?: run {
-                    binding.imagenCuenta.setImageResource(R.drawable.cuent64)
-                }
+                binding.imagenCuenta.setImageResource(R.drawable.cuent64)
             }
-
-            cuentaViewModel.cargarMisRecetas(usuario.id_usuario)
         }
 
         cuentaViewModel.recetas.observe(viewLifecycleOwner) { recetas ->

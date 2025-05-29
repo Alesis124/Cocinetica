@@ -41,23 +41,21 @@ class CreaRecetaFragment : Fragment() {
     private val unidades = listOf("g", "kg", "ml", "l", "cucharada", "taza", "pieza")
     private val args: CreaRecetaFragmentArgs by navArgs()
 
-    // Variables para manejo de imágenes
-    private var imageUri: Uri? = null
-    private var currentPhotoPath: String? = null
-    private var imagenBase64: String? = null
-
     // Registros para los resultados de actividad
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-        if (success && imageUri != null) {
-            cargarImagenDesdeUri(imageUri!!)
+        if (success) {
+            viewModel.imagenUri.value?.let { uri ->
+                cargarImagenDesdeUri(uri)
+            }
         } else {
             Toast.makeText(requireContext(), "Error al tomar la foto", Toast.LENGTH_SHORT).show()
         }
     }
 
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        if (uri != null) {
-            cargarImagenDesdeUri(uri)
+        uri?.let {
+            viewModel.setImagenUri(it)
+            cargarImagenDesdeUri(it)
         }
     }
 
@@ -74,6 +72,15 @@ class CreaRecetaFragment : Fragment() {
         // Configurar el click listener para el botón de imagen
         binding.imageButton.setOnClickListener {
             mostrarDialogoSeleccionImagen()
+        }
+
+        // Observar cambios en la imagen
+        viewModel.imagenBase64.observe(viewLifecycleOwner) { base64 ->
+            base64?.let {
+                val decodedBytes = Base64.decode(it, Base64.DEFAULT)
+                val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+                binding.imageButton.setImageBitmap(bitmap)
+            }
         }
 
         viewModel.cargarDatosDisponibles()
@@ -138,14 +145,17 @@ class CreaRecetaFragment : Fragment() {
             val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
             val imageFile = File.createTempFile(imageFileName, ".jpg", storageDir)
 
-            currentPhotoPath = imageFile.absolutePath
-            imageUri = FileProvider.getUriForFile(
+            val photoPath = imageFile.absolutePath
+            viewModel.setCurrentPhotoPath(photoPath)
+
+            val uri = FileProvider.getUriForFile(
                 requireContext(),
                 "${requireContext().packageName}.provider",
                 imageFile
             )
 
-            cameraLauncher.launch(imageUri)
+            viewModel.setImagenUri(uri)
+            cameraLauncher.launch(uri)
         } catch (e: Exception) {
             Toast.makeText(requireContext(), "Error al abrir cámara: ${e.message}", Toast.LENGTH_SHORT).show()
         }
@@ -167,20 +177,13 @@ class CreaRecetaFragment : Fragment() {
             // Mostrar la imagen
             binding.imageButton.setImageBitmap(resizedBitmap)
 
-            // Convertir a Base64
-            imagenBase64 = bitmapToBase64(resizedBitmap)
+            // Convertir a Base64 y guardar en ViewModel
+            viewModel.setImagenBase64(viewModel.bitmapToBase64(resizedBitmap))
 
         } catch (e: Exception) {
             Toast.makeText(requireContext(), "Error al cargar imagen", Toast.LENGTH_SHORT).show()
             e.printStackTrace()
         }
-    }
-
-    private fun bitmapToBase64(bitmap: Bitmap): String {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream)
-        val byteArray = byteArrayOutputStream.toByteArray()
-        return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -216,7 +219,7 @@ class CreaRecetaFragment : Fragment() {
                     nombre = nombre,
                     duracion = duracion,
                     valoracion = "0",
-                    imagen = imagenBase64 ?: "",
+                    imagen = viewModel.imagenBase64.value ?: "",
                     id_usuario = idUsuario
                 )
 

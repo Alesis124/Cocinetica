@@ -1,5 +1,8 @@
 package dam.moviles.cocinetica.viewModel
 
+import android.graphics.Bitmap
+import android.net.Uri
+import android.util.Base64
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +15,7 @@ import dam.moviles.cocinetica.modelo.PasoUI
 import dam.moviles.cocinetica.modelo.UM
 import dam.moviles.cocinetica.modelo.Usuario
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 
 class CreaRecetaViewModel : ViewModel() {
 
@@ -26,11 +30,19 @@ class CreaRecetaViewModel : ViewModel() {
     private val _usuario = MutableLiveData<Usuario?>()
     val usuario: LiveData<Usuario?> get() = _usuario
 
+    // Variables para manejo de imágenes
+    private val _imagenBase64 = MutableLiveData<String?>()
+    val imagenBase64: LiveData<String?> get() = _imagenBase64
+
+    private val _imagenUri = MutableLiveData<Uri?>()
+    val imagenUri: LiveData<Uri?> get() = _imagenUri
+
+    private val _currentPhotoPath = MutableLiveData<String?>()
+    val currentPhotoPath: LiveData<String?> get() = _currentPhotoPath
+
     fun agregarIngrediente() {
         ingredientes.add(IngredienteUI())
-        println("DEBUG: Ingredientes ahora: ${ingredientes.size}")
     }
-
 
     fun eliminarIngrediente(index: Int) {
         if (index in ingredientes.indices) ingredientes.removeAt(index)
@@ -57,19 +69,15 @@ class CreaRecetaViewModel : ViewModel() {
             try {
                 ingredientesDisponibles = repository.obtenerIngredientes()
                 unidadesDisponibles = repository.obtenerUM()
-                println("DEBUG ingredientesDisponibles cargados: $ingredientesDisponibles")
-                println("DEBUG unidadesDisponibles cargados: $unidadesDisponibles")
             } catch (e: Exception) {
                 println("Error al cargar datos disponibles: ${e.message}")
             }
         }
     }
 
-
     fun cargarUsuarioDesdeFirebase() {
         val email = FirebaseAuth.getInstance().currentUser?.email
         if (email == null) {
-            // No hay usuario logueado
             _usuario.value = null
             return
         }
@@ -79,7 +87,6 @@ class CreaRecetaViewModel : ViewModel() {
                 val usuarioBD = repository.consultaUsuarioPorCorreo(email)
                 _usuario.value = usuarioBD
             } catch (e: Exception) {
-                // Manejar error de consulta
                 _usuario.value = null
             }
         }
@@ -89,4 +96,23 @@ class CreaRecetaViewModel : ViewModel() {
         _usuario.value = usuario
     }
 
+    // Funciones para manejo de imágenes
+    fun setImagenBase64(base64: String?) {
+        _imagenBase64.value = base64
+    }
+
+    fun setImagenUri(uri: Uri?) {
+        _imagenUri.value = uri
+    }
+
+    fun setCurrentPhotoPath(path: String?) {
+        _currentPhotoPath.value = path
+    }
+
+    fun bitmapToBase64(bitmap: Bitmap): String {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
 }
