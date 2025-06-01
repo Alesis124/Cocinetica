@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ayuda - Cocinetica</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+
+  <header>
+  <!-- Menú hamburguesa -->
+  <div class="menu-activador">
+    <input type="checkbox" id="lanzador" onclick="toggleSidebar()">
+    <label for="lanzador">
+      <div class="menu-activador-linea"></div>
+      <div class="menu-activador-linea"></div>
+      <div class="menu-activador-linea"></div>
+    </label>
+  </div>
+  <h1><a href="#top" class="titulo-link">Cocinetica</a></h1>
+</header>
+
+  <!-- Menú escritorio -->
+  <nav class="desktop-menu">
+    <a href="#que-es">¿Qué es Cocinetica?</a>
+    <a href="#ver-perfil">Ver perfil</a>
+    <a href="#editar-perfil">Editar perfil</a>
+    <a href="#crear-receta">Crear receta</a>
+    <a href="#ver-receta">Ver receta</a>
+    <a href="#buscar-receta">Buscar receta</a>
+    <a href="#guardar-receta">Guardar receta</a>
+    <a href="#valorar-receta">Valorar receta</a>
+    <a href="#comentar-receta">Comentar receta</a>
+  </nav>
+
+  <!-- Sidebar móvil -->
+  <div class="mobile-sidebar" id="mobileSidebar">
+    <a href="#que-es" onclick="toggleSidebar()">¿Qué es Cocinetica?</a>
+    <a href="#ver-perfil" onclick="toggleSidebar()">Ver perfil</a>
+    <a href="#editar-perfil" onclick="toggleSidebar()">Editar perfil</a>
+    <a href="#crear-receta" onclick="toggleSidebar()">Crear receta</a>
+    <a href="#ver-receta" onclick="toggleSidebar()">Ver receta</a>
+    <a href="#buscar-receta" onclick="toggleSidebar()">Buscar receta</a>
+    <a href="#guardar-receta" onclick="toggleSidebar()">Guardar receta</a>
+    <a href="#valorar-receta" onclick="toggleSidebar()">Valorar receta</a>
+    <a href="#comentar-receta" onclick="toggleSidebar()">Comentar receta</a>
+  </div>
+
+  <main>
+    <section id="que-es"><h2>¿Qué es Cocinetica?</h2><p>Cocinetica es tu espacio culinario digital. Puedes compartir tus propias recetas, explorar las de otros usuarios, guardar tus favoritas y llevar tu cocina al siguiente nivel con solo unos clics.</p></section>
+
+    <section id="ver-perfil"><h2>Cómo ver un perfil</h2><p>Accede a un perfil desde cualquier receta publicada haciendo clic en el nombre del usuario o accede al tuyo desde el menú superior.</p></section>
+
+    <section id="editar-perfil"><h2>Cómo editar el perfil</h2><p>Dentro de tu perfil, haz clic en "Editar" para actualizar tu nombre, imagen, biografía o cualquier otra información.</p></section>
+
+    <section id="crear-receta"><h2>Cómo crear una receta</h2><p>Pulsa el botón "Crear receta" en la página principal o en tu perfil. Rellena los campos con ingredientes, pasos y añade una imagen si quieres.</p></section>
+
+    <section id="ver-receta"><h2>Cómo ver una receta</h2><p>Haz clic en cualquier receta que encuentres para ver sus detalles, incluyendo pasos, ingredientes, tiempo estimado y comentarios.</p></section>
+
+    <section id="buscar-receta"><h2>Cómo buscar una receta</h2><p>Utiliza la barra de búsqueda para encontrar recetas por nombre, ingrediente o usuario. También puedes usar filtros para categorías específicas.</p></section>
+
+    <section id="guardar-receta"><h2>Cómo guardar una receta</h2><p>Haz clic en el icono de guardar (⭐ o similar) en una receta para añadirla a tu lista de recetas guardadas.</p></section>
+
+    <section id="valorar-receta"><h2>Cómo valorar una receta</h2><p>Puedes valorar una receta usando estrellas o un sistema de puntuación. Esto ayuda a destacar las mejores recetas y da feedback al creador.</p></section>
+
+    <section id="comentar-receta"><h2>Cómo comentar una receta</h2><p>Abajo de cada receta verás una sección de comentarios. Puedes escribir tu experiencia, sugerencias o simplemente agradecer al autor.</p></section>
+  </main>
+
+<script src="funciones.js"></script>
+
+
+</body>
+</html>
