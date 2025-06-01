@@ -15,9 +15,9 @@ $tabla = strtolower($_GET['tabla']);
 $database = new Cocinetica();
 $conex = $database->dameConexion();
 
-$result = null;  // Inicializamos $result en null
+$result = null;
 
-// Cargar la tabla
+
 switch ($tabla) {
     case "recetas":
         include_once '../tablas/Recetas.php';
@@ -89,7 +89,7 @@ switch ($tabla) {
     case "contiene":
         include_once '../tablas/Contiene.php';
         $objeto = new Contiene($conex);
-        $idCampo = ""; // No hay ID único simple
+        $idCampo = "";
 
         if (isset($_GET['id_receta'])) {
             $id_receta = intval($_GET['id_receta']);
@@ -113,7 +113,7 @@ switch ($tabla) {
         exit;
 }
 
-// Si estamos en la tabla de usuarios y se pasa un correo, buscar por correo
+
 if ($tabla == "usuarios" && isset($_GET['correo'])) {
     $correo = $_GET['correo'];
     $stmt = $conex->prepare("SELECT * FROM Usuarios WHERE correo = ?");
@@ -124,9 +124,9 @@ if ($tabla == "usuarios" && isset($_GET['correo'])) {
     $datos = [];
 
     if ($result->num_rows > 0) {
-        $fila = $result->fetch_assoc(); // Solo uno
+        $fila = $result->fetch_assoc();
         http_response_code(200);
-        echo json_encode($fila); // 👈 DEVUELVE OBJETO
+        echo json_encode($fila);
     } else {
         http_response_code(404);
         echo json_encode(["info" => "No se encontraron datos"]);
@@ -136,7 +136,7 @@ if ($tabla == "usuarios" && isset($_GET['correo'])) {
 }
 
 
-// Solo hacer lectura general si $result aún no se ha asignado
+
 if ($result === null) {
     if (!empty($idCampo) && isset($_GET[$idCampo])) {
         $objeto->$idCampo = intval($_GET[$idCampo]);
@@ -146,7 +146,7 @@ if ($result === null) {
     }
 }
 
-// Procesamos el resultado
+
 if ($result->num_rows > 0) {
     $datos = [];
     while ($fila = $result->fetch_assoc()) {
@@ -155,21 +155,17 @@ if ($result->num_rows > 0) {
 
     http_response_code(200);
 
-    // Para recetas y comentarios
+
     if ($tabla === "recetas" || $tabla === "comentarios") {
         if (isset($_GET[$idCampo])) {
-            // Cuando se pide por ID, devolver objeto directo
             echo json_encode($datos[0]);
         } else {
-            // Cuando es lista, devolver array (incluso vacío)
             echo json_encode($datos);
         }
-    } 
-    // Para usuarios cuando se pide por correo
+    }
     else if ($tabla === "usuarios" && isset($_GET['correo'])) {
         echo json_encode($datos[0]);
     }
-    // Para otros casos
     else {
         if (count($datos) === 1 && isset($_GET[$idCampo])) {
             echo json_encode($datos[0]);
@@ -178,16 +174,13 @@ if ($result->num_rows > 0) {
         }
     }
 } else {
-    // Respuesta cuando no hay datos
-    http_response_code(200); // Cambiado a 200 porque no es realmente un error
+    http_response_code(200);
     
     if ($tabla === "recetas" || $tabla === "comentarios") {
         if (isset($_GET[$idCampo])) {
-            // Cuando se pide por ID y no existe
             echo json_encode(["info" => "No se encontraron datos"]);
         } else {
-            // Cuando se pide lista y no hay datos
-            echo json_encode([]); // Array vacío
+            echo json_encode([]);
         }
     } else {
         echo json_encode(["info" => "No se encontraron datos"]);

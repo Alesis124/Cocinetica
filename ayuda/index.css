@@ -136,7 +136,7 @@
     }
 
     main {
-    padding-top: 100px; /* deja espacio para el header fijo */
+    padding-top: 100px;
     max-width: 900px;
     margin: auto;
     animation: fadeIn 1s ease;

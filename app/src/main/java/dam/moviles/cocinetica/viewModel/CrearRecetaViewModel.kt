@@ -30,7 +30,7 @@ class CreaRecetaViewModel : ViewModel() {
     private val _usuario = MutableLiveData<Usuario?>()
     val usuario: LiveData<Usuario?> get() = _usuario
 
-    // Variables para manejo de imágenes
+
     private val _imagenBase64 = MutableLiveData<String?>()
     val imagenBase64: LiveData<String?> get() = _imagenBase64
 
@@ -96,7 +96,7 @@ class CreaRecetaViewModel : ViewModel() {
         _usuario.value = usuario
     }
 
-    // Funciones para manejo de imágenes
+
     fun setImagenBase64(base64: String?) {
         _imagenBase64.value = base64
     }

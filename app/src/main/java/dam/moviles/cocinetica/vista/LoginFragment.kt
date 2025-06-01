@@ -48,9 +48,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun configurarGoogleSignIn() {
-        // Configura Google Sign-In sin token (idToken puede ser null si no usas backend)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))  // Aquí debe ir tu web client ID
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
@@ -67,7 +66,6 @@ class LoginFragment : Fragment() {
         val prefs = requireActivity().getSharedPreferences(PREFS_NAME, 0)
         val recordar = prefs.getBoolean(KEY_RECORDAR, false)
 
-        // Si está recordado y el usuario ya está logueado, saltar
         if (recordar && auth.currentUser != null) {
             findNavController().navigate(R.id.action_loginFragment_to_cargaFragment)
             return
@@ -98,7 +96,6 @@ class LoginFragment : Fragment() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // Guardar estado de recordar
                     val prefs = requireActivity().getSharedPreferences(PREFS_NAME, 0)
                     val editor = prefs.edit()
                     editor.putBoolean(KEY_RECORDAR, binding.chkRecordar.isChecked)

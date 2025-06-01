@@ -19,7 +19,7 @@ include_once '../tablas/Valoraciones.php';
 $database = new Cocinetica();
 $conex = $database->dameConexion();
 
-// Leer JSON crudo
+
 $datos = json_decode(file_get_contents("php://input"));
 
 if (!isset($datos->tabla)) {
@@ -75,8 +75,7 @@ switch ($datos->tabla) {
         $obj = new Valoraciones($conex);
         $obj->id_usuario = $datos->id_usuario;
         $obj->id_receta = $datos->id_receta;
-        $obj->valoracion = $datos->valoracion;  // Cambiar de valor a valoracion
-        // Para manejar comentario relacionado si quieres incluirlo
+        $obj->valoracion = $datos->valoracion;
         if (isset($datos->id_comentario)) {
             $obj->id_comentario = $datos->id_comentario;
         }
@@ -100,7 +99,7 @@ if ($obj->insertar()) {
         case 'Recetas':
             $respuesta["id_receta"] = $obj->id_receta;
             break;
-        // Puedes añadir más casos si otras tablas devuelven un ID
+
     }
 
     echo json_encode($respuesta);

@@ -117,7 +117,7 @@ class CocineticaRepository {
 
     suspend fun obtenerValoracionesComentarios(idReceta: Int): Map<Int, Int> {
         val comentarios = obtenerComentariosPorReceta(idReceta)
-        val valoraciones = leerValoraciones() // Todas las valoraciones
+        val valoraciones = leerValoraciones()
 
         return comentarios.mapNotNull { comentario ->
             valoraciones.find {
@@ -152,7 +152,7 @@ class CocineticaRepository {
         val existente = todasValoraciones.find { it.id_usuario == idUsuario && it.id_receta == idReceta }
 
         return if (existente != null) {
-            // Ya existe → actualizar
+
             val json = JSONObject().apply {
                 put("tabla", "Valoraciones")
                 put("id_valoracion", existente.id_valoracion)
@@ -165,7 +165,7 @@ class CocineticaRepository {
             val response = cocineticaApi.actualizarValoracion(body)
             response.isSuccessful
         } else {
-            // No existe → insertar
+
             val json = JSONObject().apply {
                 put("tabla", "Valoraciones")
                 put("id_usuario", idUsuario)
@@ -186,17 +186,17 @@ class CocineticaRepository {
             if (valoraciones.isNotEmpty()) {
                 val media = valoraciones.map { it.valoracion }.average()
 
-                // Usa consultaRecetaPorId para obtener la imagen correctamente
+
                 val recetaOriginal = cocineticaApi.consultaReceta("Recetas", idReceta)
 
-                // Debug: Verifica la imagen antes de construir el JSON
+
                 println("DEBUG - Imagen original: ${recetaOriginal.imagen?.take(10)}...")
 
                 val json = JSONObject().apply {
                     put("tabla", "Recetas")
                     put("id_receta", idReceta)
-                    put("valoracion", media) // Solo el campo que cambió
-                    // No envíes la imagen si no la estás modificando
+                    put("valoracion", media)
+
                 }
 
                 val body = json.toString().toRequestBody("application/json".toMediaType())
@@ -204,7 +204,7 @@ class CocineticaRepository {
 
                 response.isSuccessful && response.body()?.error == null
             } else {
-                true  // No hay valoraciones para actualizar
+                true
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -231,18 +231,17 @@ class CocineticaRepository {
         }
         val body = recetaJson.toString().toRequestBody("application/json".toMediaType())
 
-        val response = cocineticaApi.insertarGenerico(body) // Response<GenericResponse>
+        val response = cocineticaApi.insertarGenerico(body)
 
         if (!response.isSuccessful) return null
 
         val RecetaResponse = response.body() ?: return null
 
-        // Suponiendo que el campo con el id insertado viene en otro nombre, por ejemplo 'id_comentario' o deberías cambiarlo a 'id_receta'
-        // Aquí debes ajustar el nombre según lo que devuelva tu backend.
 
-        val idReceta = RecetaResponse.id_receta ?: return null // Cambia id_comentario por id_receta si está disponible
 
-        // Insertar ingredientes
+        val idReceta = RecetaResponse.id_receta ?: return null
+
+
         for (contiene in ingredientes) {
             val ingJson = JSONObject().apply {
                 put("tabla", "Contiene")
@@ -255,7 +254,7 @@ class CocineticaRepository {
             cocineticaApi.insertarGenerico(ingBody)
         }
 
-        // Insertar pasos
+
         for (textoPaso in pasos) {
             val pasoJson = JSONObject().apply {
                 put("tabla", "Pasos")
@@ -273,14 +272,14 @@ class CocineticaRepository {
     suspend fun obtenerOInsertarIngrediente(nombre: String): Int {
         val nombreLimpio = nombre.trim()
 
-        // 1. Obtener ingredientes disponibles
+
         val ingredientes = cocineticaApi.getIngredientes()
         val existente = ingredientes.find { it.nombre.equals(nombreLimpio, ignoreCase = true) }
 
-        // 2. Si ya existe, devolver ID
+
         if (existente != null) return existente.id_ingrediente
 
-        // 3. Si no existe, insertarlo
+
         val json = JSONObject().apply {
             put("tabla", "Ingredientes")
             put("nombre", nombreLimpio)
@@ -290,7 +289,7 @@ class CocineticaRepository {
 
         if (!response.isSuccessful) throw Exception("Error insertando ingrediente: $nombreLimpio")
 
-        // 4. Obtener nuevamente para buscar el ID insertado
+
         val actualizados = cocineticaApi.getIngredientes()
         return actualizados.find { it.nombre.equals(nombreLimpio, ignoreCase = true) }?.id_ingrediente
             ?: throw Exception("Ingrediente insertado pero no encontrado: $nombreLimpio")

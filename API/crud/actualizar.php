@@ -21,7 +21,7 @@ include_once '../tablas/Valoraciones.php';
 $database = new Cocinetica();
 $conex = $database->dameConexion();
 
-// Leer JSON crudo
+
 $datos = json_decode(file_get_contents("php://input"));
 
 if (!isset($datos->tabla)) {
@@ -67,7 +67,6 @@ switch ($datos->tabla) {
         if (isset($datos->nombre)) $obj->nombre = $datos->nombre;
         if (isset($datos->duracion)) $obj->duracion = $datos->duracion;
         if (isset($datos->valoracion)) $obj->valoracion = $datos->valoracion;
-        // Solo actualizar imagen si se envía explícitamente
         if (isset($datos->imagen) && $datos->imagen !== null) {
             $obj->imagen = $datos->imagen;
         }

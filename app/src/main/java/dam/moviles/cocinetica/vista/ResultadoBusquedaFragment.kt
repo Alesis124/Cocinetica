@@ -170,7 +170,7 @@ class ResultadoBusquedaFragment : Fragment() {
                     enVistaGrid,
                     recetasGuardadas,
                     idUsuarioActual,
-                    usuario.usuario,  // <--- Nombre del autor
+                    usuario.usuario,
                     onGuardarClick = { receta, estaGuardada ->
                         onGuardarClick(receta, estaGuardada)
                         true

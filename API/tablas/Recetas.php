@@ -13,7 +13,6 @@ class Recetas {
         $this->conn = $db;
     }
 
-    // Leer todas las recetas
     function leerTodos() {
         $stmt = $this->conn->prepare(
             "SELECT r.*, u.usuario 
@@ -24,7 +23,6 @@ class Recetas {
         return $stmt->get_result();
     }
 
-    // Leer una receta específica
     function leerUno() {
         $stmt = $this->conn->prepare(
             "SELECT r.*, u.usuario 
@@ -37,7 +35,6 @@ class Recetas {
         return $stmt->get_result();
     }
 
-    // Leer recetas guardadas por un usuario
     function leerGuardadasPorUsuario($id_usuario) {
         $stmt = $this->conn->prepare("
             SELECT r.*, u.usuario 
@@ -52,7 +49,6 @@ class Recetas {
     }
 
 
-    // Insertar nueva receta
     function insertar() {
         $this->nombre = strip_tags($this->nombre);
         $this->duracion = strip_tags($this->duracion);
@@ -90,9 +86,7 @@ class Recetas {
     }
 
 
-    // Actualizar receta existente
     function actualizar() {
-        // Solo sanitizar campos de texto
         if (isset($this->nombre)) {
             $this->nombre = strip_tags($this->nombre);
         }
@@ -102,11 +96,7 @@ class Recetas {
         if (isset($this->valoracion)) {
             $this->valoracion = strip_tags($this->valoracion);
         }
-        
-        // NO sanitizar la imagen - mantenerla exactamente como viene
-        // $this->imagen = strip_tags($this->imagen); // <- ELIMINAR ESTA LÍNEA
 
-        // Construir consulta dinámica
         $updates = [];
         $params = [];
         $types = '';
@@ -155,7 +145,6 @@ class Recetas {
     }
 
 
-    // Borrar una receta
     function borrar() {
         $stmt = $this->conn->prepare("DELETE FROM " . $this->tabla . " WHERE id_receta = ?");
         $stmt->bind_param("i", $this->id_receta);

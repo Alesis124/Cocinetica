@@ -18,7 +18,7 @@ class ComentariosAdapter(
     private val usuariosMap: Map<Int, String?>,
     private val idUsuarioActual: Int,
     private val onEliminarClick: (Comentario) -> Unit,
-    private val onIrClick: (Int) -> Unit  // Nuevo parámetro para navegación
+    private val onIrClick: (Int) -> Unit
 ) : RecyclerView.Adapter<ComentariosAdapter.ComentarioViewHolder>() {
 
     inner class ComentarioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -29,10 +29,10 @@ class ComentariosAdapter(
         val btnEliminar: Button = itemView.findViewById(R.id.btnEliminar)
 
         init {
-            // Agregar clic a toda la vista del comentario
+
             itemView.setOnClickListener {
                 val comentario = comentarios[adapterPosition]
-                // Verificar si el comentario tiene una receta asociada
+
                 if (comentario.id_receta != null) {
                     onIrClick(comentario.id_receta)
                 }
@@ -40,7 +40,7 @@ class ComentariosAdapter(
         }
     }
 
-    // Resto del código del adaptador permanece igual...
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComentarioViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.comentarios_receta, parent, false)
@@ -77,12 +77,12 @@ class ComentariosAdapter(
 
     private fun formatearTiempoRelativo(fechaStr: String): String {
         return try {
-            // Parsear como fecha UTC
+
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             val localDateTimeUtc = LocalDateTime.parse(fechaStr, formatter)
             val fechaUtc = localDateTimeUtc.atZone(ZoneId.of("UTC"))
 
-            // Convertir a hora local del dispositivo
+
             val fechaLocal = fechaUtc.withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime()
 
             val ahora = LocalDateTime.now()
@@ -106,7 +106,7 @@ class ComentariosAdapter(
                 else -> "hace ${dias / 365} ${if (dias / 365 == 1L) "año" else "años"}"
             }
         } catch (e: Exception) {
-            fechaStr // Si falla, muestra la original
+            fechaStr
         }
     }
 

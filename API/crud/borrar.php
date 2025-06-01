@@ -19,7 +19,7 @@ include_once '../tablas/Valoraciones.php';
 $database = new Cocinetica();
 $conex = $database->dameConexion();
 
-// Leer JSON crudo
+
 $datos = json_decode(file_get_contents("php://input"));
 
 if (!isset($datos->tabla)) {

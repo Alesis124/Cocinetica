@@ -91,7 +91,7 @@ class BusquedaFragment : Fragment() {
     private fun obtenerHistorial(): MutableList<String> {
         val prefs = requireContext().getSharedPreferences("historial_busqueda", Context.MODE_PRIVATE)
         val historial = prefs.getStringSet("historial", emptySet())!!.toMutableList()
-        historial.sortByDescending { prefs.getLong("tiempo_$it", 0L) } // orden por fecha reciente
+        historial.sortByDescending { prefs.getLong("tiempo_$it", 0L) }
         return historial
     }
 
@@ -102,7 +102,6 @@ class BusquedaFragment : Fragment() {
 
         historial.add(texto)
         if (historial.size > 5) {
-            // Mantener solo 5 más recientes
             val ordenadas = historial.sortedByDescending { prefs.getLong("tiempo_$it", 0L) }
             historial.clear()
             historial.addAll(ordenadas.take(5))

@@ -26,7 +26,6 @@ class CuentaViewModel : ViewModel() {
     private val _comentarios = MutableLiveData<List<Comentario>>()
     val comentarios: LiveData<List<Comentario>> = _comentarios
 
-    // Mapa id_comentario -> valoracion
     private val _valoraciones = MutableLiveData<Map<Int, Valoracion>>()
     val valoraciones: LiveData<Map<Int, Valoracion>> = _valoraciones
 
@@ -53,10 +52,10 @@ class CuentaViewModel : ViewModel() {
 
 
 
-                // Cargar recetas del usuario
+
                 cargarMisRecetas(usuario.id_usuario)
 
-                // Cargar recetas guardadas
+
                 cargarRecetasGuardadas(usuario.id_usuario)
 
 
@@ -92,10 +91,10 @@ class CuentaViewModel : ViewModel() {
     fun cargarRecetasGuardadas(idUsuario: Int) {
         viewModelScope.launch {
             try {
-                // Obtener las recetas guardadas como lista
+
                 val recetasGuardadas = repository.obtenerRecetasGuardadas(idUsuario)
 
-                // Extraer solo los IDs y convertirlos a Set
+
                 val idsGuardados = recetasGuardadas.map { it.id_receta }.toSet()
 
                 _recetasGuardadas.value = idsGuardados
