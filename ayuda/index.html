@@ -6,69 +6,131 @@
   <title>Ayuda - Cocinetica</title>
   <link rel="stylesheet" href="index.css">
 </head>
-
+<body>
+  <div id="top"></div>
 
   <header>
-  <!-- Menú hamburguesa -->
-  <div class="menu-activador">
-    <input type="checkbox" id="lanzador" onclick="toggleSidebar()">
-    <label for="lanzador">
-      <div class="menu-activador-linea"></div>
-      <div class="menu-activador-linea"></div>
-      <div class="menu-activador-linea"></div>
-    </label>
-  </div>
-  <h1><a href="#top" class="titulo-link">Cocinetica</a></h1>
-</header>
+    <div class="menu-activador">
+      <input type="checkbox" id="lanzador" onclick="toggleSidebar()">
+      <label for="lanzador">
+        <div class="menu-activador-linea"></div>
+        <div class="menu-activador-linea"></div>
+        <div class="menu-activador-linea"></div>
+      </label>
+    </div>
 
-  <!-- Menú escritorio -->
+    <h1><a href="#top" class="titulo-link">Cocinetica</a></h1>
+  </header>
+
   <nav class="desktop-menu">
+    <a href="#home">Inicio</a>
+    <a href="#buscar-receta">Búsqueda</a>
+    <a href="#guardar-receta">Guardados</a>
+    <a href="#cuenta">Cuenta</a>
     <a href="#que-es">¿Qué es Cocinetica?</a>
     <a href="#ver-perfil">Ver perfil</a>
     <a href="#editar-perfil">Editar perfil</a>
     <a href="#crear-receta">Crear receta</a>
     <a href="#ver-receta">Ver receta</a>
-    <a href="#buscar-receta">Buscar receta</a>
-    <a href="#guardar-receta">Guardar receta</a>
     <a href="#valorar-receta">Valorar receta</a>
     <a href="#comentar-receta">Comentar receta</a>
+    <a href="#registrarse">Registrarse / Iniciar sesión</a>
   </nav>
 
-  <!-- Sidebar móvil -->
   <div class="mobile-sidebar" id="mobileSidebar">
+    <a href="#home" onclick="toggleSidebar()">Inicio</a>
+    <a href="#buscar-receta" onclick="toggleSidebar()">Búsqueda</a>
+    <a href="#guardar-receta" onclick="toggleSidebar()">Guardados</a>
+    <a href="#cuenta" onclick="toggleSidebar()">Cuenta</a>
+    <hr>
     <a href="#que-es" onclick="toggleSidebar()">¿Qué es Cocinetica?</a>
     <a href="#ver-perfil" onclick="toggleSidebar()">Ver perfil</a>
     <a href="#editar-perfil" onclick="toggleSidebar()">Editar perfil</a>
     <a href="#crear-receta" onclick="toggleSidebar()">Crear receta</a>
     <a href="#ver-receta" onclick="toggleSidebar()">Ver receta</a>
-    <a href="#buscar-receta" onclick="toggleSidebar()">Buscar receta</a>
-    <a href="#guardar-receta" onclick="toggleSidebar()">Guardar receta</a>
     <a href="#valorar-receta" onclick="toggleSidebar()">Valorar receta</a>
     <a href="#comentar-receta" onclick="toggleSidebar()">Comentar receta</a>
+    <a href="#registrarse" onclick="toggleSidebar()">Registrarse / Iniciar sesión</a>
   </div>
 
   <main>
-    <section id="que-es"><h2>¿Qué es Cocinetica?</h2><p>Cocinetica es tu espacio culinario digital. Puedes compartir tus propias recetas, explorar las de otros usuarios, guardar tus favoritas y llevar tu cocina al siguiente nivel con solo unos clics.</p></section>
+    <section id="que-es">
+      <h2>¿Qué es Cocinetica?</h2>
+      <p>Cocinetica es tu espacio culinario digital. Puedes compartir tus propias recetas, explorar las de otros usuarios, guardar tus favoritas y llevar tu cocina al siguiente nivel con solo unos clics.</p>
+    </section>
 
-    <section id="ver-perfil"><h2>Cómo ver un perfil</h2><p>Accede a un perfil desde cualquier receta publicada haciendo clic en el nombre del usuario o accede al tuyo desde el menú superior.</p></section>
+    <section id="ver-perfil">
+  <h2>Cómo ver tu perfil</h2>
+  <p>Una vez hayas iniciado sesión en la aplicación, verás cuatro botones en la parte inferior. El último de ellos te lleva a tu perfil.</p>
+  <p>En esta sección podrás ver:</p>
+  <ul>
+    <li>Tus recetas publicadas (con opción de acceder a ellas o eliminarlas).</li>
+    <li>Tus comentarios realizados.</li>
+    <li>Tu imagen de perfil, nombre de usuario y descripción.</li>
+  </ul>
+  <p>Al pulsar sobre tu imagen puedes cambiarla: ya sea tomando una nueva foto o eligiéndola desde la galería. Además, hay un botón de <strong>"Editar"</strong> donde podrás modificar tu usuario, descripción y gestionar opciones importantes como:</p>
+  <ul>
+    <li>Cambiar tu contraseña.</li>
+    <li>Cerrar sesión.</li>
+    <li>Borrar tu cuenta.</li>
+    <li>Volver al apartado principal de cuenta.</li>
+  </ul>
+  <img src="imagenes/cuenta.png" alt="cuenta">
+</section>
 
-    <section id="editar-perfil"><h2>Cómo editar el perfil</h2><p>Dentro de tu perfil, haz clic en "Editar" para actualizar tu nombre, imagen, biografía o cualquier otra información.</p></section>
+<img id="editar-perfil">
+  <h2>Cómo editar el perfil</h2>
+  <p>Dentro de tu perfil, pulsa el botón "Editar" para actualizar tu nombre de usuario, imagen, descripción u otra información personal. También puedes acceder desde ahí a opciones para cambiar la contraseña, cerrar sesión o eliminar tu cuenta.</p>
+  <img src="imagenes/micuentaeditar.png" >
+</section>
 
-    <section id="crear-receta"><h2>Cómo crear una receta</h2><p>Pulsa el botón "Crear receta" en la página principal o en tu perfil. Rellena los campos con ingredientes, pasos y añade una imagen si quieres.</p></section>
 
-    <section id="ver-receta"><h2>Cómo ver una receta</h2><p>Haz clic en cualquier receta que encuentres para ver sus detalles, incluyendo pasos, ingredientes, tiempo estimado y comentarios.</p></section>
+    <section id="crear-receta">
+      <h2>Cómo crear una receta</h2>
+      <p>Pulsa el botón "Crear receta" en la página principal o en tu perfil. Rellena los campos con ingredientes, pasos y añade una imagen si quieres.</p>
+      <img src="imagenes/crear_receta.png" alt="crear">
+    </section>
 
-    <section id="buscar-receta"><h2>Cómo buscar una receta</h2><p>Utiliza la barra de búsqueda para encontrar recetas por nombre, ingrediente o usuario. También puedes usar filtros para categorías específicas.</p></section>
+    <section id="ver-receta">
+      <h2>Cómo ver una receta</h2>
+      <p>Haz clic en cualquier receta que encuentres para ver sus detalles, incluyendo pasos, ingredientes, tiempo estimado y comentarios.</p>
+      <img src="imagenes/Ver receta.png" alt="ver receta">
+    </section>
 
-    <section id="guardar-receta"><h2>Cómo guardar una receta</h2><p>Haz clic en el icono de guardar (⭐ o similar) en una receta para añadirla a tu lista de recetas guardadas.</p></section>
+    <section id="buscar-receta">
+      <h2>Cómo buscar una receta</h2>
+      <p>Utiliza la barra de búsqueda para encontrar recetas por nombre, ingrediente o usuario. También puedes usar filtros para categorías específicas.</p>
+      <img src="imagenes/buscar_receta.png" alt="buscar">
+    </section>
 
-    <section id="valorar-receta"><h2>Cómo valorar una receta</h2><p>Puedes valorar una receta usando estrellas o un sistema de puntuación. Esto ayuda a destacar las mejores recetas y da feedback al creador.</p></section>
+    <section id="guardar-receta">
+      <h2>Cómo guardar una receta</h2>
+      <p>Haz clic en el icono de guardar <img src="../app/src/main/res/drawable/guardar48vacio.png" alt="faltaguardar"> en una receta para añadirla a tu lista de recetas guardadas, si estan guardadas el icono está así <img src="../app/src/main/res/drawable/guardar48llevo.png" alt="estaguardado"></p><br>
+      <p>Las recetas que se guardan se guardan aqui: </p>
+      <img src="imagenes/pantallaguardados.png" alt="guardados">
+    </section>
 
-    <section id="comentar-receta"><h2>Cómo comentar una receta</h2><p>Abajo de cada receta verás una sección de comentarios. Puedes escribir tu experiencia, sugerencias o simplemente agradecer al autor.</p></section>
+    <section id="valorar-receta">
+      <h2>Cómo valorar una receta</h2>
+      <p>Puedes valorar una receta usando estrellas o un sistema de puntuación. Esto ayuda a destacar las mejores recetas y da feedback al creador.</p>
+      <img src="imagenes/valoracion.png" alt="">
+    </section>
+
+    <section id="comentar-receta">
+      <h2>Cómo comentar una receta</h2>
+      <p>Abajo de cada receta verás una sección de comentarios. Puedes escribir tu experiencia, sugerencias o simplemente agradecer al autor.</p>
+      <img src="imagenes/comentarios.png" alt="">
+    </section>
+
+    <section id="registrarse">
+      <h2>Cómo registrarte o iniciar sesión</h2>
+      <p>Ve a la pantalla de inicio de sesión desde el botón "Cuenta" en el menú. Allí puedes registrarte con tu correo electrónico y una contraseña segura, o iniciar sesión con tu cuenta de Google usando el botón correspondiente.</p>
+      <img src="imagenes/iniciarsesion.png" alt="iniciar"> <img src="imagenes/registrarse.png" alt="registrarse">
+      <p>Si no te acuerdas de la contraseña te enviara un correo para cambiarla de nuevo</p>
+      <img src="imagenes/olvidado contraseña.png" alt="pass">
+    </section>
   </main>
 
-<script src="funciones.js"></script>
-
-
+  <script src="funciones.js"></script>
 </body>
 </html>
