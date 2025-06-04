@@ -30,7 +30,7 @@ class CocineticaRepository {
         val moshiConverterFactory = MoshiConverterFactory.create(moshi).asLenient()
 
         cocineticaApi = Retrofit.Builder()
-            .baseUrl("http://83.60.12.188:8082/API/crud/")
+            .baseUrl("https://api.alesismedia.es/API/crud/")
             .client(client)
             .addConverterFactory(moshiConverterFactory)
             .build()
