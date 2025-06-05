@@ -83,6 +83,9 @@
         <argument
             android:name="tab_select"
             app:argType="string" />
+        <action
+            android:id="@+id/action_cuentaFragment_to_ayudaFragment"
+            app:destination="@id/ayudaFragment" />
     </fragment>
     <fragment
         android:id="@+id/ajustesCuentaFragment"
@@ -280,4 +283,9 @@
             app:argType="string"
             android:defaultValue="nada" />
     </fragment>
+    <fragment
+        android:id="@+id/ayudaFragment"
+        android:name="dam.moviles.cocinetica.vista.AyudaFragment"
+        android:label="fragment_ayuda"
+        tools:layout="@layout/fragment_ayuda" />
 </navigation>

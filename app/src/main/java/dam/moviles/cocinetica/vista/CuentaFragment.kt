@@ -247,7 +247,7 @@ class CuentaFragment : Fragment() {
         }
 
         binding.btnAyuda.setOnClickListener {
-            // Acción de ayuda opcional
+            findNavController().navigate(R.id.action_cuentaFragment_to_ayudaFragment)
         }
     }
 

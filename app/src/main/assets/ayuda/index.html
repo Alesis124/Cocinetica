@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ayuda - Cocinetica</title>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <div id="top"></div>
+
+  <header>
+    <div class="menu-activador">
+      <input type="checkbox" id="lanzador" onclick="toggleSidebar()">
+      <label for="lanzador">
+        <div class="menu-activador-linea"></div>
+        <div class="menu-activador-linea"></div>
+        <div class="menu-activador-linea"></div>
+      </label>
+    </div>
+
+    <h1><a href="#top" class="titulo-link">Cocinetica</a></h1>
+  </header>
+
+  <nav class="desktop-menu">
+    <a href="#home">Inicio</a>
+    <a href="#que-es">¿Qué es Cocinetica?</a>
+    <a href="#navegacion">Navegación básica</a>
+    <a href="#gestion-perfil">Gestión de perfil</a>
+    <a href="#gestion-recetas">Gestión de recetas</a>
+    <a href="#interaccion">Interacción con recetas</a>
+    <a href="#registro">Registro y acceso</a>
+  </nav>
+
+  <div class="mobile-sidebar" id="mobileSidebar">
+    <a href="#home" onclick="toggleSidebar()">Inicio</a>
+    <a href="#que-es" onclick="toggleSidebar()">¿Qué es Cocinetica?</a>
+    <hr>
+    <a href="#navegacion" onclick="toggleSidebar()">Navegación básica</a>
+    <a href="#gestion-perfil" onclick="toggleSidebar()">Gestión de perfil</a>
+    <a href="#gestion-recetas" onclick="toggleSidebar()">Gestión de recetas</a>
+    <a href="#interaccion" onclick="toggleSidebar()">Interacción</a>
+    <a href="#registro" onclick="toggleSidebar()">Registro</a>
+  </div>
+
+  <main>
+    <section id="que-es">
+      <h2>¿Qué es Cocinetica?</h2>
+      <p>Cocinetica es tu comunidad culinaria digital donde puedes compartir, descubrir y guardar recetas de cocina. Con una interfaz intuitiva, podrás:</p>
+      <ul>
+        <li>Publicar tus propias creaciones culinarias</li>
+        <li>Explorar recetas de otros usuarios</li>
+        <li>Guardar tus favoritas para consultarlas luego</li>
+        <li>Interactuar con otros amantes de la cocina</li>
+      </ul>
+    </section>
+
+    <section id="navegacion">
+      <h2>Navegación básica</h2>
+      <p>La aplicación cuenta con un menú de navegación inferior con 4 secciones principales:</p>
+      
+      <h3>Inicio</h3>
+      <p>Muestra un listado de recetas populares y recientes en formato de RecyclerView.</p>
+      <img src="./imagenes/inicio.png" alt="Pantalla de inicio">
+      
+      <h3>Búsqueda</h3>
+      <p>Permite buscar recetas por nombre o ingrediente. Mantiene un historial de tus últimas 5 búsquedas para acceso rápido.</p>
+      <img src="./imagenes/buscar_receta.png" alt="Pantalla de búsqueda">
+      
+      <h3>Guardados</h3>
+      <p>Muestra todas las recetas que has marcado como favoritas en un RecyclerView organizado.</p>
+      <img src="./imagenes/pantallaguardados.png" alt="Recetas guardadas">
+      
+      <h3>Cuenta</h3>
+      <p>Accede a tu perfil personal con tus datos, recetas publicadas y comentarios.</p>
+      <img src="./imagenes/cuenta.png" alt="Perfil de usuario">
+    </section>
+
+    <section id="gestion-perfil">
+      <h2>Gestión de tu perfil</h2>
+      
+      <h3>Visualización del perfil</h3>
+      <p>En la sección de Cuenta encontrarás:</p>
+      <ul>
+        <li>Tu foto de perfil (puedes cambiarla tocándola)</li>
+        <li>Nombre de usuario</li>
+        <li>Descripción personal</li>
+        <li>Pestañas con tus recetas publicadas y comentarios</li>
+        <li>Botón de ayuda (que te lleva a esta guía)</li>
+        <li>Botón "Editar" para modificar tu perfil</li>
+      </ul>
+      
+      <h3>Edición del perfil</h3>
+      <p>Al presionar "Editar" accederás a una pantalla donde puedes:</p>
+      <ul>
+        <li>Cambiar tu foto de perfil (desde galería o cámara)</li>
+        <li>Modificar tu nombre de usuario</li>
+        <li>Actualizar tu descripción</li>
+        <li>Cambiar tu contraseña</li>
+        <li>Cerrar sesión</li>
+        <li>Eliminar tu cuenta permanentemente</li>
+      </ul>
+      <img src="./imagenes/micuentaeditar.png" alt="Edición de perfil">
+    </section>
+
+    <section id="gestion-recetas">
+      <h2>Gestión de recetas</h2>
+      
+      <h3>Crear recetas</h3>
+      <p>Puedes crear recetas desde cualquier sección de la aplicación (Inicio, Búsqueda, Guardados o Cuenta) siguiendo estos pasos:</p>
+      
+      <div class="paso-receta">
+        <h4>1. Iniciar creación</h4>
+        <p>Haz clic en el botón <strong>"Crear receta"</strong> que aparece en la parte superior de cualquiera de las secciones principales.</p>
+      </div>
+      
+      <div class="paso-receta">
+        <h4>2. Añadir información básica</h4>
+        <ul>
+          <li><strong>Foto del plato</strong> (opcional): Puedes subir una imagen desde tu galería o tomar una foto nueva.</li>
+          <li><strong>Nombre de la receta</strong> (obligatorio): Dale un nombre descriptivo a tu creación.</li>
+          <li><strong>Tiempo de duración</strong>: Indica en minutos cuánto lleva preparar la receta.</li>
+        </ul>
+        <img src="./imagenes/rellena_inico_crearreceta.png" alt="Datos básicos de receta">
+      </div>
+      
+      <div class="paso-receta">
+        <h4>3. Añadir ingredientes</h4>
+        <p>Usa el botón <strong>"Agregar ingrediente"</strong> para cada componente:</p>
+        <ul>
+          <li>Se generará un recuadro con varios campos:
+            <ul>
+              <li><strong>Cantidad</strong>: Cuánto necesitas del ingrediente</li>
+              <li><strong>Unidad de medida</strong>: Selecciona entre gramos, litros, cucharadas, etc. en el desplegable</li>
+              <li><strong>Nombre del ingrediente</strong>: Qué elemento estás añadiendo</li>
+            </ul>
+          </li>
+          <li>Botón <strong>X</strong> para eliminar un ingrediente si te equivocas</li>
+          <li>Puedes añadir tantos ingredientes como necesites</li>
+        </ul>
+        <img src="./imagenes/agregar ingrediente.png" alt="Añadir ingredientes">
+      </div>
+      
+      <div class="paso-receta">
+        <h4>4. Describir los pasos</h4>
+        <ul>
+          <li>Usa el botón <strong>"Agregar paso"</strong> para cada etapa de preparación</li>
+          <li>Escribe instrucciones claras en el campo de texto que aparece</li>
+          <li>Puedes reordenar los pasos si es necesario</li>
+        </ul>
+        <img src="./imagenes/agregar paso.png" alt="Añadir pasos">
+      </div>
+      
+      <div class="paso-receta">
+        <h4>5. Finalizar creación</h4>
+        <ul>
+          <li>Botón <strong>Guardar receta</strong> (flotante): Confirma que has terminado y publica la receta</li>
+          <li>Botón <strong>"Volver"</strong> (arriba a la izquierda): Cancela la creación si cambias de idea</li>
+        </ul>
+        <img src="./imagenes/guardar receta.png" alt="Botones de creación">
+        <img src="./imagenes/volver.png" alt="Botones de volver">
+      </div>
+      
+      <h3>Visualizar recetas completas</h3>
+      <p>Al ver una receta completa encontrarás:</p>
+      <ul>
+        <li><strong>Información principal</strong>:
+          <ul>
+            <li>Foto del plato (si se añadió)</li>
+            <li>Nombre de la receta</li>
+            <li>Tiempo de preparación</li>
+            <li>Autor y fecha de publicación</li>
+          </ul>
+        </li>
+        <li><strong>Lista completa de ingredientes</strong> con cantidades y unidades</li>
+        <li><strong>Pasos detallados</strong> de preparación en orden</li>
+        <li><strong>Sección de valoración</strong>:
+          <ul>
+            <li>Estrellas del 1 al 5 para calificar</li>
+            <li>Botón <strong>"Valorar"</strong> para confirmar tu puntuación</li>
+            <li>Promedio de valoraciones de otros usuarios</li>
+          </ul>
+        </li>
+        <li><strong>Sección de comentarios</strong>:
+          <ul>
+            <li>Campo para escribir tu comentario</li>
+            <li>Botón <strong>"Publicar"</strong> para compartirlo</li>
+            <li>Lista de todos los comentarios existentes mostrando:
+              <ul>
+                <li>Autor del comentario</li>
+                <li>Valoración dada (si valoró) o "Sin valorar"</li>
+                <li>Fecha y hora de publicación</li>
+                <li>Opción para <strong>eliminar</strong> si es tu propio comentario</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <div class="imagenes-multiples">
+        <img src="./imagenes/ver_receta_completa1.png" alt="Vista de receta parte 1">
+        <img src="./imagenes/ver_receta_completa2.png" alt="Vista de receta parte 2">
+      </div>
+    </section>
+
+    <section id="interaccion">
+      <h2>Interacción con recetas</h2>
+      
+      <h3>Guardar recetas</h3>
+      <p>Para guardar una receta en tus favoritas:</p>
+      <ol>
+        <li>Abre la receta que te interese</li>
+        <li>Busca el icono de guardar <img src="file:///android_res/drawable/guardar48vacio.png" alt="Icono guardar"></li>
+        <li>Al guardarla, el icono cambiará a <img src="file:///android_res/drawable/guardar48llevo.png" alt="Icono guardado"></li>
+        <li>Accede a todas tus recetas guardadas en la pestaña correspondiente</li>
+      </ol>
+      
+      <h3>Valorar recetas</h3>
+      <p>Puedes calificar las recetas que pruebes:</p>
+      <ul>
+        <li>Selecciona entre 1 y 5 estrellas</li>
+        <li>Tus valoraciones ayudan a otros usuarios</li>
+        <li>Los creadores reciben feedback sobre sus recetas</li>
+      </ul>
+      <img src="./imagenes/valoracion.png" alt="Valoración">
+      
+      <h3>Comentar recetas</h3>
+      <p>Comparte tu experiencia:</p>
+      <ul>
+        <li>Escribe comentarios constructivos</li>
+        <li>Puedes hacer preguntas sobre la preparación</li>
+        <li>Comparte variaciones que hayas probado</li>
+      </ul>
+      <img src="./imagenes/comentarios.png" alt="Comentarios">
+    </section>
+
+    <section id="registro">
+      <h2>Registro y acceso</h2>
+      
+      <h3>Crear una cuenta</h3>
+      <p>Para unirte a Cocinetica:</p>
+      <ol>
+        <li>Selecciona "Registrarse"</li>
+        <li>Proporciona un correo electrónico válido</li>
+        <li>Crea una contraseña segura</li>
+        <li>Confirma tu registro</li>
+        <li>También puedes registrarte con tu cuenta de Google</li>
+      </ol>
+      <img src="./imagenes/registrarse.png" alt="Registro">
+      
+      <h3>Iniciar sesión</h3>
+      <p>Para acceder a tu cuenta:</p>
+      <ul>
+        <li>Ingresa tu correo y contraseña</li>
+        <li>O usa el acceso rápido con Google</li>
+        <li>Si olvidaste tu contraseña, usa la opción "Recuperar contraseña"</li>
+      </ul>
+      <img src="./imagenes/iniciarsesion.png" alt="Inicio de sesión">
+      
+      <h3>Recuperar contraseña</h3>
+      <p>Si no recuerdas tus credenciales:</p>
+      <ol>
+        <li>Selecciona "¿Olvidaste tu contraseña?"</li>
+        <li>Ingresa tu correo registrado</li>
+        <li>Recibirás un email con instrucciones</li>
+        <li>Sigue el enlace para establecer una nueva contraseña</li>
+      </ol>
+      <img src="./imagenes/olvidado contraseña.png" alt="Recuperación">
+    </section>
+  </main>
+
+  <script src="./funciones.js"></script>
+</body>
+</html>
