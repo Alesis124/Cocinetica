@@ -14,25 +14,35 @@ import dam.moviles.cocinetica.databinding.FragmentNoRecuerdoBinding
 
 class NoRecuerdoFragment : Fragment() {
 
-    lateinit var binding: FragmentNoRecuerdoBinding
+    private var _binding: FragmentNoRecuerdoBinding? = null
+    private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        inicializarBinding()
-        auth = FirebaseAuth.getInstance()
-        inicializarBotones()
+    ): View {
+        _binding = FragmentNoRecuerdoBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    fun inicializarBinding(){
-        binding= FragmentNoRecuerdoBinding.inflate(layoutInflater)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        auth = FirebaseAuth.getInstance()
+        inicializarBotones()
+
+        // Restaurar el texto del email si hubo rotación
+        savedInstanceState?.let {
+            binding.emailEditText.setText(it.getString("email", ""))
+        }
     }
 
     private fun inicializarBotones() {
+        binding.buttonVolver.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         binding.changePasswordButton.setOnClickListener {
             val email = binding.emailEditText.text.toString().trim()
 
@@ -53,4 +63,13 @@ class NoRecuerdoFragment : Fragment() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("email", binding.emailEditText.text.toString())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
