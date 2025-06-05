@@ -10,6 +10,34 @@ function toggleSidebar() {
   }
 }
 
+let touchStartX = 0;
+let touchEndX = 0;
+const SWIPE_THRESHOLD = 50;
+
+document.addEventListener('touchstart', function(e) {
+  touchStartX = e.changedTouches[0].screenX;
+}, false);
+
+document.addEventListener('touchend', function(e) {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+}, false); 
+
+function handleSwipe() {
+  const sidebar = document.getElementById("mobileSidebar");
+  
+  if (touchEndX > touchStartX + SWIPE_THRESHOLD && 
+      touchStartX < 50 &&
+      !sidebar.classList.contains("show")) {
+    toggleSidebar();
+  }
+  
+  if (touchEndX < touchStartX - SWIPE_THRESHOLD && 
+      sidebar.classList.contains("show")) {
+    toggleSidebar();
+  }
+}
+
 document.querySelectorAll(".mobile-sidebar a").forEach(link => {
   link.addEventListener("click", () => {
     document.getElementById("mobileSidebar").classList.remove("show");
