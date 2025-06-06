@@ -56,19 +56,6 @@ Firebase Auth
 
 ---
 
-## 📁 Estructura del proyecto
-
-```
-Cocinetica/
-├── app/                  ← Código fuente principal (Android)
-├── api/                  ← Scripts PHP (leer.php, insertar.php, etc.)
-├── assets/ayuda/         ← HTML para WebView de ayuda
-├── docker/               ← Configuración inicial de contenedores
-└── README.md             ← Este documento
-```
-
----
-
 ## 👨‍💻 Autor
 
 **Alejandro Moreno Lechado**  
