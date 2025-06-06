@@ -9,283 +9,482 @@
         android:id="@+id/loginFragment"
         android:name="dam.moviles.cocinetica.vista.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_loginFragment_to_cargaFragment"
-            app:destination="@id/cargaFragment" />
+            app:destination="@id/cargaFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_loginFragment_to_noRecuerdoFragment"
-            app:destination="@id/noRecuerdoFragment" />
+            app:destination="@id/noRecuerdoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
+
     <fragment
         android:id="@+id/registerFragment"
         android:name="dam.moviles.cocinetica.vista.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment_to_cargaFragment"
-            app:destination="@id/cargaFragment" />
+            app:destination="@id/cargaFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/fade_out"/>
     </fragment>
+
     <fragment
         android:id="@+id/inicioFragment"
         android:name="dam.moviles.cocinetica.vista.InicioFragment"
         android:label="fragment_inicio"
-        tools:layout="@layout/fragment_inicio" >
+        tools:layout="@layout/fragment_inicio">
         <action
             android:id="@+id/action_inicioFragment_to_cuentaFragment"
-            app:destination="@id/cuentaFragment" />
+            app:destination="@id/cuentaFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_inicioFragment_to_busquedaFragment"
-            app:destination="@id/busquedaFragment" />
+            app:destination="@id/busquedaFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_inicioFragment_to_guardadosFragment"
-            app:destination="@id/guardadosFragment" />
+            app:destination="@id/guardadosFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_inicioFragment_to_verRecetaFragment"
-            app:destination="@id/verRecetaFragment" />
+            app:destination="@id/verRecetaFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_inicioFragment_to_creaRecetaFragment"
-            app:destination="@id/creaRecetaFragment" />
+            app:destination="@id/creaRecetaFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <argument
             android:name="tab"
             app:argType="string"
-            android:defaultValue="nada" />
+            android:defaultValue="nada"/>
     </fragment>
+
     <fragment
         android:id="@+id/cuentaFragment"
         android:name="dam.moviles.cocinetica.vista.CuentaFragment"
         android:label="fragment_cuenta"
-        tools:layout="@layout/fragment_cuenta" >
+        tools:layout="@layout/fragment_cuenta">
         <action
             android:id="@+id/action_cuentaFragment_to_ajustesCuentaFragment"
-            app:destination="@id/ajustesCuentaFragment" />
+            app:destination="@id/ajustesCuentaFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_cuentaFragment_to_busquedaFragment"
-            app:destination="@id/busquedaFragment" />
+            app:destination="@id/busquedaFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_cuentaFragment_to_guardadosFragment"
-            app:destination="@id/guardadosFragment" />
+            app:destination="@id/guardadosFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_cuentaFragment_to_inicioFragment"
-            app:destination="@id/inicioFragment" />
+            app:destination="@id/inicioFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_cuentaFragment_to_creaRecetaFragment"
-            app:destination="@id/creaRecetaFragment" />
+            app:destination="@id/creaRecetaFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_cuentaFragment_to_verRecetaFragment3"
-            app:destination="@id/verRecetaFragment" />
+            app:destination="@id/verRecetaFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <argument
             android:name="tab_select"
-            app:argType="string" />
+            app:argType="string"/>
         <action
             android:id="@+id/action_cuentaFragment_to_ayudaFragment"
-            app:destination="@id/ayudaFragment" />
+            app:destination="@id/ayudaFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
+
     <fragment
         android:id="@+id/ajustesCuentaFragment"
         android:name="dam.moviles.cocinetica.vista.AjustesCuentaFragment"
         android:label="fragment_ajustes_cuenta"
-        tools:layout="@layout/fragment_ajustes_cuenta" >
+        tools:layout="@layout/fragment_ajustes_cuenta">
         <action
             android:id="@+id/action_ajustesCuentaFragment_to_cuentaFragment"
-            app:destination="@id/cuentaFragment" />
+            app:destination="@id/cuentaFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_ajustesCuentaFragment_to_noRecuerdoFragment"
-            app:destination="@id/noRecuerdoFragment" />
+            app:destination="@id/noRecuerdoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_ajustesCuentaFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <argument
             android:name="tab"
             app:argType="string"
-            android:defaultValue="nada" />
+            android:defaultValue="nada"/>
     </fragment>
+
     <fragment
         android:id="@+id/cargaFragment"
         android:name="dam.moviles.cocinetica.vista.CargaFragment"
         android:label="fragment_carga"
-        tools:layout="@layout/fragment_carga" >
-
+        tools:layout="@layout/fragment_carga">
         <action
             android:id="@+id/action_cargaFragment_to_inicioFragment"
-            app:destination="@id/inicioFragment" />
-
+            app:destination="@id/inicioFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_cargaFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
     </fragment>
 
     <fragment
         android:id="@+id/busquedaFragment"
         android:name="dam.moviles.cocinetica.vista.BusquedaFragment"
         android:label="fragment_busqueda"
-        tools:layout="@layout/fragment_busqueda" >
+        tools:layout="@layout/fragment_busqueda">
         <action
             android:id="@+id/action_busquedaFragment_to_guardadosFragment"
-            app:destination="@id/guardadosFragment" />
+            app:destination="@id/guardadosFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_left"/>
         <action
             android:id="@+id/action_busquedaFragment_to_cuentaFragment"
-            app:destination="@id/cuentaFragment" />
+            app:destination="@id/cuentaFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_busquedaFragment_to_inicioFragment"
-            app:destination="@id/inicioFragment" />
+            app:destination="@id/inicioFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_busquedaFragment_to_creaRecetaFragment"
-            app:destination="@id/creaRecetaFragment" />
+            app:destination="@id/creaRecetaFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_busquedaFragment_to_resultadoBusquedaFragment"
-            app:destination="@id/resultadoBusquedaFragment" />
+            app:destination="@id/resultadoBusquedaFragment"
+            app:enterAnim="@anim/zoom_in"
+            app:exitAnim="@anim/zoom_out"
+            app:popEnterAnim="@anim/zoom_in"
+            app:popExitAnim="@anim/zoom_out"/>
         <argument
             android:name="tab"
             app:argType="string"
-            android:defaultValue="nada" />
+            android:defaultValue="nada"/>
     </fragment>
+
     <fragment
         android:id="@+id/guardadosFragment"
         android:name="dam.moviles.cocinetica.vista.GuardadosFragment"
         android:label="fragment_guardados"
-        tools:layout="@layout/fragment_guardados" >
+        tools:layout="@layout/fragment_guardados">
         <action
             android:id="@+id/action_guardadosFragment_to_busquedaFragment"
-            app:destination="@id/busquedaFragment" />
+            app:destination="@id/busquedaFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_guardadosFragment_to_cuentaFragment"
-            app:destination="@id/cuentaFragment" />
+            app:destination="@id/cuentaFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_guardadosFragment_to_inicioFragment"
-            app:destination="@id/inicioFragment" />
+            app:destination="@id/inicioFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_guardadosFragment_to_creaRecetaFragment"
-            app:destination="@id/creaRecetaFragment" />
+            app:destination="@id/creaRecetaFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_guardadosFragment_to_verRecetaFragment"
-            app:destination="@id/verRecetaFragment" />
+            app:destination="@id/verRecetaFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <argument
             android:name="tab"
             app:argType="string"
-            android:defaultValue="nada" />
+            android:defaultValue="nada"/>
     </fragment>
+
     <fragment
         android:id="@+id/verRecetaFragment"
         android:name="dam.moviles.cocinetica.vista.VerRecetaFragment"
         android:label="fragment_ver_receta"
-        tools:layout="@layout/fragment_ver_receta" >
+        tools:layout="@layout/fragment_ver_receta">
         <action
             android:id="@+id/action_verRecetaFragment_to_inicioFragment"
-            app:destination="@id/inicioFragment" />
+            app:destination="@id/inicioFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <argument
             android:name="id_receta"
-            app:argType="integer" />
+            app:argType="integer"/>
         <argument
             android:name="origen"
-            app:argType="string" />
+            app:argType="string"/>
         <action
             android:id="@+id/action_verRecetaFragment_self"
-            app:destination="@id/verRecetaFragment" />
+            app:destination="@id/verRecetaFragment"/>
         <action
             android:id="@+id/action_verRecetaFragment_to_cuentaFragment"
             app:destination="@id/cuentaFragment"
             app:popUpTo="@id/cuentaFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <argument
             android:name="tab"
             app:argType="string"
-            android:defaultValue="nada" />
+            android:defaultValue="nada"/>
     </fragment>
+
     <fragment
         android:id="@+id/creaRecetaFragment"
         android:name="dam.moviles.cocinetica.vista.CreaRecetaFragment"
         android:label="fragment_crea_receta"
-        tools:layout="@layout/fragment_crea_receta" >
+        tools:layout="@layout/fragment_crea_receta">
         <action
             android:id="@+id/action_creaRecetaFragment_to_completadoFragment"
-            app:destination="@id/completadoFragment" />
+            app:destination="@id/completadoFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_creaRecetaFragment_to_errorFragment"
-            app:destination="@id/errorFragment" />
+            app:destination="@id/errorFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <argument
             android:name="tab"
             app:argType="string"
-            android:defaultValue="nada" />
+            android:defaultValue="nada"/>
         <action
             android:id="@+id/action_creaRecetaFragment_to_cuentaFragment"
-            app:destination="@id/cuentaFragment" />
+            app:destination="@id/cuentaFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <argument
             android:name="cuenta"
             app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"/>
     </fragment>
+
     <fragment
         android:id="@+id/completadoFragment"
         android:name="dam.moviles.cocinetica.vista.CompletadoFragment"
         android:label="fragment_completado"
-        tools:layout="@layout/fragment_completado" >
+        tools:layout="@layout/fragment_completado">
         <action
             android:id="@+id/action_completadoFragment_to_inicioFragment"
-            app:destination="@id/inicioFragment" />
+            app:destination="@id/inicioFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_completadoFragment_to_verRecetaFragment"
-            app:destination="@id/verRecetaFragment" />
+            app:destination="@id/verRecetaFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <argument
             android:name="id_receta"
-            app:argType="integer" />
+            app:argType="integer"/>
     </fragment>
+
     <fragment
         android:id="@+id/errorFragment"
         android:name="dam.moviles.cocinetica.vista.ErrorFragment"
         android:label="fragment_error"
-        tools:layout="@layout/fragment_error" >
+        tools:layout="@layout/fragment_error">
         <action
             android:id="@+id/action_errorFragment_to_inicioFragment"
-            app:destination="@id/inicioFragment" />
+            app:destination="@id/inicioFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
     </fragment>
+
     <fragment
         android:id="@+id/noRecuerdoFragment"
         android:name="dam.moviles.cocinetica.vista.NoRecuerdoFragment"
-        android:label="NoRecuerdoFragment" >
+        android:label="NoRecuerdoFragment">
         <action
             android:id="@+id/action_noRecuerdoFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/fade_out"/>
     </fragment>
+
     <fragment
         android:id="@+id/resultadoBusquedaFragment"
         android:name="dam.moviles.cocinetica.vista.ResultadoBusquedaFragment"
-        android:label="ResultadoBusquedaFragment" >
+        android:label="ResultadoBusquedaFragment">
         <action
             android:id="@+id/action_resultadoBusquedaFragment_to_guardadosFragment"
-            app:destination="@id/guardadosFragment" />
+            app:destination="@id/guardadosFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_resultadoBusquedaFragment_to_cuentaFragment"
-            app:destination="@id/cuentaFragment" />
+            app:destination="@id/cuentaFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_resultadoBusquedaFragment_to_verRecetaFragment"
-            app:destination="@id/verRecetaFragment" />
+            app:destination="@id/verRecetaFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <action
             android:id="@+id/action_resultadoBusquedaFragment_to_inicioFragment"
-            app:destination="@id/inicioFragment" />
+            app:destination="@id/inicioFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_resultadoBusquedaFragment_to_busquedaFragment"
-            app:destination="@id/busquedaFragment" />
+            app:destination="@id/busquedaFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_resultadoBusquedaFragment_to_creaRecetaFragment"
-            app:destination="@id/creaRecetaFragment" />
+            app:destination="@id/creaRecetaFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
         <argument
             android:name="id_receta"
-            app:argType="integer[]" />
+            app:argType="integer[]"/>
         <argument
             android:name="tab"
             app:argType="string"
-            android:defaultValue="nada" />
+            android:defaultValue="nada"/>
     </fragment>
+
     <fragment
         android:id="@+id/ayudaFragment"
         android:name="dam.moviles.cocinetica.vista.AyudaFragment"
         android:label="fragment_ayuda"
-        tools:layout="@layout/fragment_ayuda" />
+        tools:layout="@layout/fragment_ayuda"/>
 </navigation>
