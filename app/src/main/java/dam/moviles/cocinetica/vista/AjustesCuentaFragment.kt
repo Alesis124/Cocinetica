@@ -84,7 +84,6 @@ class AjustesCuentaFragment : Fragment() {
         if (savedInstanceState == null) {
             viewModel.cargarDatosUsuario(FirebaseAuth.getInstance().currentUser?.email)
         } else {
-            // Restaurar desde el estado guardado si es necesario
             binding.nombreEdit.setText(savedInstanceState.getString("nombre", ""))
             binding.descripcionEdit.setText(savedInstanceState.getString("descripcion", ""))
         }

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Botón de volver -->
+
         <ImageButton
             android:id="@+id/buttonVolver"
             android:layout_width="40dp"
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- Imagen con CardView (reemplaza el ImageButton original) -->
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardImageButton"
                 android:layout_width="80dp"
@@ -50,7 +50,7 @@
                 android:onClick="onImageButtonClick"/>
         </androidx.cardview.widget.CardView>
 
-        <!-- Resto del layout (igual que antes) -->
+
         <EditText
             android:id="@+id/editTextNombre"
             android:layout_width="0dp"
@@ -73,7 +73,7 @@
             app:layout_constraintStart_toStartOf="@id/editTextNombre"
             app:layout_constraintEnd_toEndOf="parent" />
 
-            <!-- Ingredientes -->
+
             <TextView
                 android:id="@+id/textViewIngredientesLabel"
                 android:layout_width="wrap_content"
@@ -104,7 +104,7 @@
                 app:layout_constraintTop_toBottomOf="@id/layoutIngredientes"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <!-- Pasos -->
+
             <TextView
                 android:id="@+id/textViewPasosLabel"
                 android:layout_width="wrap_content"
@@ -116,7 +116,7 @@
                 app:layout_constraintTop_toBottomOf="@id/buttonAgregarIngrediente"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <!-- Botón Agregar Paso -->
+
             <Button
                 android:id="@+id/buttonAgregarPaso"
                 android:layout_width="wrap_content"
@@ -126,7 +126,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textViewPasosLabel"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <!-- Lista de pasos -->
+
             <LinearLayout
                 android:id="@+id/layoutPasos"
                 android:layout_width="0dp"
@@ -138,7 +138,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <!-- Guardar -->
+
             <Button
                 android:id="@+id/buttonGuardar"
                 android:layout_width="0dp"

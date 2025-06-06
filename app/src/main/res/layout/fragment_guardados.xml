@@ -35,7 +35,7 @@
             tools:ignore="UseAppTint" />
     </RelativeLayout>
 
-    <!-- Envolvemos RecyclerView y FAB en FrameLayout -->
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

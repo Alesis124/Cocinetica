@@ -45,7 +45,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/usuariotxt" />
 
-        <!-- Campo de contraseña modificado con el botón de ojo -->
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordLayoutRegister"
             android:layout_width="wrap_content"

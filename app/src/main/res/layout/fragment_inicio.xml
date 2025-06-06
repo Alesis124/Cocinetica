@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Contenido principal -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -51,7 +51,6 @@
 
     </LinearLayout>
 
-    <!-- FloatingActionButton flotante, con margen inferior para estar arriba del menú -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAgregar"
         android:layout_width="wrap_content"
@@ -64,7 +63,7 @@
         app:backgroundTint="#70B657"
         app:tint="@android:color/white" />
 
-    <!-- Bottom Navigation pegado abajo -->
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"

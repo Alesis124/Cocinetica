@@ -68,10 +68,8 @@ class CuentaFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        // Restaurar la pestaña seleccionada
         binding.navegadorRecetasCometarios.setCurrentTabByTag(currentTabTag)
 
-        // Recargar datos si es necesario
         if (shouldReloadOnResume) {
             cuentaViewModel.usuario.value?.let { usuario ->
                 cuentaViewModel.cargarUsuarioYContenido()
@@ -101,7 +99,6 @@ class CuentaFragment : Fragment() {
             binding.txtNombre.text = usuario.usuario
             binding.txtDescripciN.text = usuario.descripcion
 
-            // Intentar primero con la imagen de la base de datos si existe
             usuario.imagen?.let { imagenBase64 ->
                 try {
                     val decodedBytes = Base64.decode(imagenBase64, Base64.DEFAULT)
@@ -109,7 +106,7 @@ class CuentaFragment : Fragment() {
                     if (bitmap != null) {
                         val circularBitmap = getCircularBitmap(bitmap)
                         binding.imagenCuenta.setImageBitmap(circularBitmap)
-                        return@observe // Salir si la imagen de la BD se cargó correctamente
+                        return@observe
                     } else {
                         //nada
                     }
@@ -118,15 +115,14 @@ class CuentaFragment : Fragment() {
                 }
             }
 
-            // Si no hay imagen en BD o falló, intentar con Google
             val currentUser = FirebaseAuth.getInstance().currentUser
             currentUser?.photoUrl?.let { photoUrl ->
                 Glide.with(requireContext())
                     .load(photoUrl)
                     .circleCrop()
                     .placeholder(R.drawable.cuent64)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE) // Añade esto para evitar caché
-                    .skipMemoryCache(true) // Añade esto para evitar caché
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(binding.imagenCuenta)
             } ?: run {
                 binding.imagenCuenta.setImageResource(R.drawable.cuent64)
@@ -171,13 +167,12 @@ class CuentaFragment : Fragment() {
             nombreUsuario = usuario.usuario,
             onEliminarClick = { comentario -> cuentaViewModel.eliminarComentario(comentario) },
             onIrClick = { idReceta ->
-                // Marcar que venimos de comentarios
                 currentTabTag = "comentarios"
                 shouldReloadOnResume = true
 
                 val action = CuentaFragmentDirections.actionCuentaFragmentToVerRecetaFragment3(
                     idReceta,
-                    origen = "cuenta" // Mantenemos el valor original
+                    origen = "cuenta"
                 )
                 findNavController().navigate(action)
             }
@@ -298,7 +293,6 @@ class CuentaFragment : Fragment() {
                 onVerClick = { receta ->
                     lifecycleScope.launch {
                         try {
-                            // Marcar que venimos de recetas
                             currentTabTag = "recetas"
                             shouldReloadOnResume = true
 
@@ -309,7 +303,6 @@ class CuentaFragment : Fragment() {
                             )
                             findNavController().navigate(action)
                         } catch (e: Exception) {
-                            // Manejo de errores existente
                         }
                     }
                 },
@@ -324,7 +317,6 @@ class CuentaFragment : Fragment() {
             recetaAdapter.actualizarRecetas(recetas)
         }
 
-        // Mostrar u ocultar mensaje de no recetas
         if (recetas.isEmpty()) {
             binding.txtNoRecetas.visibility = View.VISIBLE
             binding.misRecetas.visibility = View.GONE
@@ -362,7 +354,6 @@ class CuentaFragment : Fragment() {
                         recetaAdapter.eliminarRecetaPorIndex(index)
                         Toast.makeText(requireContext(), "Receta eliminada", Toast.LENGTH_SHORT).show()
 
-                        // Actualizar visibilidad del texto cuando no hay recetas
                         if (recetaAdapter.recetas.isEmpty()) {
                             binding.txtNoRecetas.visibility = View.VISIBLE
                             binding.misRecetas.visibility = View.GONE

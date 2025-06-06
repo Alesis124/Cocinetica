@@ -16,7 +16,7 @@
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <!-- Contenido textual y botones izquierdos -->
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -89,14 +89,14 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Contenedor derecho modificado (botón eliminar arriba + imagen) -->
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center">
 
-            <!-- Botón eliminar ahora arriba -->
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnEliminar"
                 style="@style/Widget.Material3.Button.TextButton"
@@ -112,7 +112,7 @@
                 app:icon="@android:drawable/ic_menu_delete"
                 app:iconTint="?attr/colorError" />
 
-            <!-- Imagen receta -->
+
             <ImageView
                 android:id="@+id/imgReceta"
                 android:layout_width="80dp"

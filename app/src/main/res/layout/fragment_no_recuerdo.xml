@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:padding="24dp">
 
-        <!-- Botón de volver -->
+
         <ImageButton
             android:id="@+id/buttonVolver"
             android:layout_width="40dp"
@@ -23,7 +23,7 @@
             android:tint="?attr/colorControlNormal"
             tools:ignore="UseAppTint" />
 
-        <!-- Contenido centrado -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

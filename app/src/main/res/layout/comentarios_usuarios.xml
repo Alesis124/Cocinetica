@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:padding="12dp">
 
-        <!-- Usuario -->
+
         <TextView
             android:id="@+id/tvUsuario"
             android:layout_width="0dp"
@@ -27,7 +27,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tvValoracion"
             app:layout_constraintHorizontal_bias="0" />
 
-        <!-- Valoración -->
+
         <TextView
             android:id="@+id/tvValoracion"
             android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tvFecha"
             android:layout_marginEnd="8dp" />
 
-        <!-- Fecha -->
+
         <TextView
             android:id="@+id/tvFecha"
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Comentario -->
+
         <TextView
             android:id="@+id/tvComentario"
             android:layout_width="0dp"
@@ -62,7 +62,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvUsuario"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Botón Borrar -->
+
         <Button
             android:id="@+id/btnEliminar"
             android:layout_width="wrap_content"
@@ -77,7 +77,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvComentario"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Botón Ir -->
+
         <Button
             android:id="@+id/btnIr"
             android:layout_width="wrap_content"

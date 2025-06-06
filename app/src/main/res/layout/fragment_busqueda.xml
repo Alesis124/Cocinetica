@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".vista.BusquedaFragment">
 
-    <!-- Contenedor con padding para todo excepto el menú inferior -->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contenidoBusqueda"
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Título -->
+
         <TextView
             android:id="@+id/tituloBusqueda"
             android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Barra de búsqueda y botón juntos -->
+
         <EditText
             android:id="@+id/etBusqueda"
             android:layout_width="0dp"
@@ -58,7 +58,7 @@
             app:layout_constraintBottom_toBottomOf="@id/etBusqueda"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Historial de búsqueda -->
+
         <LinearLayout
             android:id="@+id/historialBusqueda"
             android:layout_width="0dp"
@@ -87,7 +87,7 @@
         </LinearLayout>
 
 
-        <!-- Botón flotante -->
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAgregar"
             android:layout_width="wrap_content"
@@ -103,7 +103,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Menú inferior sin padding -->
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
