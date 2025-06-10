@@ -47,15 +47,6 @@ Firebase Auth
 
 ---
 
-## 📸 Capturas destacadas
-
-1. Inicio y búsqueda de recetas
-2. Vista detallada de receta
-3. Crear receta paso a paso
-4. Panel de usuario y edición de cuenta
-
----
-
 ## 👨‍💻 Autor
 
 **Alejandro Moreno Lechado**  
